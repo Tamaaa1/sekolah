@@ -1,8 +1,12 @@
 import { Link } from '@inertiajs/react';
 import {
-    BookOpenIcon,
-    FolderIcon,
-    Squares2X2Icon,
+    ArrowTopRightOnSquareIcon,
+    Bars3BottomLeftIcon,
+    Cog6ToothIcon,
+    DocumentTextIcon,
+    HomeIcon,
+    MegaphoneIcon,
+    NewspaperIcon,
 } from '@heroicons/react/24/outline';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -17,27 +21,46 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
-        icon: Squares2X2Icon,
+        href: '/admin/dashboard',
+        icon: HomeIcon,
+    },
+    {
+        title: 'Berita & Artikel',
+        href: '/admin/posts?type=post',
+        icon: NewspaperIcon,
+    },
+    {
+        title: 'Halaman Statis',
+        href: '/admin/posts?type=page',
+        icon: DocumentTextIcon,
+    },
+    {
+        title: 'Pengumuman Resmi',
+        href: '/admin/posts?type=announcement',
+        icon: MegaphoneIcon,
+    },
+    {
+        title: 'Menu Navigasi',
+        href: '/admin/menus',
+        icon: Bars3BottomLeftIcon,
+    },
+    {
+        title: 'Pengaturan Sekolah',
+        href: '/admin/settings',
+        icon: Cog6ToothIcon,
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/Tamaaa1/sekolah.git',
-        icon: FolderIcon,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpenIcon,
+        title: 'Lihat Portal Publik',
+        href: '/',
+        icon: ArrowTopRightOnSquareIcon,
     },
 ];
 
@@ -48,7 +71,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href="/admin/dashboard" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
