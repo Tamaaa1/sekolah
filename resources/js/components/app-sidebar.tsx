@@ -1,12 +1,17 @@
 import { Link } from '@inertiajs/react';
 import {
+    AcademicCapIcon,
     ArrowTopRightOnSquareIcon,
     Bars3BottomLeftIcon,
+    CalendarDaysIcon,
     Cog6ToothIcon,
     DocumentTextIcon,
     HomeIcon,
     MegaphoneIcon,
     NewspaperIcon,
+    PhotoIcon,
+    TrophyIcon,
+    UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -43,6 +48,31 @@ const mainNavItems: NavItem[] = [
         title: 'Pengumuman Resmi',
         href: '/admin/posts?type=announcement',
         icon: MegaphoneIcon,
+    },
+    {
+        title: 'Guru & Staf TU',
+        href: '/admin/staff',
+        icon: AcademicCapIcon,
+    },
+    {
+        title: 'Ekstrakurikuler',
+        href: '/admin/extracurriculars',
+        icon: UserGroupIcon,
+    },
+    {
+        title: 'Prestasi Siswa',
+        href: '/admin/achievements',
+        icon: TrophyIcon,
+    },
+    {
+        title: 'Agenda Akademik',
+        href: '/admin/agendas',
+        icon: CalendarDaysIcon,
+    },
+    {
+        title: 'Pustaka Media',
+        href: '/admin/media',
+        icon: PhotoIcon,
     },
     {
         title: 'Menu Navigasi',

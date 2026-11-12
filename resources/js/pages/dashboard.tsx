@@ -6,7 +6,10 @@ import {
     DocumentPlusIcon,
     MegaphoneIcon,
     NewspaperIcon,
+    PhotoIcon,
     PlusIcon,
+    TrophyIcon,
+    UserGroupIcon,
 } from '@heroicons/react/24/outline';
 
 type Post = {
@@ -23,6 +26,9 @@ type Props = {
     announcementCount?: number;
     staffCount?: number;
     agendaCount?: number;
+    extracurricularCount?: number;
+    achievementCount?: number;
+    mediaCount?: number;
     recentPosts?: Post[];
 };
 
@@ -31,6 +37,9 @@ export default function Dashboard({
     announcementCount = 0,
     staffCount = 0,
     agendaCount = 0,
+    extracurricularCount = 0,
+    achievementCount = 0,
+    mediaCount = 0,
     recentPosts = [],
 }: Props) {
     return (
@@ -112,10 +121,10 @@ export default function Dashboard({
                             {staffCount}
                         </div>
                         <Link
-                            href="/guru-dan-staf"
+                            href="/admin/staff"
                             className="text-[11px] font-semibold text-prussian hover:underline mt-2 inline-flex items-center gap-1"
                         >
-                            <span>Lihat Direktori</span>
+                            <span>Kelola Direktori</span>
                             <ArrowRightIcon className="w-3 h-3" />
                         </Link>
                     </div>
@@ -129,12 +138,72 @@ export default function Dashboard({
                             {agendaCount}
                         </div>
                         <Link
-                            href="/agenda"
+                            href="/admin/agendas"
                             className="text-[11px] font-semibold text-prussian hover:underline mt-2 inline-flex items-center gap-1"
                         >
-                            <span>Lihat Agenda</span>
+                            <span>Kelola Agenda</span>
                             <ArrowRightIcon className="w-3 h-3" />
                         </Link>
+                    </div>
+                </div>
+
+                {/* Secondary Quick Stats (Ekskul, Prestasi, Media) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs flex items-center justify-between">
+                        <div>
+                            <span className="text-xs font-medium text-ink-muted">Ekstrakurikuler Aktif</span>
+                            <div className="font-serif text-2xl font-bold text-ink mt-1">
+                                {extracurricularCount} Ekskul
+                            </div>
+                            <Link
+                                href="/admin/extracurriculars"
+                                className="text-[11px] font-semibold text-prussian hover:underline mt-1 inline-flex items-center gap-1"
+                            >
+                                <span>Kelola Ekskul</span>
+                                <ArrowRightIcon className="w-3 h-3" />
+                            </Link>
+                        </div>
+                        <div className="p-3 bg-canvas-subtle rounded-full text-prussian">
+                            <UserGroupIcon className="w-6 h-6" />
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs flex items-center justify-between">
+                        <div>
+                            <span className="text-xs font-medium text-ink-muted">Rekap Prestasi Siswa</span>
+                            <div className="font-serif text-2xl font-bold text-ink mt-1">
+                                {achievementCount} Prestasi
+                            </div>
+                            <Link
+                                href="/admin/achievements"
+                                className="text-[11px] font-semibold text-prussian hover:underline mt-1 inline-flex items-center gap-1"
+                            >
+                                <span>Kelola Prestasi</span>
+                                <ArrowRightIcon className="w-3 h-3" />
+                            </Link>
+                        </div>
+                        <div className="p-3 bg-canvas-subtle rounded-full text-terracotta">
+                            <TrophyIcon className="w-6 h-6" />
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs flex items-center justify-between">
+                        <div>
+                            <span className="text-xs font-medium text-ink-muted">Berkas & Foto Media</span>
+                            <div className="font-serif text-2xl font-bold text-ink mt-1">
+                                {mediaCount} Berkas
+                            </div>
+                            <Link
+                                href="/admin/media"
+                                className="text-[11px] font-semibold text-prussian hover:underline mt-1 inline-flex items-center gap-1"
+                            >
+                                <span>Buka Pustaka Media</span>
+                                <ArrowRightIcon className="w-3 h-3" />
+                            </Link>
+                        </div>
+                        <div className="p-3 bg-canvas-subtle rounded-full text-prussian">
+                            <PhotoIcon className="w-6 h-6" />
+                        </div>
                     </div>
                 </div>
 

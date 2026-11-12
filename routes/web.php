@@ -1,10 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\AcademicAgendaController;
+use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\ExtracurricularController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\StaffDirectoryController;
 use App\Http\Controllers\PublicPortalController;
 use App\Models\AcademicAgenda;
+use App\Models\Achievement;
+use App\Models\Extracurricular;
+use App\Models\Media;
 use App\Models\Post;
 use App\Models\StaffDirectory;
 use Illuminate\Support\Facades\Route;
@@ -40,11 +48,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'announcementCount' => Post::where('type', 'announcement')->count(),
                 'staffCount' => StaffDirectory::count(),
                 'agendaCount' => AcademicAgenda::count(),
+                'extracurricularCount' => Extracurricular::count(),
+                'achievementCount' => Achievement::count(),
+                'mediaCount' => Media::count(),
                 'recentPosts' => Post::latest()->take(5)->get(),
             ]);
         })->name('dashboard');
 
         Route::resource('posts', PostController::class);
+        Route::resource('staff', StaffDirectoryController::class)->except(['create', 'show', 'edit']);
+        Route::resource('extracurriculars', ExtracurricularController::class)->except(['create', 'show', 'edit']);
+        Route::resource('achievements', AchievementController::class)->except(['create', 'show', 'edit']);
+        Route::resource('agendas', AcademicAgendaController::class)->except(['create', 'show', 'edit']);
+        Route::resource('media', MediaController::class)->only(['index', 'store', 'destroy']);
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
         Route::get('menus', [MenuController::class, 'index'])->name('menus.index');

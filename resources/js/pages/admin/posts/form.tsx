@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { MediaPickerModal } from '@/components/media-picker-modal';
 import {
     ArrowLeftIcon,
     ArrowUpTrayIcon,
     BookmarkIcon,
     CalendarDaysIcon,
     CheckIcon,
+    DocumentIcon,
     DocumentTextIcon,
     EyeIcon,
     GlobeAltIcon,
     PhotoIcon,
+    TrashIcon,
 } from '@heroicons/react/24/outline';
 
 type Category = {
@@ -26,6 +29,8 @@ type Post = {
     content: any;
     type: string;
     status: string;
+    featured_image?: string | null;
+    file_attachment?: string | null;
     is_pinned: boolean;
     meta_title: string | null;
     meta_description: string | null;
@@ -67,6 +72,8 @@ export default function PostForm({
         content: defaultContentString(),
         type: post?.type || type,
         status: post?.status || (isContributor ? 'pending_review' : 'published'),
+        featured_image: post?.featured_image || '',
+        file_attachment: post?.file_attachment || '',
         is_pinned: post?.is_pinned || false,
         meta_title: post?.meta_title || '',
         meta_description: post?.meta_description || '',
@@ -191,9 +198,28 @@ export default function PostForm({
                                 <label className="text-xs font-semibold text-ink-muted uppercase tracking-wider">
                                     Isi Konten Artikel
                                 </label>
-                                <span className="text-[11px] text-ink-muted font-mono">
-                                    Editor Zen Mode
-                                </span>
+                                <div className="flex items-center gap-2">
+                                    <MediaPickerModal
+                                        title="Sisipkan Foto ke Dalam Konten"
+                                        allowedTypes="images"
+                                        onSelect={(url, media) => {
+                                            const caption = media?.name || 'Foto Kegiatan';
+                                            setData('content', data.content + (data.content ? '\n\n' : '') + `![${caption}](${url})`);
+                                        }}
+                                        trigger={
+                                            <button
+                                                type="button"
+                                                className="text-xs text-prussian hover:text-prussian-hover font-medium inline-flex items-center gap-1 px-2 py-1 rounded hover:bg-canvas-subtle"
+                                            >
+                                                <PhotoIcon className="w-3.5 h-3.5" />
+                                                <span>Sisipkan Gambar</span>
+                                            </button>
+                                        }
+                                    />
+                                    <span className="text-[11px] text-ink-muted font-mono">
+                                        Editor Zen Mode
+                                    </span>
+                                </div>
                             </div>
 
                             <textarea
@@ -264,6 +290,102 @@ export default function PostForm({
                                 </label>
                             </div>
                         </div>
+
+                        {/* Featured Image Box */}
+                        <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs space-y-3">
+                            <h3 className="font-serif font-bold text-sm text-ink border-b border-sidebar-border pb-2 flex items-center justify-between">
+                                <span>Gambar Sampul (Featured)</span>
+                                {data.featured_image && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setData('featured_image', '')}
+                                        className="text-[10px] text-red-600 hover:underline"
+                                    >
+                                        Hapus
+                                    </button>
+                                )}
+                            </h3>
+                            {data.featured_image ? (
+                                <div className="space-y-2">
+                                    <div className="aspect-video w-full rounded overflow-hidden border border-sidebar-border bg-canvas-subtle">
+                                        <img
+                                            src={data.featured_image}
+                                            alt="Featured Preview"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    <MediaPickerModal
+                                        title="Ganti Gambar Sampul"
+                                        allowedTypes="images"
+                                        onSelect={(url) => setData('featured_image', url)}
+                                        trigger={
+                                            <button
+                                                type="button"
+                                                className="w-full text-center text-xs text-prussian hover:text-prussian-hover font-medium py-1.5 border border-sidebar-border rounded hover:bg-canvas-subtle transition"
+                                            >
+                                                Ganti Gambar
+                                            </button>
+                                        }
+                                    />
+                                </div>
+                            ) : (
+                                <div className="space-y-2">
+                                    <div className="border border-dashed border-sidebar-border rounded p-6 flex flex-col items-center justify-center text-center bg-canvas-subtle">
+                                        <PhotoIcon className="w-8 h-8 text-ink-muted mb-2 stroke-1" />
+                                        <p className="text-xs text-ink-muted mb-3">
+                                            Belum ada gambar sampul yang dipilih
+                                        </p>
+                                        <MediaPickerModal
+                                            title="Pilih Gambar Sampul"
+                                            allowedTypes="images"
+                                            onSelect={(url) => setData('featured_image', url)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* File Attachment Box (Pengumuman / Surat Edaran PDF) */}
+                        {data.type === 'announcement' && (
+                            <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs space-y-3">
+                                <h3 className="font-serif font-bold text-sm text-ink border-b border-sidebar-border pb-2 flex items-center justify-between">
+                                    <span>Lampiran Dokumen (PDF)</span>
+                                    {data.file_attachment && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setData('file_attachment', '')}
+                                            className="text-[10px] text-red-600 hover:underline"
+                                        >
+                                            Hapus
+                                        </button>
+                                    )}
+                                </h3>
+                                {data.file_attachment ? (
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2 p-2 rounded border border-sidebar-border bg-canvas-subtle text-xs">
+                                            <DocumentIcon className="w-5 h-5 text-prussian shrink-0" />
+                                            <span className="truncate flex-1 font-mono text-[11px]">
+                                                {data.file_attachment}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <MediaPickerModal
+                                        title="Pilih Lampiran Berkas PDF"
+                                        allowedTypes="all"
+                                        onSelect={(url) => setData('file_attachment', url)}
+                                        trigger={
+                                            <button
+                                                type="button"
+                                                className="w-full text-center text-xs text-prussian hover:text-prussian-hover font-medium py-2 border border-dashed border-sidebar-border rounded hover:bg-canvas-subtle transition"
+                                            >
+                                                + Pilih / Unggah Dokumen PDF
+                                            </button>
+                                        }
+                                    />
+                                )}
+                            </div>
+                        )}
 
                         {/* Categories Box */}
                         {categories.length > 0 && (
