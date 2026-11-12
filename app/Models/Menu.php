@@ -27,14 +27,23 @@ class Menu extends Model
         });
     }
 
-    public static function getByLocation(string $location): ?self
+    public static function getByLocation(string $location): ?array
     {
+        $cached = Cache::get('school_menu_' . $location);
+        if (is_array($cached)) {
+            return $cached;
+        }
+
+        Cache::forget('school_menu_' . $location);
+
         return Cache::rememberForever('school_menu_' . $location, function () use ($location) {
-            return static::where('location', $location)
+            $menu = static::where('location', $location)
                 ->with(['rootItems' => function ($query) {
                     $query->with('children.targetPost');
                 }])
                 ->first();
+
+            return $menu ? $menu->toArray() : null;
         });
     }
 

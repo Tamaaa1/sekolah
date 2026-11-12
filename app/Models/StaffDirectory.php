@@ -49,3 +49,4 @@ class StaffDirectory extends Model
         return $query->where('category', 'tendik');
     }
 }
+

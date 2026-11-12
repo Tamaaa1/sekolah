@@ -27,3 +27,4 @@ class Achievement extends Model
         ];
     }
 }
+

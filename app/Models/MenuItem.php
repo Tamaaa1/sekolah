@@ -22,6 +22,8 @@ class MenuItem extends Model
         'sort_order',
     ];
 
+    protected $appends = ['url'];
+
     protected static function booted(): void
     {
         $clearCache = function (MenuItem $item) {

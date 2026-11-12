@@ -181,3 +181,4 @@ class PublicPortalController extends Controller
         ]);
     }
 }
+

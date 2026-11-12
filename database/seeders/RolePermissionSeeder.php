@@ -112,3 +112,4 @@ class RolePermissionSeeder extends Seeder
         $osis->syncRoles([$contributorRole]);
     }
 }
+

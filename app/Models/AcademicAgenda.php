@@ -43,3 +43,4 @@ class AcademicAgenda extends Model
             ->orderBy('start_date');
     }
 }
+

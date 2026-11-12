@@ -270,3 +270,4 @@ class InitialSchoolContentSeeder extends Seeder
         );
     }
 }
+

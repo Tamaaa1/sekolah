@@ -50,3 +50,4 @@ class SettingController extends Controller
         return back()->with('success', 'Pengaturan sekolah berhasil diperbarui.');
     }
 }
+

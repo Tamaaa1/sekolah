@@ -57,3 +57,4 @@ class MenuController extends Controller
         return back()->with('success', 'Item menu berhasil dihapus.');
     }
 }
+

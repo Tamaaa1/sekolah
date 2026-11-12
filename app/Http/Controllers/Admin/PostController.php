@@ -177,3 +177,4 @@ class PostController extends Controller
             ->with('success', 'Konten berhasil dihapus.');
     }
 }
+
