@@ -515,3 +515,4 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
         </AppLayout>
     );
 }
+

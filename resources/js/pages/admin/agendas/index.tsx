@@ -381,3 +381,4 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
         </AppLayout>
     );
 }
+

@@ -81,3 +81,4 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Berkas berhasil dihapus.');
     }
 }
+

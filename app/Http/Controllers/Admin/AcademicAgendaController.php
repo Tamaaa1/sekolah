@@ -71,3 +71,4 @@ class AcademicAgendaController extends Controller
         return redirect()->back()->with('success', 'Jadwal agenda akademik berhasil dihapus.');
     }
 }
+

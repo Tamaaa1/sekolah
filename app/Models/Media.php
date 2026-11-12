@@ -28,3 +28,4 @@ class Media extends Model
         return Storage::url($this->file_path);
     }
 }
+

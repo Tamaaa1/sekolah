@@ -83,3 +83,4 @@ class AchievementController extends Controller
         return redirect()->back()->with('success', 'Catatan prestasi siswa berhasil dihapus.');
     }
 }
+

@@ -84,3 +84,4 @@ class ExtracurricularController extends Controller
         return redirect()->back()->with('success', 'Data kegiatan ekstrakurikuler berhasil dihapus.');
     }
 }
+

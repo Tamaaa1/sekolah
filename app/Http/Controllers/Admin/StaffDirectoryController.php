@@ -80,3 +80,4 @@ class StaffDirectoryController extends Controller
         return redirect()->back()->with('success', 'Data tenaga pendidik/kependidikan berhasil dihapus.');
     }
 }
+

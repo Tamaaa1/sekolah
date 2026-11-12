@@ -509,3 +509,4 @@ export default function AchievementIndex({
         </AppLayout>
     );
 }
+

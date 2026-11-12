@@ -1,4 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
+import AppLayout from '@/layouts/app-layout';
 import {
     AcademicCapIcon,
     ArrowRightIcon,
@@ -11,6 +12,7 @@ import {
     TrophyIcon,
     UserGroupIcon,
 } from '@heroicons/react/24/outline';
+import type { BreadcrumbItem } from '@/types';
 
 type Post = {
     id: number;
@@ -32,6 +34,13 @@ type Props = {
     recentPosts?: Post[];
 };
 
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/admin/dashboard',
+    },
+];
+
 export default function Dashboard({
     postCount = 0,
     announcementCount = 0,
@@ -43,7 +52,7 @@ export default function Dashboard({
     recentPosts = [],
 }: Props) {
     return (
-        <>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="CMS Dashboard - Panel Administrasi Sekolah" />
 
             <div className="flex flex-1 flex-col gap-6 p-6">
@@ -278,15 +287,6 @@ export default function Dashboard({
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-Dashboard.layout = {
-    breadcrumbs: [
-        {
-            title: 'Dashboard',
-            href: '/admin/dashboard',
-        },
-    ],
-};

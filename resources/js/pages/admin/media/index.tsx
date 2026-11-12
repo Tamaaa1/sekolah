@@ -211,3 +211,4 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
         </AppLayout>
     );
 }
+
