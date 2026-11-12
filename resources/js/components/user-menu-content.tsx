@@ -1,5 +1,8 @@
 import { Link, router } from '@inertiajs/react';
-import { LogOut, Settings } from 'lucide-react';
+import {
+    ArrowRightStartOnRectangleIcon,
+    Cog6ToothIcon,
+} from '@heroicons/react/20/solid';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -40,7 +43,7 @@ export function UserMenuContent({ user }: Props) {
                         prefetch
                         onClick={cleanup}
                     >
-                        <Settings className="mr-2" />
+                        <Cog6ToothIcon className="mr-2 h-4 w-4" />
                         Settings
                     </Link>
                 </DropdownMenuItem>
@@ -54,7 +57,7 @@ export function UserMenuContent({ user }: Props) {
                     onClick={handleLogout}
                     data-test="logout-button"
                 >
-                    <LogOut className="mr-2" />
+                    <ArrowRightStartOnRectangleIcon className="mr-2 h-4 w-4" />
                     Log out
                 </Link>
             </DropdownMenuItem>

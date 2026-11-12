@@ -1,5 +1,11 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+import {
+    Bars3Icon,
+    BookOpenIcon,
+    FolderIcon,
+    MagnifyingGlassIcon,
+    Squares2X2Icon,
+} from '@heroicons/react/24/outline';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -43,20 +49,20 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
-        icon: LayoutGrid,
+        icon: Squares2X2Icon,
     },
 ];
 
 const rightNavItems: NavItem[] = [
     {
         title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        href: 'https://github.com/Tamaaa1/sekolah.git',
+        icon: FolderIcon,
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        icon: BookOpenIcon,
     },
 ];
 
@@ -82,7 +88,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                     size="icon"
                                     className="mr-2 h-[34px] w-[34px]"
                                 >
-                                    <Menu className="h-5 w-5" />
+                                    <Bars3Icon className="h-5 w-5" />
                                 </Button>
                             </SheetTrigger>
                             <SheetContent
@@ -183,7 +189,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 size="icon"
                                 className="group h-9 w-9 cursor-pointer"
                             >
-                                <Search className="!size-5 opacity-80 group-hover:opacity-100" />
+                                <MagnifyingGlassIcon className="!size-5 opacity-80 group-hover:opacity-100" />
                             </Button>
                             <div className="ml-1 hidden gap-1 lg:flex">
                                 {rightNavItems.map((item) => (

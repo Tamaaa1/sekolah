@@ -1,5 +1,9 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import {
+    BookOpenIcon,
+    FolderIcon,
+    Squares2X2Icon,
+} from '@heroicons/react/24/outline';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -20,20 +24,20 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
-        icon: LayoutGrid,
+        icon: Squares2X2Icon,
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
+        href: 'https://github.com/Tamaaa1/sekolah.git',
+        icon: FolderIcon,
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        icon: BookOpenIcon,
     },
 ];
 
