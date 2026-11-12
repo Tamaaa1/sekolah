@@ -347,11 +347,6 @@ export default function PublicLayout({
                     <div>
                         © {new Date().getFullYear()} {schoolName}. Hak Cipta Dilindungi Undang-Undang.
                     </div>
-                    <div className="flex items-center gap-4">
-                        <span>Portal Resmi Berbasis Editorial Sekolah</span>
-                        <span>•</span>
-                        <span>Anti-AI Slop Compliant</span>
-                    </div>
                 </div>
             </footer>
         </div>

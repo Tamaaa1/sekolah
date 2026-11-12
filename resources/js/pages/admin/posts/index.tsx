@@ -139,68 +139,77 @@ export default function PostsIndex({
                         <table className="w-full text-left text-xs">
                             <thead className="bg-canvas-subtle/50 text-ink-muted border-b border-sidebar-border uppercase tracking-wider font-semibold">
                                 <tr>
-                                    <th className="py-3 px-4">Judul</th>
-                                    <th className="py-3 px-4">Penulis</th>
-                                    <th className="py-3 px-4">Kategori</th>
-                                    <th className="py-3 px-4">Status</th>
-                                    <th className="py-3 px-4">Tanggal Rilis</th>
-                                    <th className="py-3 px-4 text-right">Aksi</th>
+                                    <th className="py-3 px-4 text-left">Judul Artikel</th>
+                                    <th className="py-3 px-4 text-left w-48 whitespace-nowrap">Penulis</th>
+                                    <th className="py-3 px-4 text-left w-44 whitespace-nowrap">Kategori</th>
+                                    <th className="py-3 px-4 text-center w-36 whitespace-nowrap">Status</th>
+                                    <th className="py-3 px-4 text-left w-36 whitespace-nowrap">Tanggal Rilis</th>
+                                    <th className="py-3 px-4 text-right w-44 whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-sidebar-border">
                                 {posts.data.length > 0 ? (
                                     posts.data.map((post) => (
-                                        <tr key={post.id} className="hover:bg-canvas-subtle/30">
-                                            <td className="py-3.5 px-4 font-semibold text-ink max-w-xs">
+                                        <tr key={post.id} className="hover:bg-canvas-subtle/30 transition-colors">
+                                            <td className="py-3.5 px-4 font-semibold text-ink">
                                                 <div className="line-clamp-2">{post.title}</div>
                                                 <div className="text-[11px] font-mono text-ink-muted mt-0.5">
                                                     /{post.slug}
                                                 </div>
                                             </td>
-                                            <td className="py-3.5 px-4 text-ink-secondary">
+                                            <td className="py-3.5 px-4 text-ink-secondary whitespace-nowrap">
                                                 {post.author?.name || 'Administrator'}
                                             </td>
-                                            <td className="py-3.5 px-4">
+                                            <td className="py-3.5 px-4 whitespace-nowrap">
                                                 {post.categories && post.categories.length > 0 ? (
-                                                    <span className="px-2 py-0.5 rounded bg-canvas-subtle text-ink font-medium">
-                                                        {post.categories[0].name}
-                                                    </span>
+                                                    <div className="flex flex-wrap gap-1">
+                                                        {post.categories.map((cat) => (
+                                                            <span
+                                                                key={cat.id}
+                                                                className="inline-block px-2.5 py-0.5 rounded text-[11px] bg-canvas-subtle text-ink font-medium border border-sidebar-border whitespace-nowrap"
+                                                            >
+                                                                {cat.name}
+                                                            </span>
+                                                        ))}
+                                                    </div>
                                                 ) : (
                                                     <span className="text-ink-muted">-</span>
                                                 )}
                                             </td>
-                                            <td className="py-3.5 px-4">
+                                            <td className="py-3.5 px-4 text-center whitespace-nowrap">
                                                 <span
-                                                    className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                                                    className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                                                         post.status === 'published'
-                                                            ? 'bg-status-published-bg text-status-published'
+                                                            ? 'bg-status-published-bg text-status-published border border-emerald-200'
                                                             : post.status === 'pending_review'
-                                                            ? 'bg-status-pending-bg text-status-pending'
-                                                            : 'bg-canvas-subtle text-ink-muted'
+                                                            ? 'bg-status-pending-bg text-status-pending border border-amber-200'
+                                                            : 'bg-canvas-subtle text-ink-muted border border-sidebar-border'
                                                     }`}
                                                 >
                                                     {post.status.replace('_', ' ')}
                                                 </span>
                                             </td>
-                                            <td className="py-3.5 px-4 text-ink-muted">
+                                            <td className="py-3.5 px-4 text-ink-muted whitespace-nowrap">
                                                 {formatDate(post.published_at)}
                                             </td>
-                                            <td className="py-3.5 px-4 text-right space-x-2">
-                                                <Link
-                                                    href={`/admin/posts/${post.id}/edit`}
-                                                    className="inline-flex items-center gap-1 text-prussian hover:underline font-semibold"
-                                                >
-                                                    <PencilSquareIcon className="w-4 h-4" />
-                                                    <span>Edit</span>
-                                                </Link>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleDelete(post.id, post.title)}
-                                                    className="inline-flex items-center gap-1 text-status-urgent hover:underline font-semibold"
-                                                >
-                                                    <TrashIcon className="w-4 h-4" />
-                                                    <span>Hapus</span>
-                                                </button>
+                                            <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                                                <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
+                                                    <Link
+                                                        href={`/admin/posts/${post.id}/edit`}
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-prussian hover:bg-canvas-subtle border border-sidebar-border transition-colors"
+                                                    >
+                                                        <PencilSquareIcon className="w-3.5 h-3.5" />
+                                                        <span>Sunting</span>
+                                                    </Link>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleDelete(post.id, post.title)}
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-status-urgent hover:bg-red-50 border border-sidebar-border transition-colors"
+                                                    >
+                                                        <TrashIcon className="w-3.5 h-3.5" />
+                                                        <span>Hapus</span>
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
