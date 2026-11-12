@@ -1,7 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
 import {
-    ArrowLeftIcon,
     BookmarkIcon,
     CalendarDaysIcon,
     ClockIcon,
@@ -127,17 +126,6 @@ export default function PostDetail({
             <Head title={`${post.title} - ${schoolName}`} />
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-                {/* Back button */}
-                <div className="mb-6">
-                    <Link
-                        href="/"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-prussian hover:underline"
-                    >
-                        <ArrowLeftIcon className="w-3.5 h-3.5" />
-                        <span>Kembali ke Beranda</span>
-                    </Link>
-                </div>
-
                 {/* Article Header */}
                 <header className="border-b border-line pb-6 mb-8">
                     <div className="flex flex-wrap items-center gap-2 mb-3">

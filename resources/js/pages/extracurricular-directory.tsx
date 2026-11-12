@@ -1,7 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
 import {
-    ArrowLeftIcon,
     CalendarDaysIcon,
     ClockIcon,
     SparklesIcon,
@@ -37,16 +36,6 @@ export default function ExtracurricularDirectory({
             <Head title={`Kegiatan Ekstrakurikuler Siswa - ${schoolName}`} />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-                <div className="mb-6">
-                    <Link
-                        href="/"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-prussian hover:underline"
-                    >
-                        <ArrowLeftIcon className="w-3.5 h-3.5" />
-                        <span>Kembali ke Beranda</span>
-                    </Link>
-                </div>
-
                 <div className="border-b border-line pb-6 mb-8">
                     <span className="text-xs font-mono uppercase tracking-wider text-prussian font-semibold">
                         Pengembangan Minat & Bakat
