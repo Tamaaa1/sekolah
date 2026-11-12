@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -54,6 +56,11 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
     const [search, setSearch] = useState(filters.search || '');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<AgendaItem | null>(null);
+    const [deleteModal, setDeleteModal] = useState<{
+        open: boolean;
+        item: AgendaItem | null;
+        loading: boolean;
+    }>({ open: false, item: null, loading: false });
 
     const [form, setForm] = useState({
         title: '',
@@ -99,19 +106,44 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
         e.preventDefault();
         if (editingItem) {
             router.put(`/admin/agendas/${editingItem.id}`, form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Agenda "${form.title}" berhasil diperbarui.`);
+                },
+                onError: () => {
+                    toast.error('Gagal memperbarui agenda. Periksa kembali isian formulir.');
+                },
             });
         } else {
             router.post('/admin/agendas', form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Agenda "${form.title}" berhasil ditambahkan.`);
+                },
+                onError: () => {
+                    toast.error('Gagal menambahkan agenda. Periksa kembali isian formulir.');
+                },
             });
         }
     };
 
     const handleDelete = (item: AgendaItem) => {
-        if (confirm(`Yakin ingin menghapus agenda "${item.title}"?`)) {
-            router.delete(`/admin/agendas/${item.id}`);
-        }
+        setDeleteModal({ open: true, item, loading: false });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.item) return;
+        setDeleteModal((prev) => ({ ...prev, loading: true }));
+        router.delete(`/admin/agendas/${deleteModal.item.id}`, {
+            onSuccess: () => {
+                toast.success(`Agenda "${deleteModal.item?.title}" berhasil dihapus.`);
+                setDeleteModal({ open: false, item: null, loading: false });
+            },
+            onError: () => {
+                toast.error('Gagal menghapus agenda.');
+                setDeleteModal((prev) => ({ ...prev, loading: false }));
+            },
+        });
     };
 
     const formatDateRange = (start: string, end: string | null) => {
@@ -378,6 +410,18 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmationModal
+                open={deleteModal.open}
+                onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, open }))}
+                title="Hapus Agenda Akademik"
+                description={`Apakah Anda yakin ingin menghapus agenda "${deleteModal.item?.title}"? Tindakan ini tidak dapat dibatalkan.`}
+                confirmText="Iya, Hapus"
+                cancelText="Tidak"
+                variant="danger"
+                loading={deleteModal.loading}
+                onConfirm={confirmDelete}
+            />
         </AppLayout>
     );
 }

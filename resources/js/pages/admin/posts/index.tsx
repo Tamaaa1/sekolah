@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { toast } from 'sonner';
 import {
     DocumentPlusIcon,
     PencilSquareIcon,
@@ -64,10 +67,30 @@ export default function PostsIndex({
             ? 'Pengumuman Resmi'
             : 'Halaman Statis';
 
+    const [deleteModal, setDeleteModal] = useState<{
+        open: boolean;
+        id: number | null;
+        title: string;
+        loading: boolean;
+    }>({ open: false, id: null, title: '', loading: false });
+
     const handleDelete = (id: number, title: string) => {
-        if (confirm(`Apakah Anda yakin ingin menghapus "${title}"?`)) {
-            router.delete(`/admin/posts/${id}`);
-        }
+        setDeleteModal({ open: true, id, title, loading: false });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.id) return;
+        setDeleteModal((prev) => ({ ...prev, loading: true }));
+        router.delete(`/admin/posts/${deleteModal.id}`, {
+            onSuccess: () => {
+                toast.success(`${typeLabel} "${deleteModal.title}" berhasil dihapus.`);
+                setDeleteModal({ open: false, id: null, title: '', loading: false });
+            },
+            onError: () => {
+                toast.error(`Gagal menghapus ${typeLabel.toLowerCase()}.`);
+                setDeleteModal((prev) => ({ ...prev, loading: false }));
+            },
+        });
     };
 
     const formatDate = (dateStr: string | null) => {
@@ -245,6 +268,18 @@ export default function PostsIndex({
                     )}
                 </div>
             </div>
+
+            <ConfirmationModal
+                open={deleteModal.open}
+                onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, open }))}
+                title={`Hapus ${typeLabel}?`}
+                description={`Apakah Anda yakin ingin menghapus "${deleteModal.title}"? Data artikel ini akan dipindahkan ke tempat sampah dan tidak lagi dapat diakses pengunjung.`}
+                confirmText="Iya, Hapus"
+                cancelText="Tidak"
+                variant="danger"
+                loading={deleteModal.loading}
+                onConfirm={confirmDelete}
+            />
         </AppLayout>
     );
 }

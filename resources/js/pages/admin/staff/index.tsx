@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -59,6 +61,11 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
     const [activeCategory, setActiveCategory] = useState(filters.category || 'all');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingStaff, setEditingStaff] = useState<StaffItem | null>(null);
+    const [deleteModal, setDeleteModal] = useState<{
+        open: boolean;
+        item: StaffItem | null;
+        loading: boolean;
+    }>({ open: false, item: null, loading: false });
 
     const [form, setForm] = useState({
         name: '',
@@ -119,19 +126,44 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
         e.preventDefault();
         if (editingStaff) {
             router.put(`/admin/staff/${editingStaff.id}`, form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Data "${form.name}" berhasil diperbarui.`);
+                },
+                onError: () => {
+                    toast.error('Gagal memperbarui data guru/staf. Periksa kembali isian formulir.');
+                },
             });
         } else {
             router.post('/admin/staff', form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Data "${form.name}" berhasil ditambahkan.`);
+                },
+                onError: () => {
+                    toast.error('Gagal menambahkan data guru/staf. Periksa kembali isian formulir.');
+                },
             });
         }
     };
 
     const handleDelete = (item: StaffItem) => {
-        if (confirm(`Yakin ingin menghapus data "${item.name}"?`)) {
-            router.delete(`/admin/staff/${item.id}`);
-        }
+        setDeleteModal({ open: true, item, loading: false });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.item) return;
+        setDeleteModal((prev) => ({ ...prev, loading: true }));
+        router.delete(`/admin/staff/${deleteModal.item.id}`, {
+            onSuccess: () => {
+                toast.success(`Data "${deleteModal.item?.name}" berhasil dihapus.`);
+                setDeleteModal({ open: false, item: null, loading: false });
+            },
+            onError: () => {
+                toast.error('Gagal menghapus data guru/staf.');
+                setDeleteModal((prev) => ({ ...prev, loading: false }));
+            },
+        });
     };
 
     return (
@@ -512,6 +544,18 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmationModal
+                open={deleteModal.open}
+                onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, open }))}
+                title="Hapus Data Guru / Staf"
+                description={`Apakah Anda yakin ingin menghapus "${deleteModal.item?.name}"? Data ini tidak dapat dipulihkan.`}
+                confirmText="Iya, Hapus"
+                cancelText="Tidak"
+                variant="danger"
+                loading={deleteModal.loading}
+                onConfirm={confirmDelete}
+            />
         </AppLayout>
     );
 }

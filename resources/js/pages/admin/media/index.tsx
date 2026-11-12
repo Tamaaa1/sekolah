@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -47,6 +49,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function MediaIndex({ media, filters }: MediaPageProps) {
     const [search, setSearch] = useState(filters.search || '');
     const [uploading, setUploading] = useState(false);
+    const [deleteModal, setDeleteModal] = useState<{
+        open: boolean;
+        item: MediaItem | null;
+        loading: boolean;
+    }>({ open: false, item: null, loading: false });
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -62,15 +69,35 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
         formData.append('file', file);
 
         router.post('/admin/media', formData, {
+            onSuccess: () => {
+                toast.success('Berkas berhasil diunggah ke Pustaka Media.');
+            },
+            onError: () => {
+                toast.error('Gagal mengunggah berkas. Pastikan ukuran di bawah 10MB.');
+            },
             onFinish: () => setUploading(false),
             preserveScroll: true,
         });
     };
 
     const handleDelete = (item: MediaItem) => {
-        if (confirm(`Yakin ingin menghapus berkas "${item.name}"? Tautan gambar pada postingan yang memakai berkas ini mungkin tidak akan muncul.`)) {
-            router.delete(`/admin/media/${item.id}`, { preserveScroll: true });
-        }
+        setDeleteModal({ open: true, item, loading: false });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.item) return;
+        setDeleteModal((prev) => ({ ...prev, loading: true }));
+        router.delete(`/admin/media/${deleteModal.item.id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success(`Berkas "${deleteModal.item?.name}" berhasil dihapus.`);
+                setDeleteModal({ open: false, item: null, loading: false });
+            },
+            onError: () => {
+                toast.error('Gagal menghapus berkas.');
+                setDeleteModal((prev) => ({ ...prev, loading: false }));
+            },
+        });
     };
 
     return (
@@ -208,6 +235,18 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                     </div>
                 )}
             </div>
+
+            <ConfirmationModal
+                open={deleteModal.open}
+                onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, open }))}
+                title="Hapus Berkas Media"
+                description={`Apakah Anda yakin ingin menghapus "${deleteModal.item?.name}"? Tautan gambar pada postingan yang memakai berkas ini mungkin tidak akan muncul lagi.`}
+                confirmText="Iya, Hapus"
+                cancelText="Tidak"
+                variant="danger"
+                loading={deleteModal.loading}
+                onConfirm={confirmDelete}
+            />
         </AppLayout>
     );
 }

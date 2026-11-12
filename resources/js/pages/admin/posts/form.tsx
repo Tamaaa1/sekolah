@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { MediaPickerModal } from '@/components/media-picker-modal';
+import { toast } from 'sonner';
 import {
     ArrowLeftIcon,
     ArrowUpTrayIcon,
@@ -84,9 +85,23 @@ export default function PostForm({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isEdit) {
-            updatePost(`/admin/posts/${post.id}`);
+            updatePost(`/admin/posts/${post.id}`, {
+                onSuccess: () => {
+                    toast.success(`${typeTitle} berhasil diperbarui.`);
+                },
+                onError: () => {
+                    toast.error(`Gagal menyimpan perubahan ${typeTitle.toLowerCase()}.`);
+                },
+            });
         } else {
-            submitPost('/admin/posts');
+            submitPost('/admin/posts', {
+                onSuccess: () => {
+                    toast.success(`${typeTitle} baru berhasil dibuat.`);
+                },
+                onError: () => {
+                    toast.error(`Gagal menerbitkan ${typeTitle.toLowerCase()}.`);
+                },
+            });
         }
     };
 

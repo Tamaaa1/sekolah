@@ -1,5 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { toast } from 'sonner';
 import {
     AcademicCapIcon,
     BuildingOfficeIcon,
@@ -32,7 +33,14 @@ export default function SettingsIndex({ settings = {} }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        put('/admin/settings');
+        put('/admin/settings', {
+            onSuccess: () => {
+                toast.success('Pengaturan identitas sekolah berhasil disimpan.');
+            },
+            onError: () => {
+                toast.error('Gagal menyimpan pengaturan sekolah. Silakan periksa formulir.');
+            },
+        });
     };
 
     return (

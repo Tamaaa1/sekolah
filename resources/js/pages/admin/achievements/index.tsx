@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -63,6 +65,11 @@ export default function AchievementIndex({
     const [activeLevel, setActiveLevel] = useState(filters.level || 'all');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<AchievementItem | null>(null);
+    const [deleteModal, setDeleteModal] = useState<{
+        open: boolean;
+        item: AchievementItem | null;
+        loading: boolean;
+    }>({ open: false, item: null, loading: false });
 
     const [form, setForm] = useState({
         title: '',
@@ -123,19 +130,44 @@ export default function AchievementIndex({
         e.preventDefault();
         if (editingItem) {
             router.put(`/admin/achievements/${editingItem.id}`, form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Prestasi "${form.title}" berhasil diperbarui.`);
+                },
+                onError: () => {
+                    toast.error('Gagal memperbarui catatan prestasi. Periksa isian formulir.');
+                },
             });
         } else {
             router.post('/admin/achievements', form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Prestasi "${form.title}" berhasil ditambahkan.`);
+                },
+                onError: () => {
+                    toast.error('Gagal menambahkan catatan prestasi. Periksa isian formulir.');
+                },
             });
         }
     };
 
     const handleDelete = (item: AchievementItem) => {
-        if (confirm(`Yakin ingin menghapus catatan prestasi "${item.title}"?`)) {
-            router.delete(`/admin/achievements/${item.id}`);
-        }
+        setDeleteModal({ open: true, item, loading: false });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.item) return;
+        setDeleteModal((prev) => ({ ...prev, loading: true }));
+        router.delete(`/admin/achievements/${deleteModal.item.id}`, {
+            onSuccess: () => {
+                toast.success(`Catatan prestasi "${deleteModal.item?.title}" berhasil dihapus.`);
+                setDeleteModal({ open: false, item: null, loading: false });
+            },
+            onError: () => {
+                toast.error('Gagal menghapus catatan prestasi.');
+                setDeleteModal((prev) => ({ ...prev, loading: false }));
+            },
+        });
     };
 
     return (
@@ -506,6 +538,18 @@ export default function AchievementIndex({
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmationModal
+                open={deleteModal.open}
+                onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, open }))}
+                title="Hapus Catatan Prestasi"
+                description={`Apakah Anda yakin ingin menghapus catatan prestasi "${deleteModal.item?.title}"? Tindakan ini tidak dapat dibatalkan.`}
+                confirmText="Iya, Hapus"
+                cancelText="Tidak"
+                variant="danger"
+                loading={deleteModal.loading}
+                onConfirm={confirmDelete}
+            />
         </AppLayout>
     );
 }

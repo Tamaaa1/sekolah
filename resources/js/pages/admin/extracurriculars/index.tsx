@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -61,6 +63,11 @@ export default function ExtracurricularIndex({
     const [search, setSearch] = useState(filters.search || '');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<ExtracurricularItem | null>(null);
+    const [deleteModal, setDeleteModal] = useState<{
+        open: boolean;
+        item: ExtracurricularItem | null;
+        loading: boolean;
+    }>({ open: false, item: null, loading: false });
 
     const [form, setForm] = useState({
         name: '',
@@ -112,19 +119,44 @@ export default function ExtracurricularIndex({
         e.preventDefault();
         if (editingItem) {
             router.put(`/admin/extracurriculars/${editingItem.id}`, form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Ekstrakurikuler "${form.name}" berhasil diperbarui.`);
+                },
+                onError: () => {
+                    toast.error('Gagal memperbarui data ekstrakurikuler. Periksa kembali formulir.');
+                },
             });
         } else {
             router.post('/admin/extracurriculars', form, {
-                onSuccess: () => setIsModalOpen(false),
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast.success(`Ekstrakurikuler "${form.name}" berhasil ditambahkan.`);
+                },
+                onError: () => {
+                    toast.error('Gagal menambahkan ekstrakurikuler. Periksa kembali formulir.');
+                },
             });
         }
     };
 
     const handleDelete = (item: ExtracurricularItem) => {
-        if (confirm(`Yakin ingin menghapus kegiatan ekstrakurikuler "${item.name}"?`)) {
-            router.delete(`/admin/extracurriculars/${item.id}`);
-        }
+        setDeleteModal({ open: true, item, loading: false });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.item) return;
+        setDeleteModal((prev) => ({ ...prev, loading: true }));
+        router.delete(`/admin/extracurriculars/${deleteModal.item.id}`, {
+            onSuccess: () => {
+                toast.success(`Ekstrakurikuler "${deleteModal.item?.name}" berhasil dihapus.`);
+                setDeleteModal({ open: false, item: null, loading: false });
+            },
+            onError: () => {
+                toast.error('Gagal menghapus kegiatan ekstrakurikuler.');
+                setDeleteModal((prev) => ({ ...prev, loading: false }));
+            },
+        });
     };
 
     return (
@@ -439,6 +471,18 @@ export default function ExtracurricularIndex({
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmationModal
+                open={deleteModal.open}
+                onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, open }))}
+                title="Hapus Ekstrakurikuler"
+                description={`Apakah Anda yakin ingin menghapus kegiatan "${deleteModal.item?.name}"? Tindakan ini tidak dapat dibatalkan.`}
+                confirmText="Iya, Hapus"
+                cancelText="Tidak"
+                variant="danger"
+                loading={deleteModal.loading}
+                onConfirm={confirmDelete}
+            />
         </AppLayout>
     );
 }

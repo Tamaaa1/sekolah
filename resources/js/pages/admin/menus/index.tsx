@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Head, useForm, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { ConfirmationModal } from '@/components/confirmation-modal';
+import { toast } from 'sonner';
 import {
     Bars3Icon,
     ChevronRightIcon,
@@ -37,6 +39,11 @@ type Props = {
 
 export default function MenuBuilderIndex({ menu, pages = [] }: Props) {
     const rootItems = (menu.items || []).filter((i) => !i.parent_id);
+    const [deleteModal, setDeleteModal] = useState<{
+        open: boolean;
+        item: MenuItem | null;
+        loading: boolean;
+    }>({ open: false, item: null, loading: false });
 
     const { data, setData, post, processing, reset } = useForm({
         label: '',
@@ -52,14 +59,31 @@ export default function MenuBuilderIndex({ menu, pages = [] }: Props) {
         post(`/admin/menus/${menu.id}/items`, {
             onSuccess: () => {
                 reset('label', 'custom_url');
+                toast.success('Item navigasi berhasil ditambahkan.');
+            },
+            onError: () => {
+                toast.error('Gagal menambahkan item navigasi. Periksa kelengkapan isian.');
             },
         });
     };
 
-    const handleDeleteItem = (id: number) => {
-        if (confirm('Hapus item navigasi ini?')) {
-            router.delete(`/admin/menus/items/${id}`);
-        }
+    const handleDeleteItem = (item: MenuItem) => {
+        setDeleteModal({ open: true, item, loading: false });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.item) return;
+        setDeleteModal((prev) => ({ ...prev, loading: true }));
+        router.delete(`/admin/menus/items/${deleteModal.item.id}`, {
+            onSuccess: () => {
+                toast.success(`Item menu "${deleteModal.item?.label}" berhasil dihapus.`);
+                setDeleteModal({ open: false, item: null, loading: false });
+            },
+            onError: () => {
+                toast.error('Gagal menghapus item navigasi.');
+                setDeleteModal((prev) => ({ ...prev, loading: false }));
+            },
+        });
     };
 
     return (
@@ -115,7 +139,7 @@ export default function MenuBuilderIndex({ menu, pages = [] }: Props) {
 
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleDeleteItem(item.id)}
+                                                    onClick={() => handleDeleteItem(item)}
                                                     className="text-status-urgent hover:text-red-700 p-1"
                                                 >
                                                     <TrashIcon className="w-4 h-4" />
@@ -143,7 +167,7 @@ export default function MenuBuilderIndex({ menu, pages = [] }: Props) {
                                                             </div>
                                                             <button
                                                                 type="button"
-                                                                onClick={() => handleDeleteItem(child.id)}
+                                                                onClick={() => handleDeleteItem(child)}
                                                                 className="text-status-urgent hover:text-red-700 p-0.5"
                                                             >
                                                                 <TrashIcon className="w-3.5 h-3.5" />
@@ -275,6 +299,18 @@ export default function MenuBuilderIndex({ menu, pages = [] }: Props) {
                     </div>
                 </div>
             </div>
+
+            <ConfirmationModal
+                open={deleteModal.open}
+                onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, open }))}
+                title="Hapus Item Navigasi"
+                description={`Apakah Anda yakin ingin menghapus item menu "${deleteModal.item?.label}"? Sub-menu yang berada di bawahnya juga dapat terpengaruh.`}
+                confirmText="Iya, Hapus"
+                cancelText="Tidak"
+                variant="danger"
+                loading={deleteModal.loading}
+                onConfirm={confirmDelete}
+            />
         </AppLayout>
     );
 }
