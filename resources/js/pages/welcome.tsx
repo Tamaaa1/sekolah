@@ -4,7 +4,6 @@ import {
     AcademicCapIcon,
     ArrowDownTrayIcon,
     ArrowRightIcon,
-    BookmarkIcon,
     CalendarDaysIcon,
     ChevronRightIcon,
     MegaphoneIcon,
@@ -129,111 +128,56 @@ export default function Welcome({
                     </div>
                 </div>
 
-                {/* Hero Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    {/* Primary Headline Post (Col 7) */}
+                {/* Hero Grid: Sambutan Kepala Sekolah & Pengumuman Resmi */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    {/* Sambutan Kepala Sekolah Box (Col 7) */}
                     <div className="lg:col-span-7 bg-white rounded border border-line p-6 sm:p-8 flex flex-col justify-between shadow-xs">
-                        {pinnedPost ? (
-                            <div>
-                                <div className="flex items-center gap-2 mb-4">
-                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-xs font-semibold bg-terracotta-light text-terracotta border border-terracotta/20">
-                                        <BookmarkIcon className="w-3.5 h-3.5" />
-                                        Sorotan Utama
-                                    </span>
-                                    {pinnedPost.categories && pinnedPost.categories[0] && (
-                                        <span className="text-xs font-medium text-ink-muted">
-                                            {pinnedPost.categories[0].name}
-                                        </span>
-                                    )}
-                                    <span className="text-xs text-ink-muted">•</span>
-                                    <span className="text-xs text-ink-muted">
-                                        {formatDate(pinnedPost.published_at)}
-                                    </span>
-                                </div>
-
-                                <Link href={`/${pinnedPost.slug}`} className="group">
-                                    <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-ink group-hover:text-prussian transition-colors leading-tight">
-                                        {pinnedPost.title}
-                                    </h2>
-                                </Link>
-
-                                <p className="mt-4 text-ink-secondary text-sm sm:text-base leading-relaxed">
-                                    {pinnedPost.excerpt ||
-                                        'Klik untuk membaca laporan selengkapnya mengenai perkembangan dan torehan prestasi akademik terbaru.'}
-                                </p>
-                            </div>
-                        ) : (
-                            <div>
-                                <h2 className="font-serif text-2xl font-bold text-ink">
-                                    Selamat Datang di Portal Resmi {schoolName}
-                                </h2>
-                                <p className="mt-3 text-ink-secondary text-sm">
-                                    Pusat keterbukaan informasi publik dan arsip kegiatan akademik sekolah.
-                                </p>
-                            </div>
-                        )}
-
-                        <div className="pt-6 mt-6 border-t border-line flex items-center justify-between">
-                            <span className="text-xs text-ink-muted font-mono">
-                                Redaksi Humas Sekolah
-                            </span>
-                            {pinnedPost && (
-                                <Link
-                                    href={`/${pinnedPost.slug}`}
-                                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-prussian hover:text-prussian-hover transition-colors"
-                                >
-                                    <span>Baca Berita Lengkap</span>
-                                    <ArrowRightIcon className="w-4 h-4" />
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Right Column Bento: Announcements & Headmaster Speech (Col 5) */}
-                    <div className="lg:col-span-5 flex flex-col gap-6">
-                        {/* Sambutan Kepala Sekolah Box */}
-                        <div className="bg-canvas-subtle rounded border border-line p-6">
-                            <div className="flex items-center gap-2 mb-3">
+                        <div>
+                            <div className="flex items-center gap-2 mb-4">
                                 <AcademicCapIcon className="w-5 h-5 text-prussian" />
                                 <span className="text-xs font-semibold uppercase tracking-wider text-prussian">
                                     Sambutan Kepala Sekolah
                                 </span>
                             </div>
-                            <blockquote className="font-serif italic text-ink text-sm sm:text-base leading-relaxed pl-3 border-l-2 border-prussian">
-                                "{speech}"
+                            <blockquote className="font-serif italic text-ink text-base sm:text-lg leading-relaxed pl-4 border-l-2 border-prussian my-2">
+                                &ldquo;{speech}&rdquo;
                             </blockquote>
-                            <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between">
-                                <div>
-                                    <div className="text-xs font-bold text-ink">{principalName}</div>
-                                    <div className="text-[11px] text-ink-muted">{principalPosition}</div>
-                                </div>
-                                <Link
-                                    href="/guru-dan-staf"
-                                    className="text-xs font-medium text-prussian hover:underline"
-                                >
-                                    Lihat GTK &rarr;
-                                </Link>
-                            </div>
                         </div>
 
-                        {/* Recent Announcements Widget */}
-                        <div className="bg-white rounded border border-line p-5 shadow-xs flex-1">
-                            <div className="flex items-center justify-between pb-3 border-b border-line mb-3">
+                        <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between">
+                            <div>
+                                <div className="text-sm font-bold text-ink">{principalName}</div>
+                                <div className="text-xs text-ink-muted">{principalPosition}</div>
+                            </div>
+                            <Link
+                                href="/guru-dan-staf"
+                                className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                            >
+                                <span>Lihat Profil GTK</span>
+                                <ArrowRightIcon className="w-3.5 h-3.5" />
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Recent Announcements Widget (Col 5) */}
+                    <div className="lg:col-span-5 bg-white rounded border border-line p-6 shadow-xs flex flex-col justify-between">
+                        <div>
+                            <div className="flex items-center justify-between pb-3 border-b border-line mb-4">
                                 <div className="flex items-center gap-2">
                                     <MegaphoneIcon className="w-4 h-4 text-terracotta" />
                                     <span className="text-xs font-bold uppercase tracking-wider text-ink">
                                         Pengumuman Resmi
                                     </span>
                                 </div>
-                                <span className="text-[11px] text-ink-muted">Terbaru</span>
+                                <span className="text-[11px] text-ink-muted font-mono">Warta Terbaru</span>
                             </div>
 
-                            <div className="space-y-3">
+                            <div className="space-y-3.5">
                                 {announcements.length > 0 ? (
                                     announcements.map((item) => (
                                         <div
                                             key={item.id}
-                                            className="group block pb-2.5 border-b border-line/40 last:border-0 last:pb-0"
+                                            className="group block pb-3 border-b border-line/40 last:border-0 last:pb-0"
                                         >
                                             <div className="text-[11px] text-ink-muted mb-0.5">
                                                 {formatDate(item.published_at)}
@@ -247,12 +191,24 @@ export default function Welcome({
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-xs text-ink-muted italic py-2">
+                                    <p className="text-xs text-ink-muted italic py-4 text-center">
                                         Belum ada pengumuman terbaru.
                                     </p>
                                 )}
                             </div>
                         </div>
+
+                        {announcements.length > 0 && (
+                            <div className="mt-4 pt-3 border-t border-line/60 text-right">
+                                <Link
+                                    href="/pengumuman"
+                                    className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                                >
+                                    <span>Semua Pengumuman</span>
+                                    <ArrowRightIcon className="w-3.5 h-3.5" />
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
