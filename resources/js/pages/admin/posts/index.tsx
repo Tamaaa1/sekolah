@@ -140,11 +140,10 @@ export default function PostsIndex({
                             <thead className="bg-canvas-subtle/50 text-ink-muted border-b border-sidebar-border uppercase tracking-wider font-semibold">
                                 <tr>
                                     <th className="py-3 px-4 text-left">Judul Artikel</th>
-                                    <th className="py-3 px-4 text-left w-48 whitespace-nowrap">Penulis</th>
-                                    <th className="py-3 px-4 text-left w-44 whitespace-nowrap">Kategori</th>
+                                    <th className="py-3 px-4 text-left w-48 whitespace-nowrap">Kategori</th>
                                     <th className="py-3 px-4 text-center w-36 whitespace-nowrap">Status</th>
                                     <th className="py-3 px-4 text-left w-36 whitespace-nowrap">Tanggal Rilis</th>
-                                    <th className="py-3 px-4 text-right w-44 whitespace-nowrap">Aksi</th>
+                                    <th className="py-3 px-4 text-right w-24 whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-sidebar-border">
@@ -153,12 +152,6 @@ export default function PostsIndex({
                                         <tr key={post.id} className="hover:bg-canvas-subtle/30 transition-colors">
                                             <td className="py-3.5 px-4 font-semibold text-ink">
                                                 <div className="line-clamp-2">{post.title}</div>
-                                                <div className="text-[11px] font-mono text-ink-muted mt-0.5">
-                                                    /{post.slug}
-                                                </div>
-                                            </td>
-                                            <td className="py-3.5 px-4 text-ink-secondary whitespace-nowrap">
-                                                {post.author?.name || 'Administrator'}
                                             </td>
                                             <td className="py-3.5 px-4 whitespace-nowrap">
                                                 {post.categories && post.categories.length > 0 ? (
@@ -196,18 +189,18 @@ export default function PostsIndex({
                                                 <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
                                                     <Link
                                                         href={`/admin/posts/${post.id}/edit`}
-                                                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-prussian hover:bg-canvas-subtle border border-sidebar-border transition-colors"
+                                                        className="p-1.5 rounded text-prussian hover:bg-canvas-subtle border border-sidebar-border transition-colors"
+                                                        title="Sunting Artikel"
                                                     >
-                                                        <PencilSquareIcon className="w-3.5 h-3.5" />
-                                                        <span>Sunting</span>
+                                                        <PencilSquareIcon className="w-4 h-4" />
                                                     </Link>
                                                     <button
                                                         type="button"
                                                         onClick={() => handleDelete(post.id, post.title)}
-                                                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-status-urgent hover:bg-red-50 border border-sidebar-border transition-colors"
+                                                        className="p-1.5 rounded text-status-urgent hover:bg-red-50 border border-sidebar-border transition-colors"
+                                                        title="Hapus Artikel"
                                                     >
-                                                        <TrashIcon className="w-3.5 h-3.5" />
-                                                        <span>Hapus</span>
+                                                        <TrashIcon className="w-4 h-4" />
                                                     </button>
                                                 </div>
                                             </td>
@@ -215,7 +208,7 @@ export default function PostsIndex({
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={6} className="py-8 text-center text-ink-muted italic">
+                                        <td colSpan={5} className="py-8 text-center text-ink-muted italic">
                                             Tidak ada konten pada kriteria ini.
                                         </td>
                                     </tr>
