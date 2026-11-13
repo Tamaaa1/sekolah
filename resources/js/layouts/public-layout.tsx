@@ -188,20 +188,10 @@ export default function PublicLayout({
                     <div className="hidden sm:flex items-center gap-3">
                         <Link
                             href="/ppdb"
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold tracking-wide transition-colors shadow-xs ${
-                                ppdbIsOpen
-                                    ? 'bg-terracotta hover:bg-terracotta-hover text-white'
-                                    : 'border border-line bg-canvas-subtle hover:bg-stone-200 text-ink'
-                            }`}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs"
                         >
                             <span>Info PPDB</span>
-                            {ppdbIsOpen ? (
-                                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                            ) : (
-                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300 font-bold">
-                                    Tutup
-                                </span>
-                            )}
+                            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                         </Link>
                     </div>
 
@@ -209,11 +199,7 @@ export default function PublicLayout({
                     <div className="flex lg:hidden items-center gap-2">
                         <Link
                             href="/ppdb"
-                            className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors ${
-                                ppdbIsOpen
-                                    ? 'bg-terracotta text-white'
-                                    : 'border border-line bg-canvas-subtle text-ink'
-                            }`}
+                            className="px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold"
                         >
                             PPDB
                         </Link>
