@@ -185,28 +185,38 @@ export default function PublicLayout({
                     </nav>
 
                     {/* CTA Button */}
-                    {ppdbIsOpen && (
-                        <div className="hidden sm:flex items-center gap-3">
-                            <Link
-                                href="/ppdb"
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs"
-                            >
-                                <span>Info PPDB</span>
+                    <div className="hidden sm:flex items-center gap-3">
+                        <Link
+                            href="/ppdb"
+                            className={`inline-flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold tracking-wide transition-colors shadow-xs ${
+                                ppdbIsOpen
+                                    ? 'bg-terracotta hover:bg-terracotta-hover text-white'
+                                    : 'border border-line bg-canvas-subtle hover:bg-stone-200 text-ink'
+                            }`}
+                        >
+                            <span>Info PPDB</span>
+                            {ppdbIsOpen ? (
                                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                            </Link>
-                        </div>
-                    )}
+                            ) : (
+                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300 font-bold">
+                                    Tutup
+                                </span>
+                            )}
+                        </Link>
+                    </div>
 
                     {/* Mobile Hamburger Button */}
                     <div className="flex lg:hidden items-center gap-2">
-                        {ppdbIsOpen && (
-                            <Link
-                                href="/ppdb"
-                                className="px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold"
-                            >
-                                PPDB
-                            </Link>
-                        )}
+                        <Link
+                            href="/ppdb"
+                            className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors ${
+                                ppdbIsOpen
+                                    ? 'bg-terracotta text-white'
+                                    : 'border border-line bg-canvas-subtle text-ink'
+                            }`}
+                        >
+                            PPDB
+                        </Link>
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -362,13 +372,15 @@ export default function PublicLayout({
                         ) : (
                             <>
                                 <p className="text-canvas-subtle/80 text-sm leading-relaxed">
-                                    Pendaftaran siswa baru Tahun Ajaran {settings?.ppdb_year || '2026/2027'} saat ini <strong className="text-white">sedang ditutup</strong> oleh pihak sekolah.
+                                    Pendaftaran siswa baru Tahun Ajaran {settings?.ppdb_year || '2026/2027'} saat ini <strong className="text-white">belum dibuka / sedang ditutup</strong>.
                                 </p>
                                 <div className="pt-2 flex flex-col gap-2.5">
-                                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-white/10 text-canvas-subtle text-xs border border-white/15 w-fit">
-                                        <span className="w-2 h-2 rounded-full bg-red-400" />
-                                        Pendaftaran PPDB Ditutup
-                                    </span>
+                                    <Link
+                                        href="/ppdb"
+                                        className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/20 transition-colors"
+                                    >
+                                        <span>Lihat Informasi & Syarat PPDB</span>
+                                    </Link>
                                     {settings?.ppdb_brochure_url && (
                                         <a
                                             href={settings.ppdb_brochure_url}
