@@ -4,7 +4,6 @@ import PublicLayout from '@/layouts/public-layout';
 import {
     ArrowRightIcon,
     CalendarDaysIcon,
-    ChevronRightIcon,
     MagnifyingGlassIcon,
     MegaphoneIcon,
     NewspaperIcon,
@@ -135,31 +134,21 @@ export default function NewsDirectory({
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
             <Head title={`Berita & Warta Sekolah - ${schoolName}`} />
 
-            {/* Breadcrumb Header */}
-            <div className="bg-[#FAF9F6] border-b border-[#E2DFD7]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-                    <nav className="flex items-center gap-1.5 text-xs text-[#5A626A] mb-3">
-                        <Link href="/" className="hover:text-[#0F2C59] transition-colors">
-                            Beranda
-                        </Link>
-                        <ChevronRightIcon className="w-3.5 h-3.5" />
-                        <span className="font-semibold text-[#0F2C59]">Berita & Artikel</span>
-                    </nav>
-
-                    <div className="max-w-3xl">
-                        <span className="text-xs font-mono uppercase tracking-wider text-[#C85A32] font-semibold">
-                            Kanal Publikasi & Informasi Resmi
-                        </span>
-                        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A2228] mt-1.5 leading-tight">
-                            Warta, Berita & Artikel Sekolah
-                        </h1>
-                        <p className="text-sm sm:text-base text-[#5A626A] mt-2.5 leading-relaxed">
-                            Ikuti publikasi warta terkini, prestasi siswa, program edukatif, dan pengumuman resmi dari seluruh civitas akademika {schoolName}.
-                        </p>
-                    </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+                {/* Page Header (Consistent with Staff, Ekskul, and Prestasi pages) */}
+                <div className="border-b border-line pb-6 mb-8">
+                    <span className="text-xs font-mono uppercase tracking-wider text-prussian font-semibold">
+                        Kanal Publikasi & Informasi Resmi
+                    </span>
+                    <h1 className="font-serif text-3xl sm:text-4xl font-bold text-ink mt-1">
+                        Warta, Berita & Artikel Sekolah
+                    </h1>
+                    <p className="text-ink-secondary text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
+                        Ikuti publikasi warta terkini, prestasi siswa, program edukatif, dan pengumuman resmi dari seluruh civitas akademika {schoolName}.
+                    </p>
 
                     {/* Search & Filter Bar */}
-                    <div className="mt-8 pt-6 border-t border-[#E2DFD7] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div className="mt-6 pt-6 border-t border-line flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                         {/* Search Input */}
                         <form onSubmit={handleSearch} className="flex items-center gap-2 max-w-md w-full">
                             <div className="relative flex-1">
@@ -231,7 +220,7 @@ export default function NewsDirectory({
 
                     {/* Category Filter Pills */}
                     {categories.length > 0 && (
-                        <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-[#E2DFD7]/60">
+                        <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-line/60">
                             <span className="text-xs text-[#5A626A] flex items-center gap-1 font-medium mr-1">
                                 <TagIcon className="w-3.5 h-3.5 text-[#C85A32]" />
                                 Kategori:
@@ -289,10 +278,7 @@ export default function NewsDirectory({
                         </div>
                     )}
                 </div>
-            </div>
 
-            {/* Main Content Area */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
                 {/* Highlight / Featured Banner (Only on page 1 when no search/filters) */}
                 {featuredPost && !hasActiveFilters && posts.current_page === 1 && (
                     <div className="mb-12 bg-white rounded-xs border border-[#E2DFD7] overflow-hidden shadow-xs hover:border-[#0F2C59]/40 transition group">
@@ -547,3 +533,4 @@ export default function NewsDirectory({
         </PublicLayout>
     );
 }
+
