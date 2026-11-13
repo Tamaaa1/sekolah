@@ -41,7 +41,7 @@ export default function PublicLayout({
     const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
-    const npsn = settings?.npsn || '20109876';
+    const npsn = settings?.npsn || '30100301';
     const email = settings?.email || 'humas@smpn5sambas.sch.id';
     const phone = settings?.phone || '(021) 7890-1234';
     const whatsapp = settings?.whatsapp || '0812-3456-7890';

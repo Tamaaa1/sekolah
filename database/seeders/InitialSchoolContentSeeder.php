@@ -22,7 +22,7 @@ class InitialSchoolContentSeeder extends Seeder
 
         // 1. Pengaturan Identitas Sekolah
         Setting::set('school_name', 'SMP Negeri 5 Sambas', 'general');
-        Setting::set('npsn', '20109876', 'general');
+        Setting::set('npsn', '30100301', 'general');
         Setting::set('accreditation', 'A (Unggul)', 'general');
         Setting::set('school_tagline', 'Berkarakter, Berprestasi, dan Berwawasan Global', 'general');
         Setting::set('principal_name', 'Drs. H. Mulyadi, M.Pd.', 'general');

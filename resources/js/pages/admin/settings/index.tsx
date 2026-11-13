@@ -25,7 +25,7 @@ export default function SettingsIndex({ settings = {} }: Props) {
 
     const { data, setData, processing, recentlySuccessful } = useForm({
         school_name: settings?.school_name || 'SMP Negeri 5 Sambas',
-        npsn: settings?.npsn || '20109876',
+        npsn: settings?.npsn || '30100301',
         accreditation: settings?.accreditation || 'A (Unggul)',
         school_tagline: settings?.school_tagline || 'Berkarakter, Berprestasi, dan Berwawasan Global',
         principal_name: settings?.principal_name || 'Drs. H. Mulyadi, M.Pd.',

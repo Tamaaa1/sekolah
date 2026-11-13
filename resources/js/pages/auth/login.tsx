@@ -1,6 +1,7 @@
 import { Form, Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
 import InputError from '@/components/input-error';
+import SlideToSubmit from '@/components/slide-to-submit';
 import TextLink from '@/components/text-link';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -113,28 +114,13 @@ export default function Login({ status, canResetPassword }: Props) {
                                 )}
                             </div>
 
-                            {/* Signature Pill Action Button (Prussian base + Terracotta accent badge) */}
+                            {/* Slide-to-Submit Action Button (Geser ke kanan untuk login) */}
                             <div className="pt-2">
-                                <button
-                                    type="submit"
-                                    disabled={processing}
-                                    tabIndex={4}
-                                    data-test="login-button"
-                                    className="group relative flex h-12 w-full items-center justify-center rounded-full bg-prussian hover:bg-prussian-hover active:scale-[0.99] text-white shadow-md shadow-prussian/25 transition-all disabled:opacity-60 cursor-pointer"
-                                >
-                                    {/* Left Terracotta circular badge with arrow */}
-                                    <span className="absolute left-1.5 top-1.5 bottom-1.5 aspect-square rounded-full bg-terracotta hover:bg-terracotta-hover flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
-                                        <ArrowRightIcon className="h-4 w-4 stroke-[2.5] text-white" />
-                                    </span>
-
-                                    {processing ? (
-                                        <Spinner className="h-5 w-5 text-white" />
-                                    ) : (
-                                        <span className="font-bold text-sm tracking-wider uppercase pl-6">
-                                            MASUK
-                                        </span>
-                                    )}
-                                </button>
+                                <SlideToSubmit
+                                    processing={processing}
+                                    label="MASUK"
+                                    loadingLabel="MEMPROSES..."
+                                />
                             </div>
 
                             {/* Help & Support note */}
