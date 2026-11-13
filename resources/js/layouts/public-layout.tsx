@@ -3,7 +3,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 import {
     AcademicCapIcon,
-    ArrowDownTrayIcon,
+    ArrowTopRightOnSquareIcon,
     Bars3Icon,
     CalendarDaysIcon,
     ChevronDownIcon,
@@ -409,58 +409,30 @@ export default function PublicLayout({
                         </ul>
                     </div>
 
-                    {/* PPDB & Official Links Column */}
+                    {/* Google Maps / Lokasi Sekolah Column */}
                     <div className="md:col-span-4 space-y-3">
                         <h4 className="font-serif text-base font-semibold text-white tracking-wide uppercase border-b border-prussian-hover pb-2">
-                            Penerimaan Peserta Didik Baru
+                            Lokasi Sekolah
                         </h4>
-                        {ppdbIsOpen ? (
-                            <>
-                                <p className="text-canvas-subtle/80 text-sm leading-relaxed">
-                                    Pendaftaran siswa baru Tahun Ajaran {settings?.ppdb_year || '2026/2027'} telah dibuka secara daring.
-                                </p>
-                                <div className="pt-2 flex flex-col gap-2.5">
-                                    <Link
-                                        href="/ppdb"
-                                        className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold transition-colors"
-                                    >
-                                        <span>Rincian Informasi & Jalur PPDB</span>
-                                    </Link>
-                                    {settings?.ppdb_brochure_url && (
-                                        <a
-                                            href={settings.ppdb_brochure_url}
-                                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-subtle/10 text-xs transition-colors"
-                                        >
-                                            <ArrowDownTrayIcon className="w-4 h-4" />
-                                            <span>Unduh Brosur Informasi (PDF)</span>
-                                        </a>
-                                    )}
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <p className="text-canvas-subtle/80 text-sm leading-relaxed">
-                                    Pendaftaran siswa baru Tahun Ajaran {settings?.ppdb_year || '2026/2027'} saat ini <strong className="text-white">belum dibuka / sedang ditutup</strong>.
-                                </p>
-                                <div className="pt-2 flex flex-col gap-2.5">
-                                    <Link
-                                        href="/ppdb"
-                                        className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/20 transition-colors"
-                                    >
-                                        <span>Lihat Informasi & Syarat PPDB</span>
-                                    </Link>
-                                    {settings?.ppdb_brochure_url && (
-                                        <a
-                                            href={settings.ppdb_brochure_url}
-                                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-subtle/10 text-xs transition-colors"
-                                        >
-                                            <ArrowDownTrayIcon className="w-4 h-4" />
-                                            <span>Unduh Brosur Informasi (PDF)</span>
-                                        </a>
-                                    )}
-                                </div>
-                            </>
-                        )}
+                        <div className="overflow-hidden rounded border border-prussian-hover bg-prussian-hover/30 shadow-xs">
+                            <iframe
+                                title="Peta Lokasi SMP Negeri 5 Sambas"
+                                src="https://maps.google.com/maps?q=1.3881886,109.3615345&hl=id&z=15&output=embed"
+                                className="w-full h-36 border-0"
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            />
+                        </div>
+                        <a
+                            href="https://maps.app.goo.gl/2Rq4d9f46ed5ViU96"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 w-full px-3.5 py-2 rounded bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/15 transition-colors"
+                        >
+                            <MapPinIcon className="w-4 h-4 text-terracotta shrink-0" />
+                            <span>Buka di Google Maps</span>
+                            <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 opacity-80 shrink-0" />
+                        </a>
                     </div>
                 </div>
 
