@@ -2,7 +2,6 @@ import { useState, useEffect, type ReactNode } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 import {
-    AcademicCapIcon,
     ArrowTopRightOnSquareIcon,
     Bars3Icon,
     CalendarDaysIcon,
@@ -151,9 +150,11 @@ export default function PublicLayout({
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-20">
                     {/* Brand Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-12 h-12 rounded bg-prussian text-white flex items-center justify-center font-serif text-2xl font-bold tracking-tight border border-line-strong">
-                            <AcademicCapIcon className="w-7 h-7" />
-                        </div>
+                        <img
+                            src={settings?.school_logo || '/images/logo.png'}
+                            alt={schoolName}
+                            className="w-12 h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
+                        />
                         <div className="font-serif font-bold text-xl md:text-2xl text-ink tracking-tight leading-none group-hover:text-prussian transition-colors">
                             {schoolName}
                         </div>
@@ -347,9 +348,11 @@ export default function PublicLayout({
                     {/* Brand Column */}
                     <div className="md:col-span-5 space-y-4">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded bg-white text-prussian flex items-center justify-center font-serif text-xl font-bold">
-                                <AcademicCapIcon className="w-6 h-6 text-prussian" />
-                            </div>
+                            <img
+                                src={settings?.school_logo || '/images/logo.png'}
+                                alt={schoolName}
+                                className="w-10 h-10 object-contain drop-shadow-xs"
+                            />
                             <div className="font-serif font-bold text-xl text-white">
                                 {schoolName}
                             </div>
