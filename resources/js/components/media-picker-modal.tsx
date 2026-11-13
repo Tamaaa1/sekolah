@@ -99,6 +99,7 @@ export function MediaPickerModal({
 
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('allowed_type', allowedTypes);
 
         try {
             const token = getCsrfToken();
@@ -234,13 +235,19 @@ export function MediaPickerModal({
                             Pilih berkas dari komputer Anda
                         </h4>
                         <p className="text-xs text-[#5A626A] mb-4 text-center max-w-sm">
-                            Mendukung berkas JPG, PNG, WEBP, dan PDF (maksimal ukuran 5 MB per berkas).
+                            {allowedTypes === 'images'
+                                ? 'Hanya mendukung berkas gambar JPG, JPEG, PNG, dan WEBP (maksimal 5 MB per berkas).'
+                                : 'Mendukung berkas gambar JPG, JPEG, PNG, WEBP, dan dokumen PDF resmi (maksimal 5 MB per berkas).'}
                         </p>
                         <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-[#0F2C59] text-white text-xs font-medium rounded-sm hover:bg-[#0A1F3F] transition">
                             <input
                                 type="file"
                                 className="hidden"
-                                accept={allowedTypes === 'images' ? 'image/*' : 'image/*,.pdf'}
+                                accept={
+                                    allowedTypes === 'images'
+                                        ? 'image/jpeg,image/png,image/webp'
+                                        : 'image/jpeg,image/png,image/webp,application/pdf,.pdf'
+                                }
                                 onChange={(e) => handleFileUpload(e.target.files)}
                                 disabled={uploading}
                             />

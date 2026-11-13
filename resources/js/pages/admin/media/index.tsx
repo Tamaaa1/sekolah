@@ -75,8 +75,9 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
             onSuccess: () => {
                 toast.success('Berkas berhasil diunggah ke Pustaka Media.');
             },
-            onError: () => {
-                toast.error('Gagal mengunggah berkas. Pastikan ukuran di bawah 10MB.');
+            onError: (errors) => {
+                const errorMsg = Object.values(errors).flat().join(', ');
+                toast.error(errorMsg || 'Gagal mengunggah berkas. Pastikan ukuran di bawah 5MB dan format sesuai (JPG, PNG, WEBP, PDF).');
             },
             onFinish: () => setUploading(false),
             preserveScroll: true,
@@ -114,7 +115,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                             Pustaka Media
                         </h1>
                         <p className="text-xs text-[#5A626A] mt-1 font-sans">
-                            Kelola semua berkas gambar, foto dokumentasi, dan surat edaran PDF sekolah ({media.total} berkas terdata).
+                            Kelola semua berkas gambar (JPG, PNG, WEBP) dan surat edaran PDF sekolah ({media.total} berkas terdata).
                         </p>
                     </div>
 
@@ -125,7 +126,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                             <input
                                 type="file"
                                 className="hidden"
-                                accept="image/*,.pdf"
+                                accept="image/jpeg,image/png,image/webp,application/pdf,.pdf"
                                 onChange={(e) => handleUpload(e.target.files)}
                                 disabled={uploading}
                             />

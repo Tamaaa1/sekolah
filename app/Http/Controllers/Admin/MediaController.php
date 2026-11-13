@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Media;
 use App\Services\ActivityLogger;
+use App\Services\SafeFileUploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,10 @@ use Inertia\Response;
 
 class MediaController extends Controller
 {
+    public function __construct(
+        protected SafeFileUploadService $uploadService
+    ) {}
+
     public function index(Request $request): Response|JsonResponse
     {
         $query = Media::latest();
@@ -37,27 +42,31 @@ class MediaController extends Controller
     public function store(Request $request): JsonResponse|RedirectResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'mimes:jpeg,png,jpg,webp,pdf,svg', 'max:5120'],
+            'file' => ['required', 'file'],
             'alt_text' => ['nullable', 'string', 'max:255'],
+            'allowed_type' => ['nullable', 'string', 'in:all,images,documents'],
         ]);
 
-        $file = $request->file('file');
-        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $extension = $file->getClientOriginalExtension();
-        $safeFileName = Str::slug($originalName) . '-' . time() . '.' . $extension;
+        $allowedType = $request->input('allowed_type', SafeFileUploadService::TYPE_ALL);
 
-        $path = $file->storeAs('uploads', $safeFileName, 'public');
+        $uploaded = $this->uploadService->validateAndStore(
+            $request->file('file'),
+            $allowedType,
+            'uploads',
+            $request->input('alt_text')
+        );
 
         $media = Media::create([
-            'name' => $originalName,
-            'file_name' => $safeFileName,
-            'file_path' => $path,
-            'mime_type' => $file->getMimeType(),
-            'size' => $file->getSize(),
-            'alt_text' => $request->input('alt_text', $originalName),
+            'name' => $uploaded['name'],
+            'file_name' => $uploaded['file_name'],
+            'file_path' => $uploaded['file_path'],
+            'mime_type' => $uploaded['mime_type'],
+            'size' => $uploaded['size'],
+            'alt_text' => $uploaded['alt_text'],
         ]);
 
-        ActivityLogger::log('upload', 'Pustaka Media', "Mengunggah berkas media: '{$originalName}' ({$safeFileName})", $media);
+        $label = $uploaded['category'] === 'image' ? 'gambar' : 'dokumen PDF';
+        ActivityLogger::log('upload', 'Pustaka Media', "Mengunggah {$label} aman: '{$uploaded['name']}' ({$uploaded['file_name']})", $media);
 
         if (! $request->header('X-Inertia') && ($request->expectsJson() || $request->wantsJson() || $request->has('json') || $request->ajax() || $request->header('X-Requested-With') === 'XMLHttpRequest')) {
             return response()->json([
@@ -66,7 +75,7 @@ class MediaController extends Controller
             ], 201);
         }
 
-        return redirect()->back()->with('success', 'Berkas berhasil diunggah.');
+        return redirect()->back()->with('success', 'Berkas berhasil diunggah dengan aman.');
     }
 
     public function destroy(Media $medium): JsonResponse|RedirectResponse
