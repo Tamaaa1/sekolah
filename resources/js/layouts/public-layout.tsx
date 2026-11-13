@@ -1,6 +1,7 @@
 import { useState, useEffect, type ReactNode } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
+import ScrollToTop from '@/components/scroll-to-top';
 import {
     ArrowTopRightOnSquareIcon,
     Bars3Icon,
@@ -446,6 +447,9 @@ export default function PublicLayout({
                     </div>
                 </div>
             </footer>
+
+            {/* Floating Scroll To Top Button */}
+            <ScrollToTop />
         </div>
     );
 }
