@@ -23,7 +23,7 @@ class MediaController extends Controller
                 ->orWhere('file_name', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->wantsJson() || $request->has('json')) {
+        if (! $request->header('X-Inertia') && ($request->expectsJson() || $request->wantsJson() || $request->has('json') || $request->ajax() || $request->header('X-Requested-With') === 'XMLHttpRequest')) {
             return response()->json($query->paginate(24));
         }
 
@@ -56,7 +56,7 @@ class MediaController extends Controller
             'alt_text' => $request->input('alt_text', $originalName),
         ]);
 
-        if ($request->wantsJson()) {
+        if (! $request->header('X-Inertia') && ($request->expectsJson() || $request->wantsJson() || $request->has('json') || $request->ajax() || $request->header('X-Requested-With') === 'XMLHttpRequest')) {
             return response()->json([
                 'success' => true,
                 'media' => $media,
@@ -74,7 +74,7 @@ class MediaController extends Controller
 
         $medium->delete();
 
-        if (request()->wantsJson()) {
+        if (! request()->header('X-Inertia') && (request()->expectsJson() || request()->wantsJson() || request()->has('json') || request()->ajax() || request()->header('X-Requested-With') === 'XMLHttpRequest')) {
             return response()->json(['success' => true]);
         }
 

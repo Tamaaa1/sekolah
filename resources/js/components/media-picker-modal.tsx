@@ -80,6 +80,17 @@ export function MediaPickerModal({
         fetchMedia(search);
     };
 
+    const getCsrfToken = (): string => {
+        const meta = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (meta) return meta;
+
+        const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+        if (match) {
+            return decodeURIComponent(match[1]);
+        }
+        return '';
+    };
+
     const handleFileUpload = async (files: FileList | null) => {
         if (!files || files.length === 0) return;
         const file = files[0];
@@ -90,12 +101,14 @@ export function MediaPickerModal({
         formData.append('file', file);
 
         try {
-            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const token = getCsrfToken();
             const res = await fetch('/admin/media', {
                 method: 'POST',
                 headers: {
+                    'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-TOKEN': token,
+                    'X-XSRF-TOKEN': token,
                 },
                 body: formData,
                 credentials: 'same-origin',
@@ -107,10 +120,18 @@ export function MediaPickerModal({
                     setItems((prev) => [data.media, ...prev]);
                     setSelectedItem(data.media);
                     setTab('gallery');
+                    fetchMedia('');
                 }
             } else {
                 const err = await res.json().catch(() => null);
-                setUploadError(err?.message || 'Gagal mengunggah berkas. Pastikan ukuran di bawah 5MB.');
+                const validationMsg = err?.errors
+                    ? Object.values(err.errors as Record<string, string[]>).flat().join(', ')
+                    : null;
+                setUploadError(
+                    validationMsg ||
+                    err?.message ||
+                    'Gagal mengunggah berkas. Pastikan ukuran di bawah 5MB dan format sesuai.'
+                );
             }
         } catch {
             setUploadError('Terjadi kendala jaringan saat mengunggah berkas.');
@@ -124,12 +145,14 @@ export function MediaPickerModal({
         if (!confirm(`Hapus "${item.name}" dari pustaka media?`)) return;
 
         try {
-            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const token = getCsrfToken();
             const res = await fetch(`/admin/media/${item.id}`, {
                 method: 'DELETE',
                 headers: {
+                    'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-TOKEN': token,
+                    'X-XSRF-TOKEN': token,
                 },
                 credentials: 'same-origin',
             });
