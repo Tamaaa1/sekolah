@@ -107,13 +107,8 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                 {/* STATE 1: PENDAFTARAN DITUTUP / BELUM DIBUKA */}
                 {!ppdbIsOpen ? (
                     <div className="space-y-8">
-                        {/* Cheerful Colorful Hero Card */}
-                        <div className="relative overflow-hidden bg-gradient-to-b from-amber-50/70 via-white to-stone-50 rounded-2xl border border-amber-200/80 p-5 sm:px-8 sm:pt-6 sm:pb-8 shadow-sm text-center">
-                            {/* Decorative background blobs */}
-                            <div className="absolute -top-12 -left-12 w-48 h-48 bg-amber-200/30 rounded-full blur-2xl pointer-events-none" />
-                            <div className="absolute -top-12 -right-12 w-52 h-52 bg-rose-200/30 rounded-full blur-2xl pointer-events-none" />
-                            <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-64 h-32 bg-sky-200/25 rounded-full blur-2xl pointer-events-none" />
-
+                        {/* Cheerful Hero Card */}
+                        <div className="bg-white rounded-2xl border border-line p-5 sm:px-8 sm:pt-6 sm:pb-8 shadow-xs text-center">
                             {/* Cute Colorful Illustration SVG */}
                             <div className="relative mx-auto mb-3 max-w-md w-full">
                                 <svg
@@ -513,7 +508,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                             </p>
 
                             {/* Quick Action Buttons */}
-                            <div className="flex flex-wrap items-center justify-center gap-3 pt-6 border-t border-amber-200/60 mt-6">
+                            <div className="flex flex-wrap items-center justify-center gap-3 pt-6 border-t border-line mt-6">
                                 <Link
                                     href="/"
                                     className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-line bg-white hover:bg-canvas-subtle text-ink text-sm font-semibold transition-colors shadow-xs"
