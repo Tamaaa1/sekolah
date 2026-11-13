@@ -33,7 +33,7 @@ export default function SettingsIndex({ settings = {} }: Props) {
         phone: settings?.phone || '(021) 7890-1234',
         whatsapp: settings?.whatsapp || '0812-3456-7890',
         email: settings?.email || 'humas@smpn5sambas.sch.id',
-        address: settings?.address || 'Jl. Pendidikan Bangsa No. 45, Jakarta Selatan',
+        address: settings?.address || 'Jl. Raya Semberang, Kec. Sambas, Kab. Sambas, Prov. Kalimantan Barat',
         ppdb_is_open: settings?.ppdb_is_open ?? true,
         ppdb_year: settings?.ppdb_year || '2026/2027',
         ppdb_portal_url: settings?.ppdb_portal_url || 'https://siap-ppdb.kemdikbud.go.id',

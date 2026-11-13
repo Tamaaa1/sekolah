@@ -46,7 +46,7 @@ export default function PublicLayout({
     const email = settings?.email || 'humas@smpn5sambas.sch.id';
     const phone = settings?.phone || '(021) 7890-1234';
     const whatsapp = settings?.whatsapp || '0812-3456-7890';
-    const address = settings?.address || 'Jl. Pendidikan Bangsa No. 45, Jakarta Selatan';
+    const address = settings?.address || 'Jl. Raya Semberang, Kec. Sambas, Kab. Sambas, Prov. Kalimantan Barat';
     const accreditation = settings?.accreditation || 'A (Unggul)';
     const ppdbIsOpen = settings?.ppdb_is_open === true || settings?.ppdb_is_open === 1 || settings?.ppdb_is_open === '1';
 

@@ -31,7 +31,7 @@ class InitialSchoolContentSeeder extends Seeder
         Setting::set('phone', '(021) 7890-1234', 'contact');
         Setting::set('whatsapp', '0812-3456-7890', 'contact');
         Setting::set('email', 'humas@smpn5sambas.sch.id', 'contact');
-        Setting::set('address', 'Jl. Pendidikan Bangsa No. 45, Kebayoran Baru, Jakarta Selatan', 'contact');
+        Setting::set('address', 'Jl. Raya Semberang, Kec. Sambas, Kab. Sambas, Prov. Kalimantan Barat', 'contact');
 
         Setting::set('ppdb_is_open', true, 'ppdb');
         Setting::set('ppdb_year', '2026/2027', 'ppdb');
