@@ -235,9 +235,10 @@ export default function AchievementIndex({
                     </form>
                 </div>
 
-                {/* Table */}
+                {/* Table & Mobile Cards */}
                 <div className="bg-white border border-[#E2DFD7] rounded-xs overflow-hidden shadow-2xs">
-                    <div className="overflow-x-auto">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
@@ -340,6 +341,92 @@ export default function AchievementIndex({
                             )}
                         </tbody>
                     </table>
+                    </div>
+
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-[#E2DFD7] bg-[#FAF9F6]">
+                        {achievements.data.length === 0 ? (
+                            <div className="p-8 text-center text-xs text-[#5A626A] bg-white">
+                                Belum ada catatan prestasi yang tersimpan.
+                            </div>
+                        ) : (
+                            achievements.data.map((item) => (
+                                <div key={item.id} className="p-4 space-y-3 bg-white">
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-14 h-14 shrink-0 bg-[#F4F0EA] border border-[#D8D2C6] rounded-xs overflow-hidden flex items-center justify-center">
+                                            {item.image ? (
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.title}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <TrophyIcon className="w-6 h-6 text-[#C85A32]" />
+                                            )}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-start justify-between gap-2">
+                                                <div className="font-serif font-bold text-sm text-[#1A2228] leading-tight">
+                                                    {item.title}
+                                                </div>
+                                                <span
+                                                    className={`inline-block px-2 py-0.5 text-[10px] font-semibold rounded-xs uppercase tracking-wider shrink-0 ${
+                                                        item.level === 'internasional'
+                                                            ? 'bg-purple-50 text-purple-700 border border-purple-200'
+                                                            : item.level === 'nasional'
+                                                            ? 'bg-[#0F2C59] text-white'
+                                                            : item.level === 'provinsi'
+                                                            ? 'bg-[#C85A32]/10 text-[#C85A32] border border-[#C85A32]/20'
+                                                            : 'bg-stone-100 text-stone-700'
+                                                    }`}
+                                                >
+                                                    {item.level}
+                                                </span>
+                                            </div>
+                                            <div className="text-xs text-[#5A626A] mt-1">
+                                                Siswa: <span className="font-semibold text-[#1A2228]">{item.student_name}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-[#FAF9F6] p-2.5 rounded-xs border border-[#E2DFD7] space-y-1 text-xs">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-[11px] font-medium text-[#1A2228]">{item.competition_name}</span>
+                                            <span className="font-bold text-[#1A2228] text-xs">{item.rank}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[11px] text-[#5A626A]">
+                                            <span>Tahun: {item.year}</span>
+                                        </div>
+                                        {item.description && (
+                                            <p className="text-[11px] text-[#5A626A] line-clamp-2 pt-1 border-t border-[#E2DFD7]/60">
+                                                {item.description}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <div className="pt-2 flex items-center justify-end gap-1.5 border-t border-[#E2DFD7]">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => openEditModal(item)}
+                                            className="h-8 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                        >
+                                            <PencilSquareIcon className="w-3.5 h-3.5" />
+                                            <span>Sunting</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => handleDelete(item)}
+                                            className="h-8 px-2.5 text-xs text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-1"
+                                        >
+                                            <TrashIcon className="w-3.5 h-3.5" />
+                                            <span>Hapus</span>
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
 

@@ -201,9 +201,10 @@ export default function ExtracurricularIndex({
                     </form>
                 </div>
 
-                {/* Table */}
+                {/* Table & Mobile Cards */}
                 <div className="bg-white border border-[#E2DFD7] rounded-xs overflow-hidden shadow-2xs">
-                    <div className="overflow-x-auto">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
@@ -300,6 +301,89 @@ export default function ExtracurricularIndex({
                             )}
                         </tbody>
                     </table>
+                    </div>
+
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-[#E2DFD7] bg-[#FAF9F6]">
+                        {extracurriculars.data.length === 0 ? (
+                            <div className="p-8 text-center text-xs text-[#5A626A] bg-white">
+                                Belum ada data ekstrakurikuler yang tersimpan.
+                            </div>
+                        ) : (
+                            extracurriculars.data.map((item) => (
+                                <div key={item.id} className="p-4 space-y-3 bg-white">
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-16 h-12 shrink-0 bg-[#F4F0EA] border border-[#D8D2C6] rounded-xs overflow-hidden flex items-center justify-center">
+                                            {item.cover_image ? (
+                                                <img
+                                                    src={item.cover_image}
+                                                    alt={item.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <PhotoIcon className="w-6 h-6 text-[#8C949D]" />
+                                            )}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-start justify-between gap-2">
+                                                <div className="font-serif font-bold text-sm text-[#1A2228] leading-tight">
+                                                    {item.name}
+                                                </div>
+                                                <span
+                                                    className={`inline-block px-2 py-0.5 text-[10px] font-semibold rounded-xs shrink-0 ${
+                                                        item.is_active
+                                                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                                            : 'bg-stone-100 text-stone-600'
+                                                    }`}
+                                                >
+                                                    {item.is_active ? 'Aktif' : 'Nonaktif'}
+                                                </span>
+                                            </div>
+                                            <div className="text-[11px] text-[#5A626A] line-clamp-2 mt-1">
+                                                {item.description || 'Tidak ada deskripsi'}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2 text-xs bg-[#FAF9F6] p-2.5 rounded-xs border border-[#E2DFD7]">
+                                        <div>
+                                            <span className="text-[10px] text-[#5A626A] uppercase font-semibold block">Pembina</span>
+                                            <span className="font-medium text-[#1A2228] text-[11px] truncate block">
+                                                {item.leader_name || '—'}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] text-[#5A626A] uppercase font-semibold block">Jadwal</span>
+                                            <div className="flex items-center gap-1 text-[11px] text-[#0F2C59] font-medium">
+                                                <CalendarDaysIcon className="w-3.5 h-3.5 shrink-0" />
+                                                <span className="truncate">{item.schedule_day || '—'} {item.schedule_time ? `(${item.schedule_time})` : ''}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-2 flex items-center justify-end gap-1.5 border-t border-[#E2DFD7]">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => openEditModal(item)}
+                                            className="h-8 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                        >
+                                            <PencilSquareIcon className="w-3.5 h-3.5" />
+                                            <span>Sunting</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => handleDelete(item)}
+                                            className="h-8 px-2.5 text-xs text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-1"
+                                        >
+                                            <TrashIcon className="w-3.5 h-3.5" />
+                                            <span>Hapus</span>
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
 

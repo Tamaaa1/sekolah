@@ -156,9 +156,10 @@ export default function PostsIndex({
                     ))}
                 </div>
 
-                {/* Table */}
+                {/* Table & Mobile Cards */}
                 <div className="bg-white rounded border border-sidebar-border shadow-xs overflow-hidden">
-                    <div className="overflow-x-auto">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left text-xs">
                             <thead className="bg-canvas-subtle/50 text-ink-muted border-b border-sidebar-border uppercase tracking-wider font-semibold">
                                 <tr>
@@ -240,9 +241,77 @@ export default function PostsIndex({
                         </table>
                     </div>
 
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-sidebar-border bg-[#FAF9F6]">
+                        {posts.data.length > 0 ? (
+                            posts.data.map((post) => (
+                                <div key={post.id} className="p-4 space-y-3 bg-white">
+                                    <div className="flex items-start justify-between gap-2.5">
+                                        <h3 className="font-semibold text-sm text-ink leading-snug">
+                                            {post.title}
+                                        </h3>
+                                        <span
+                                            className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shrink-0 ${
+                                                post.status === 'published'
+                                                    ? 'bg-status-published-bg text-status-published border border-emerald-200'
+                                                    : post.status === 'pending_review'
+                                                    ? 'bg-status-pending-bg text-status-pending border border-amber-200'
+                                                    : 'bg-canvas-subtle text-ink-muted border border-sidebar-border'
+                                            }`}
+                                        >
+                                            {post.status.replace('_', ' ')}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                                        {post.categories && post.categories.length > 0 ? (
+                                            <div className="flex flex-wrap gap-1">
+                                                {post.categories.map((cat) => (
+                                                    <span
+                                                        key={cat.id}
+                                                        className="inline-block px-2 py-0.5 rounded text-[10px] bg-canvas-subtle text-ink font-medium border border-sidebar-border"
+                                                    >
+                                                        {cat.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <span className="text-[11px] text-ink-muted italic">Tanpa kategori</span>
+                                        )}
+                                        <span className="text-[11px] text-ink-muted font-mono ml-auto">
+                                            {formatDate(post.published_at)}
+                                        </span>
+                                    </div>
+
+                                    <div className="pt-2 flex items-center justify-end gap-2 border-t border-sidebar-border/70">
+                                        <Link
+                                            href={`/admin/posts/${post.id}/edit`}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-prussian bg-canvas-subtle hover:bg-canvas-subtle/80 border border-sidebar-border transition-colors"
+                                        >
+                                            <PencilSquareIcon className="w-3.5 h-3.5" />
+                                            <span>Sunting</span>
+                                        </Link>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDelete(post.id, post.title)}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-status-urgent bg-red-50 hover:bg-red-100 border border-red-200 transition-colors"
+                                        >
+                                            <TrashIcon className="w-3.5 h-3.5" />
+                                            <span>Hapus</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="p-8 text-center text-xs text-ink-muted italic bg-white">
+                                Tidak ada konten pada kriteria ini.
+                            </div>
+                        )}
+                    </div>
+
                     {/* Pagination */}
                     {posts.last_page > 1 && (
-                        <div className="p-4 border-t border-sidebar-border flex items-center justify-between text-xs">
+                        <div className="p-4 border-t border-sidebar-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                             <span className="text-ink-muted">
                                 Halaman {posts.current_page} dari {posts.last_page} (Total {posts.total})
                             </span>

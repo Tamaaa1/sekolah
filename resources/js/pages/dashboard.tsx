@@ -230,7 +230,8 @@ export default function Dashboard({
                         </Link>
                     </div>
 
-                    <div className="overflow-x-auto">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left text-xs">
                             <thead>
                                 <tr className="border-b border-sidebar-border text-ink-muted bg-canvas-subtle/50">
@@ -284,6 +285,48 @@ export default function Dashboard({
                                 )}
                             </tbody>
                         </table>
+                    </div>
+
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-sidebar-border">
+                        {recentPosts.length > 0 ? (
+                            recentPosts.map((post) => (
+                                <div key={post.id} className="p-3.5 space-y-2.5 bg-white">
+                                    <div className="flex items-start justify-between gap-2">
+                                        <h3 className="font-semibold text-xs text-ink leading-snug">
+                                            {post.title}
+                                        </h3>
+                                        <span
+                                            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 ${
+                                                post.status === 'published'
+                                                    ? 'bg-status-published-bg text-status-published'
+                                                    : post.status === 'pending_review'
+                                                    ? 'bg-status-pending-bg text-status-pending'
+                                                    : 'bg-canvas-subtle text-ink-muted'
+                                            }`}
+                                        >
+                                            {post.status}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between pt-1">
+                                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-canvas-subtle text-ink">
+                                            {post.type}
+                                        </span>
+                                        <Link
+                                            href={`/admin/posts/${post.id}/edit`}
+                                            className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                                        >
+                                            <span>Sunting</span>
+                                            <span>&rarr;</span>
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="py-6 text-center text-xs text-ink-muted italic">
+                                Belum ada konten yang dibuat.
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

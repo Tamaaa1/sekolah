@@ -198,9 +198,10 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                     </form>
                 </div>
 
-                {/* Table */}
+                {/* Table & Mobile Cards */}
                 <div className="bg-white border border-[#E2DFD7] rounded-xs overflow-hidden shadow-2xs">
-                    <div className="overflow-x-auto">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
@@ -281,6 +282,71 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                             )}
                         </tbody>
                     </table>
+                    </div>
+
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-[#E2DFD7] bg-[#FAF9F6]">
+                        {agendas.data.length === 0 ? (
+                            <div className="p-8 text-center text-xs text-[#5A626A] bg-white">
+                                Belum ada jadwal agenda yang tersimpan.
+                            </div>
+                        ) : (
+                            agendas.data.map((item) => (
+                                <div key={item.id} className="p-4 space-y-3 bg-white">
+                                    <div className="flex items-start justify-between gap-2">
+                                        <div className="font-serif font-bold text-sm text-[#1A2228] leading-tight">
+                                            {item.title}
+                                        </div>
+                                        <span
+                                            className={`inline-block px-2 py-0.5 text-[10px] font-semibold rounded-xs shrink-0 ${
+                                                item.is_active
+                                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                                    : 'bg-stone-100 text-stone-600'
+                                            }`}
+                                        >
+                                            {item.is_active ? 'Aktif' : 'Nonaktif'}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-col gap-1.5 text-xs text-[#5A626A] bg-[#FAF9F6] p-2.5 rounded-xs border border-[#E2DFD7]">
+                                        <div className="flex items-center gap-1.5 font-medium text-[#0F2C59]">
+                                            <CalendarDaysIcon className="w-4 h-4 shrink-0 text-[#C85A32]" />
+                                            <span>{formatDateRange(item.start_date, item.end_date)}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-[11px] text-[#5A626A]">
+                                            <MapPinIcon className="w-3.5 h-3.5 shrink-0" />
+                                            <span>{item.location || 'Lingkungan Sekolah'}</span>
+                                        </div>
+                                        {item.description && (
+                                            <p className="text-[11px] text-[#5A626A] line-clamp-2 pt-1 border-t border-[#E2DFD7]/60">
+                                                {item.description}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <div className="pt-2 flex items-center justify-end gap-1.5 border-t border-[#E2DFD7]">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => openEditModal(item)}
+                                            className="h-8 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                        >
+                                            <PencilSquareIcon className="w-3.5 h-3.5" />
+                                            <span>Sunting</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => handleDelete(item)}
+                                            className="h-8 px-2.5 text-xs text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-1"
+                                        >
+                                            <TrashIcon className="w-3.5 h-3.5" />
+                                            <span>Hapus</span>
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
 

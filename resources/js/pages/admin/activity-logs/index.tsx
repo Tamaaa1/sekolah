@@ -322,9 +322,10 @@ export default function ActivityLogIndex({
                     </div>
                 </div>
 
-                {/* Table */}
+                {/* Table & Mobile Cards */}
                 <div className="bg-white border border-[#E2DFD7] rounded-xs overflow-hidden shadow-2xs">
-                    <div className="overflow-x-auto">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
@@ -404,6 +405,63 @@ export default function ActivityLogIndex({
                                 )}
                             </tbody>
                         </table>
+                    </div>
+
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-[#E2DFD7] bg-[#FAF9F6]">
+                        {logs.data.length === 0 ? (
+                            <div className="p-8 text-center text-xs text-[#5A626A] bg-white">
+                                Belum ada catatan aktivitas yang sesuai dengan filter pencarian.
+                            </div>
+                        ) : (
+                            logs.data.map((item) => (
+                                <div key={item.id} className="p-4 space-y-3 bg-white">
+                                    <div className="flex items-start justify-between gap-2">
+                                        <div className="flex items-center gap-2.5 min-w-0">
+                                            <div className="w-8 h-8 rounded-full bg-[#0F2C59]/10 text-[#0F2C59] flex items-center justify-center font-bold text-xs shrink-0">
+                                                {item.user_name ? item.user_name.charAt(0).toUpperCase() : <UserIcon className="w-4 h-4" />}
+                                            </div>
+                                            <div className="min-w-0">
+                                                <div className="font-semibold text-xs text-[#1A2228] truncate">
+                                                    {item.user_name || 'Sistem'}
+                                                </div>
+                                                <div className="text-[10px] text-[#5A626A] font-mono flex items-center gap-1 mt-0.5">
+                                                    <ClockIcon className="w-3 h-3 text-[#5A626A]" />
+                                                    <span>{formatDateTime(item.created_at)}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="shrink-0">
+                                            {getActionBadge(item.action)}
+                                        </div>
+                                    </div>
+
+                                    <div className="text-xs text-[#1A2228] font-medium leading-relaxed bg-[#FAF9F6] p-2.5 rounded-xs border border-[#E2DFD7]">
+                                        {item.description}
+                                    </div>
+
+                                    <div className="pt-2 flex items-center justify-between border-t border-[#E2DFD7] text-xs">
+                                        <div className="flex items-center gap-2">
+                                            <span className="inline-block px-1.5 py-0.5 text-[10px] font-medium rounded-xs bg-[#FAF9F6] text-[#1A2228] border border-[#D8D2C6]">
+                                                {item.module}
+                                            </span>
+                                            <span className="text-[10px] font-mono text-[#5A626A]">
+                                                IP: {item.ip_address || '—'}
+                                            </span>
+                                        </div>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setDetailModal({ open: true, item })}
+                                            className="h-7 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                        >
+                                            <InformationCircleIcon className="w-3.5 h-3.5" />
+                                            <span>Rincian</span>
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
 

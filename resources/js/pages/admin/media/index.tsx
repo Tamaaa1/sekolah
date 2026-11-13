@@ -193,7 +193,8 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                     </div>
                 ) : viewMode === 'table' ? (
                     <div className="bg-white border border-[#E2DFD7] rounded-xs overflow-hidden shadow-2xs">
-                        <div className="overflow-x-auto">
+                        {/* Desktop View: Table */}
+                        <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
@@ -273,6 +274,74 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                     })}
                                 </tbody>
                             </table>
+                        </div>
+
+                        {/* Mobile View: Individual Cards */}
+                        <div className="md:hidden divide-y divide-[#E2DFD7] bg-[#FAF9F6]">
+                            {media.data.map((item) => {
+                                const isImage = item.mime_type.startsWith('image/');
+                                return (
+                                    <div key={item.id} className="p-3.5 space-y-3 bg-white">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-14 h-14 shrink-0 bg-[#F4F0EA] border border-[#D8D2C6] rounded-xs overflow-hidden flex items-center justify-center">
+                                                {isImage ? (
+                                                    <img
+                                                        src={item.url}
+                                                        alt={item.name}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <DocumentIcon className="w-7 h-7 text-[#0F2C59]" />
+                                                )}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="font-semibold text-xs text-[#1A2228] line-clamp-1" title={item.name}>
+                                                    {item.name}
+                                                </div>
+                                                <div className="text-[10px] text-[#5A626A] font-mono line-clamp-1 mt-0.5">
+                                                    {item.file_name}
+                                                </div>
+                                                <div className="flex items-center gap-2 mt-1 text-[10px] font-mono text-[#5A626A]">
+                                                    <span className="px-1.5 py-0.5 bg-stone-100 text-[#1A2228] rounded-xs uppercase">
+                                                        {item.mime_type.split('/')[1] || item.mime_type}
+                                                    </span>
+                                                    <span>{(item.size / 1024).toFixed(0)} KB</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-2 flex items-center justify-between border-t border-[#E2DFD7] text-xs">
+                                            <span className="text-[10px] text-[#5A626A] font-mono">
+                                                {new Date(item.created_at).toLocaleDateString('id-ID', {
+                                                    day: 'numeric',
+                                                    month: 'short',
+                                                    year: 'numeric',
+                                                })}
+                                            </span>
+                                            <div className="flex items-center gap-1.5">
+                                                <a
+                                                    href={item.url}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="px-2.5 py-1 text-[#0F2C59] bg-[#FAF9F6] hover:bg-stone-100 border border-[#D8D2C6] rounded-xs text-xs font-semibold inline-flex items-center gap-1"
+                                                >
+                                                    <span>Buka</span>
+                                                    <span>↗</span>
+                                                </a>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => handleDelete(item)}
+                                                    className="h-7 px-2 text-xs text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-1"
+                                                >
+                                                    <TrashIcon className="w-3.5 h-3.5" />
+                                                    <span>Hapus</span>
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 ) : (
