@@ -417,7 +417,7 @@ export default function PublicLayout({
                         <div className="overflow-hidden rounded border border-prussian-hover bg-prussian-hover/30 shadow-xs">
                             <iframe
                                 title="Peta Lokasi SMP Negeri 5 Sambas"
-                                src="https://maps.google.com/maps?q=1.3881886,109.3615345&hl=id&z=15&output=embed"
+                                src="https://maps.google.com/maps?q=1.3881886,109.3615345&hl=id&z=17&t=k&output=embed"
                                 className="w-full h-36 border-0"
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
