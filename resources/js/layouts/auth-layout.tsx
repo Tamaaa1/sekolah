@@ -34,43 +34,56 @@ export default function AuthLayout({
             {/* Main Split Card Container */}
             <main className="relative z-10 flex-1 flex items-center justify-center my-auto py-2">
                 <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl shadow-stone-300/40 border border-line overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[500px]">
-                    {/* Left Column: Modern Illustration with Prussian & Terracotta Palette */}
-                    <div className="md:col-span-6 lg:col-span-7 bg-[#EDF3F5] p-4 sm:p-6 md:p-8 flex items-center justify-center relative overflow-hidden border-b md:border-b-0 md:border-r border-line h-64 sm:h-80 md:h-auto min-h-[260px] md:min-h-[460px]">
-                        {/* High-Fidelity Vector Illustration */}
+                    {/* Left Column: Modern Illustration with Top-Left Corner Curve Accent */}
+                    <div className="md:col-span-6 lg:col-span-7 bg-[#F4F7F6] p-4 sm:p-6 md:p-8 flex items-center justify-center relative overflow-hidden border-b md:border-b-0 md:border-r border-line h-64 sm:h-80 md:h-auto min-h-[280px] md:min-h-[460px]">
+                        {/* Organic Green Curve anchored at Top-Left Corner of Card */}
+                        <div className="absolute top-0 left-0 w-64 sm:w-80 md:w-96 h-64 sm:h-80 md:h-96 pointer-events-none z-0">
+                            <svg
+                                viewBox="0 0 380 380"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-full h-full"
+                            >
+                                <defs>
+                                    <linearGradient id="cornerGreen" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stopColor="#1B4D3E" />
+                                        <stop offset="55%" stopColor="#163038" />
+                                        <stop offset="100%" stopColor="#0F2228" />
+                                    </linearGradient>
+                                    <linearGradient id="cornerAccent" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stopColor="#B83B2A" />
+                                        <stop offset="100%" stopColor="#8E2A1C" />
+                                    </linearGradient>
+                                </defs>
+
+                                {/* Main Green/Prussian Curve at Top-Left Corner */}
+                                <path
+                                    d="M 0 0 L 350 0 C 320 130, 230 250, 130 300 C 65 330, 20 345, 0 355 Z"
+                                    fill="url(#cornerGreen)"
+                                />
+
+                                {/* Subtle Terracotta Edge Accent Ribbon */}
+                                <path
+                                    d="M 290 0 C 270 110, 200 215, 110 260 C 55 285, 20 295, 0 305 L 0 318 C 20 308, 60 295, 120 270 C 215 225, 285 120, 310 0 Z"
+                                    fill="url(#cornerAccent)"
+                                    opacity="0.85"
+                                />
+                            </svg>
+                        </div>
+
+                        {/* High-Fidelity Vector Illustration (Clean background behind the person object) */}
                         <svg
                             viewBox="0 0 520 460"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
-                            className="w-full h-full max-h-[380px] object-contain drop-shadow-sm select-none"
+                            className="w-full h-full max-h-[380px] object-contain drop-shadow-sm select-none relative z-10"
                         >
                             <defs>
-                                <linearGradient id="waveBlob" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stopColor="#2A5967" />
-                                    <stop offset="50%" stopColor="#163038" />
-                                    <stop offset="100%" stopColor="#0F2228" />
-                                </linearGradient>
-                                <linearGradient id="accentBlob" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stopColor="#B83B2A" />
-                                    <stop offset="100%" stopColor="#8E2A1C" />
-                                </linearGradient>
                                 <linearGradient id="deskWood" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="0%" stopColor="#7E5F55" />
                                     <stop offset="100%" stopColor="#553A32" />
                                 </linearGradient>
                             </defs>
-
-                            {/* Big Organic Prussian Backdrop Blob */}
-                            <path
-                                d="M 160 40 C 290 -15, 420 35, 450 160 C 480 280, 410 400, 270 425 C 130 450, 45 345, 45 220 C 45 95, 80 70, 160 40 Z"
-                                fill="url(#waveBlob)"
-                            />
-
-                            {/* Secondary Terracotta Accent Wave */}
-                            <path
-                                d="M 390 230 C 445 270, 470 340, 440 395 C 410 450, 320 440, 305 405 Z"
-                                fill="url(#accentBlob)"
-                                opacity="0.85"
-                            />
 
                             {/* Floor Ground Shadow */}
                             <ellipse cx="260" cy="425" rx="190" ry="14" fill="#CBD5D2" opacity="0.6" />
