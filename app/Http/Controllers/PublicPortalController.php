@@ -9,6 +9,8 @@ use App\Models\Menu;
 use App\Models\Post;
 use App\Models\Setting;
 use App\Models\StaffDirectory;
+use App\Models\Taxonomy;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -74,6 +76,79 @@ class PublicPortalController extends Controller
     }
 
     /**
+     * Halaman Direktori & Arsip Warta, Berita & Artikel Sekolah
+     */
+    public function posts(Request $request): Response
+    {
+        $settings = Setting::allGrouped();
+        $primaryMenu = Menu::getByLocation('header_primary');
+
+        $query = Post::published()
+            ->with(['author:id,name', 'categories'])
+            ->latest('published_at');
+
+        // Filter tipe konten (post / announcement / all)
+        $type = $request->query('type');
+        if ($type && in_array($type, ['post', 'announcement'])) {
+            $query->where('type', $type);
+        } else {
+            $query->whereIn('type', ['post', 'announcement']);
+        }
+
+        // Pencarian judul / ringkasan
+        if ($request->filled('q')) {
+            $keyword = trim($request->query('q'));
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', "%{$keyword}%")
+                  ->orWhere('excerpt', 'like', "%{$keyword}%");
+            });
+        }
+
+        // Filter kategori
+        if ($request->filled('category')) {
+            $categorySlug = $request->query('category');
+            $query->whereHas('categories', function ($q) use ($categorySlug) {
+                $q->where('slug', $categorySlug);
+            });
+        }
+
+        $posts = $query->paginate(9)->withQueryString();
+
+        // Kategori yang memiliki postingan aktif
+        $categories = Taxonomy::where('type', 'category')
+            ->withCount(['posts' => fn ($q) => $q->published()])
+            ->get();
+
+        // Berita unggulan (featured) di halaman 1 saat tanpa pencarian/filter
+        $featuredPost = null;
+        if (!$request->filled('q') && !$request->filled('category') && (int) $request->query('page', 1) === 1) {
+            $featuredPost = Post::published()
+                ->where('type', 'post')
+                ->where('is_pinned', true)
+                ->with(['author:id,name', 'categories'])
+                ->latest('published_at')
+                ->first();
+
+            if (!$featuredPost && $posts->isNotEmpty()) {
+                $featuredPost = $posts->first();
+            }
+        }
+
+        return Inertia::render('news-directory', [
+            'settings' => $settings,
+            'primaryMenu' => $primaryMenu,
+            'posts' => $posts,
+            'categories' => $categories,
+            'featuredPost' => $featuredPost,
+            'filters' => [
+                'q' => $request->query('q', ''),
+                'category' => $request->query('category', ''),
+                'type' => $request->query('type', ''),
+            ],
+        ]);
+    }
+
+    /**
      * Detail Berita, Pengumuman, atau Halaman Statis
      */
     public function post(string $slug): Response
@@ -81,6 +156,10 @@ class PublicPortalController extends Controller
         $post = Post::where('slug', $slug)
             ->with(['author', 'categories', 'tags'])
             ->firstOrFail();
+
+        if ($post->status !== 'published' && !auth()->check()) {
+            abort(404);
+        }
 
         $settings = Setting::allGrouped();
         $primaryMenu = Menu::getByLocation('header_primary');

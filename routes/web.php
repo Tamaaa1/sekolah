@@ -26,6 +26,8 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [PublicPortalController::class, 'home'])->name('home');
+Route::get('/berita', [PublicPortalController::class, 'posts'])->name('public.posts');
+Route::get('/artikel', fn () => redirect()->route('public.posts'));
 Route::get('/guru-dan-staf', [PublicPortalController::class, 'staff'])->name('public.staff');
 Route::get('/ekstrakurikuler', [PublicPortalController::class, 'extracurriculars'])->name('public.extracurriculars');
 Route::get('/prestasi', [PublicPortalController::class, 'achievements'])->name('public.achievements');
@@ -79,4 +81,5 @@ require __DIR__.'/settings.php';
 | Dynamic Content Catch-All (Posts, Pages, Announcements)
 |--------------------------------------------------------------------------
 */
+Route::get('/berita/{slug}', [PublicPortalController::class, 'post'])->name('public.post.berita');
 Route::get('/{slug}', [PublicPortalController::class, 'post'])->name('public.post');
