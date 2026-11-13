@@ -37,8 +37,8 @@ export default function Login({ status, canResetPassword }: Props) {
                         <div className="space-y-5">
                             {/* Email Input Field with Icon & Underline Border */}
                             <div className="space-y-1.5">
-                                <div className="group flex items-center gap-3 border-b-2 border-stone-200 py-2 transition-colors focus-within:border-[#0265D6]">
-                                    <EnvelopeIcon className="h-5 w-5 text-stone-400 shrink-0 transition-colors group-focus-within:text-[#0265D6]" />
+                                <div className="group flex items-center gap-3 border-b-2 border-line-strong py-2 transition-colors focus-within:border-prussian">
+                                    <EnvelopeIcon className="h-5 w-5 text-ink-muted shrink-0 transition-colors group-focus-within:text-prussian" />
                                     <input
                                         id="email"
                                         type="email"
@@ -48,7 +48,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                         tabIndex={1}
                                         autoComplete="email"
                                         placeholder="Email"
-                                        className="w-full bg-transparent text-sm text-stone-800 placeholder:text-stone-400 focus:outline-hidden"
+                                        className="w-full bg-transparent text-sm text-ink placeholder:text-ink-muted/70 focus:outline-hidden"
                                     />
                                 </div>
                                 <InputError message={errors.email} />
@@ -56,8 +56,8 @@ export default function Login({ status, canResetPassword }: Props) {
 
                             {/* Password Input Field with Icon, Underline & Show Toggle */}
                             <div className="space-y-1.5">
-                                <div className="group flex items-center gap-3 border-b-2 border-stone-200 py-2 transition-colors focus-within:border-[#0265D6]">
-                                    <LockClosedIcon className="h-5 w-5 text-stone-400 shrink-0 transition-colors group-focus-within:text-[#0265D6]" />
+                                <div className="group flex items-center gap-3 border-b-2 border-line-strong py-2 transition-colors focus-within:border-prussian">
+                                    <LockClosedIcon className="h-5 w-5 text-ink-muted shrink-0 transition-colors group-focus-within:text-prussian" />
                                     <input
                                         id="password"
                                         type={showPassword ? 'text' : 'password'}
@@ -66,12 +66,12 @@ export default function Login({ status, canResetPassword }: Props) {
                                         tabIndex={2}
                                         autoComplete="current-password"
                                         placeholder="Kata Sandi"
-                                        className="w-full bg-transparent text-sm text-stone-800 placeholder:text-stone-400 focus:outline-hidden"
+                                        className="w-full bg-transparent text-sm text-ink placeholder:text-ink-muted/70 focus:outline-hidden"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword((prev) => !prev)}
-                                        className="text-stone-400 hover:text-stone-600 focus:outline-hidden cursor-pointer p-0.5"
+                                        className="text-ink-muted hover:text-prussian focus:outline-hidden cursor-pointer p-0.5 transition-colors"
                                         tabIndex={-1}
                                         aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
                                     >
@@ -92,11 +92,11 @@ export default function Login({ status, canResetPassword }: Props) {
                                         id="remember"
                                         name="remember"
                                         tabIndex={3}
-                                        className="border-stone-300 data-[state=checked]:bg-[#0265D6] data-[state=checked]:border-[#0265D6]"
+                                        className="border-line-strong data-[state=checked]:bg-prussian data-[state=checked]:border-prussian"
                                     />
                                     <Label
                                         htmlFor="remember"
-                                        className="text-xs text-stone-500 cursor-pointer select-none font-normal"
+                                        className="text-xs text-ink-secondary cursor-pointer select-none font-normal"
                                     >
                                         Ingat saya
                                     </Label>
@@ -105,7 +105,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                 {canResetPassword && (
                                     <TextLink
                                         href={request()}
-                                        className="text-xs font-medium text-[#0265D6] hover:text-[#0256B8] hover:underline"
+                                        className="text-xs font-medium text-prussian hover:text-prussian-hover hover:underline"
                                         tabIndex={5}
                                     >
                                         Lupa kata sandi?
@@ -113,17 +113,17 @@ export default function Login({ status, canResetPassword }: Props) {
                                 )}
                             </div>
 
-                            {/* Signature Pill Action Button */}
+                            {/* Signature Pill Action Button (Prussian base + Terracotta accent badge) */}
                             <div className="pt-2">
                                 <button
                                     type="submit"
                                     disabled={processing}
                                     tabIndex={4}
                                     data-test="login-button"
-                                    className="group relative flex h-12 w-full items-center justify-center rounded-full bg-[#0265D6] hover:bg-[#0256B8] active:scale-[0.99] text-white shadow-md shadow-blue-500/20 transition-all disabled:opacity-60 cursor-pointer"
+                                    className="group relative flex h-12 w-full items-center justify-center rounded-full bg-prussian hover:bg-prussian-hover active:scale-[0.99] text-white shadow-md shadow-prussian/25 transition-all disabled:opacity-60 cursor-pointer"
                                 >
-                                    {/* Left green circular badge with arrow */}
-                                    <span className="absolute left-1.5 top-1.5 bottom-1.5 aspect-square rounded-full bg-[#22C55E] flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+                                    {/* Left Terracotta circular badge with arrow */}
+                                    <span className="absolute left-1.5 top-1.5 bottom-1.5 aspect-square rounded-full bg-terracotta hover:bg-terracotta-hover flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
                                         <ArrowRightIcon className="h-4 w-4 stroke-[2.5] text-white" />
                                     </span>
 
@@ -139,13 +139,13 @@ export default function Login({ status, canResetPassword }: Props) {
 
                             {/* Help & Support note */}
                             <div className="text-center pt-2">
-                                <p className="text-[11px] text-stone-400">
+                                <p className="text-[11px] text-ink-muted">
                                     Kendala akun portal?{' '}
                                     <a
                                         href="https://wa.me/6281234567890"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-[#0265D6] hover:underline font-medium"
+                                        className="text-prussian hover:text-terracotta hover:underline font-medium transition-colors"
                                     >
                                         Hubungi Petugas IT
                                     </a>
@@ -157,7 +157,7 @@ export default function Login({ status, canResetPassword }: Props) {
             </Form>
 
             {status && (
-                <div className="mt-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-center text-xs font-medium text-emerald-800">
+                <div className="mt-4 p-3 rounded-xl bg-status-published-bg border border-status-published/30 text-center text-xs font-medium text-status-published">
                     {status}
                 </div>
             )}
