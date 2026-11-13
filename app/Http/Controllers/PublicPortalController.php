@@ -259,9 +259,15 @@ class PublicPortalController extends Controller
     /**
      * Halaman Informasi PPDB
      */
-    public function ppdb(): Response
+    public function ppdb(): Response|\Illuminate\Http\RedirectResponse
     {
         $settings = Setting::allGrouped();
+        $ppdbIsOpen = filter_var($settings['ppdb_is_open'] ?? true, FILTER_VALIDATE_BOOLEAN);
+
+        if (! $ppdbIsOpen) {
+            return redirect()->route('home')->with('error', 'Pendaftaran PPDB saat ini sedang ditutup oleh pihak sekolah.');
+        }
+
         $primaryMenu = Menu::getByLocation('header_primary');
 
         return Inertia::render('ppdb-info', [

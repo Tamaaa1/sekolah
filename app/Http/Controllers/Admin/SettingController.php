@@ -100,7 +100,9 @@ class SettingController extends Controller
         ];
 
         foreach ($fields as $key => $group) {
-            if ($request->has($key)) {
+            if ($key === 'ppdb_is_open') {
+                Setting::set($key, $request->boolean('ppdb_is_open'), $group);
+            } elseif ($request->has($key)) {
                 Setting::set($key, $request->input($key), $group);
             }
         }

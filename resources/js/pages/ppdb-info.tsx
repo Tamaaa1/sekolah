@@ -15,7 +15,7 @@ type Props = {
 
 export default function PpdbInfo({ settings, primaryMenu }: Props) {
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
-    const ppdbIsOpen = settings?.ppdb_is_open ?? true;
+    const ppdbIsOpen = settings?.ppdb_is_open === true || settings?.ppdb_is_open === 1 || settings?.ppdb_is_open === '1';
     const ppdbYear = settings?.ppdb_year || '2026/2027';
     const brochureUrl = settings?.ppdb_brochure_url || '#';
     const portalUrl = settings?.ppdb_portal_url || 'https://siap-ppdb.kemdikbud.go.id';
@@ -77,24 +77,33 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-4">
-                        <a
-                            href={portalUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-bold transition-colors"
-                        >
-                            <span>Daftar Melalui Portal Resmi</span>
-                            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                        </a>
+                    <div className="flex flex-wrap items-center gap-4">
+                        {ppdbIsOpen ? (
+                            <a
+                                href={portalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-6 py-3 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-bold transition-colors"
+                            >
+                                <span>Daftar Melalui Portal Resmi</span>
+                                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                            </a>
+                        ) : (
+                            <span className="inline-flex items-center gap-2 px-5 py-3 rounded bg-gray-100 text-gray-500 text-sm font-medium border border-gray-200 cursor-not-allowed">
+                                <InformationCircleIcon className="w-4 h-4 text-gray-400" />
+                                <span>Pendaftaran Daring Belum Dibuka / Telah Ditutup</span>
+                            </span>
+                        )}
 
-                        <a
-                            href={brochureUrl}
-                            className="inline-flex items-center gap-2 px-5 py-3 rounded border border-line text-ink hover:bg-canvas-subtle text-sm font-semibold transition-colors"
-                        >
-                            <ArrowDownTrayIcon className="w-4 h-4 text-ink-muted" />
-                            <span>Unduh Brosur Petunjuk Teknis (PDF)</span>
-                        </a>
+                        {brochureUrl && brochureUrl !== '#' && (
+                            <a
+                                href={brochureUrl}
+                                className="inline-flex items-center gap-2 px-5 py-3 rounded border border-line text-ink hover:bg-canvas-subtle text-sm font-semibold transition-colors"
+                            >
+                                <ArrowDownTrayIcon className="w-4 h-4 text-ink-muted" />
+                                <span>Unduh Brosur Petunjuk Teknis (PDF)</span>
+                            </a>
+                        )}
                     </div>
                 </div>
 

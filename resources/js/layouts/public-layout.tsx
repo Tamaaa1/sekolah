@@ -1,5 +1,6 @@
-import { useState, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { Link, usePage } from '@inertiajs/react';
+import { toast } from 'sonner';
 import {
     AcademicCapIcon,
     ArrowDownTrayIcon,
@@ -47,7 +48,19 @@ export default function PublicLayout({
     const whatsapp = settings?.whatsapp || '0812-3456-7890';
     const address = settings?.address || 'Jl. Pendidikan Bangsa No. 45, Jakarta Selatan';
     const accreditation = settings?.accreditation || 'A (Unggul)';
-    const ppdbIsOpen = settings?.ppdb_is_open ?? true;
+    const ppdbIsOpen = settings?.ppdb_is_open === true || settings?.ppdb_is_open === 1 || settings?.ppdb_is_open === '1';
+
+    const page = usePage<{ flash?: { error?: string; success?: string } }>();
+    const flash = page.props.flash;
+
+    useEffect(() => {
+        if (flash?.error) {
+            toast.error(flash.error);
+        }
+        if (flash?.success) {
+            toast.success(flash.success);
+        }
+    }, [flash]);
 
     const menuItems: MenuItem[] = primaryMenu?.root_items || [
         { id: 1, label: 'Beranda', url: '/' },
@@ -172,26 +185,28 @@ export default function PublicLayout({
                     </nav>
 
                     {/* CTA Button */}
-                    <div className="hidden sm:flex items-center gap-3">
-                        <Link
-                            href="/ppdb"
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs"
-                        >
-                            <span>Info PPDB</span>
-                            {ppdbIsOpen && (
+                    {ppdbIsOpen && (
+                        <div className="hidden sm:flex items-center gap-3">
+                            <Link
+                                href="/ppdb"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs"
+                            >
+                                <span>Info PPDB</span>
                                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                            )}
-                        </Link>
-                    </div>
+                            </Link>
+                        </div>
+                    )}
 
                     {/* Mobile Hamburger Button */}
                     <div className="flex lg:hidden items-center gap-2">
-                        <Link
-                            href="/ppdb"
-                            className="px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold"
-                        >
-                            PPDB
-                        </Link>
+                        {ppdbIsOpen && (
+                            <Link
+                                href="/ppdb"
+                                className="px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold"
+                            >
+                                PPDB
+                            </Link>
+                        )}
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -321,24 +336,51 @@ export default function PublicLayout({
                         <h4 className="font-serif text-base font-semibold text-white tracking-wide uppercase border-b border-prussian-hover pb-2">
                             Penerimaan Peserta Didik Baru
                         </h4>
-                        <p className="text-canvas-subtle/80 text-sm leading-relaxed">
-                            Pendaftaran siswa baru Tahun Ajaran {settings?.ppdb_year || '2026/2027'} telah dibuka secara daring.
-                        </p>
-                        <div className="pt-2 flex flex-col gap-2.5">
-                            <Link
-                                href="/ppdb"
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold transition-colors"
-                            >
-                                <span>Rincian Informasi & Jalur PPDB</span>
-                            </Link>
-                            <a
-                                href={settings?.ppdb_brochure_url || '#'}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-subtle/10 text-xs transition-colors"
-                            >
-                                <ArrowDownTrayIcon className="w-4 h-4" />
-                                <span>Unduh Brosur Informasi (PDF)</span>
-                            </a>
-                        </div>
+                        {ppdbIsOpen ? (
+                            <>
+                                <p className="text-canvas-subtle/80 text-sm leading-relaxed">
+                                    Pendaftaran siswa baru Tahun Ajaran {settings?.ppdb_year || '2026/2027'} telah dibuka secara daring.
+                                </p>
+                                <div className="pt-2 flex flex-col gap-2.5">
+                                    <Link
+                                        href="/ppdb"
+                                        className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold transition-colors"
+                                    >
+                                        <span>Rincian Informasi & Jalur PPDB</span>
+                                    </Link>
+                                    {settings?.ppdb_brochure_url && (
+                                        <a
+                                            href={settings.ppdb_brochure_url}
+                                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-subtle/10 text-xs transition-colors"
+                                        >
+                                            <ArrowDownTrayIcon className="w-4 h-4" />
+                                            <span>Unduh Brosur Informasi (PDF)</span>
+                                        </a>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-canvas-subtle/80 text-sm leading-relaxed">
+                                    Pendaftaran siswa baru Tahun Ajaran {settings?.ppdb_year || '2026/2027'} saat ini <strong className="text-white">sedang ditutup</strong> oleh pihak sekolah.
+                                </p>
+                                <div className="pt-2 flex flex-col gap-2.5">
+                                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-white/10 text-canvas-subtle text-xs border border-white/15 w-fit">
+                                        <span className="w-2 h-2 rounded-full bg-red-400" />
+                                        Pendaftaran PPDB Ditutup
+                                    </span>
+                                    {settings?.ppdb_brochure_url && (
+                                        <a
+                                            href={settings.ppdb_brochure_url}
+                                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-subtle/10 text-xs transition-colors"
+                                        >
+                                            <ArrowDownTrayIcon className="w-4 h-4" />
+                                            <span>Unduh Brosur Informasi (PDF)</span>
+                                        </a>
+                                    )}
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 

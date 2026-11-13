@@ -41,7 +41,11 @@ class Setting extends Model
     {
         return Cache::rememberForever('school_setting_' . $key, function () use ($key, $default) {
             $setting = static::find($key);
-            return $setting ? $setting->value : $default;
+            $val = $setting ? $setting->value : $default;
+            if ($key === 'ppdb_is_open' && $val !== null) {
+                return filter_var($val, FILTER_VALIDATE_BOOLEAN);
+            }
+            return $val;
         });
     }
 
@@ -64,7 +68,11 @@ class Setting extends Model
             $all = static::all();
             $grouped = [];
             foreach ($all as $item) {
-                $grouped[$item->key] = $item->value;
+                if ($item->key === 'ppdb_is_open') {
+                    $grouped[$item->key] = filter_var($item->value, FILTER_VALIDATE_BOOLEAN);
+                } else {
+                    $grouped[$item->key] = $item->value;
+                }
             }
             return $grouped;
         });
