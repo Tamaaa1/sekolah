@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\StaffDirectoryController;
 use App\Http\Controllers\PublicPortalController;
 use App\Models\AcademicAgenda;
 use App\Models\Achievement;
-use App\Models\ActivityLog;
 use App\Models\Extracurricular;
 use App\Models\Media;
 use App\Models\Post;
@@ -53,9 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'extracurricularCount' => Extracurricular::count(),
                 'achievementCount' => Achievement::count(),
                 'mediaCount' => Media::count(),
-                'activityLogCount' => ActivityLog::count(),
                 'recentPosts' => Post::latest()->take(5)->get(),
-                'recentLogs' => ActivityLog::latest('id')->take(5)->get(),
             ]);
         })->name('dashboard');
 

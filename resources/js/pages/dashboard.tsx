@@ -4,8 +4,6 @@ import {
     AcademicCapIcon,
     ArrowRightIcon,
     CalendarDaysIcon,
-    ClipboardDocumentListIcon,
-    ClockIcon,
     DocumentPlusIcon,
     MegaphoneIcon,
     NewspaperIcon,
@@ -25,15 +23,6 @@ type Post = {
     created_at: string;
 };
 
-type ActivityLog = {
-    id: number;
-    user_name: string | null;
-    action: string;
-    module: string;
-    description: string;
-    created_at: string;
-};
-
 type Props = {
     postCount?: number;
     announcementCount?: number;
@@ -42,9 +31,7 @@ type Props = {
     extracurricularCount?: number;
     achievementCount?: number;
     mediaCount?: number;
-    activityLogCount?: number;
     recentPosts?: Post[];
-    recentLogs?: ActivityLog[];
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -62,9 +49,7 @@ export default function Dashboard({
     extracurricularCount = 0,
     achievementCount = 0,
     mediaCount = 0,
-    activityLogCount = 0,
     recentPosts = [],
-    recentLogs = [],
 }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -229,25 +214,6 @@ export default function Dashboard({
                             <PhotoIcon className="w-6 h-6" />
                         </div>
                     </div>
-
-                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs flex items-center justify-between">
-                        <div>
-                            <span className="text-xs font-medium text-ink-muted">Log Aktivitas Sistem</span>
-                            <div className="font-serif text-2xl font-bold text-ink mt-1">
-                                {activityLogCount} Catatan
-                            </div>
-                            <Link
-                                href="/admin/activity-logs"
-                                className="text-[11px] font-semibold text-prussian hover:underline mt-1 inline-flex items-center gap-1"
-                            >
-                                <span>Lihat Riwayat Log</span>
-                                <ArrowRightIcon className="w-3 h-3" />
-                            </Link>
-                        </div>
-                        <div className="p-3 bg-canvas-subtle rounded-full text-emerald-700">
-                            <ClipboardDocumentListIcon className="w-6 h-6" />
-                        </div>
-                    </div>
                 </div>
 
                 {/* Recent Posts Table */}
@@ -313,86 +279,6 @@ export default function Dashboard({
                                     <tr>
                                         <td colSpan={4} className="py-6 text-center text-ink-muted italic">
                                             Belum ada konten yang dibuat.
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {/* Recent Activity Log Table */}
-                <div className="bg-white rounded border border-sidebar-border p-5 shadow-xs">
-                    <div className="flex items-center justify-between pb-3 border-b border-sidebar-border mb-4">
-                        <div className="flex items-center gap-2">
-                            <ClockIcon className="w-5 h-5 text-prussian" />
-                            <h2 className="font-serif text-lg font-bold text-ink">
-                                Log Aktivitas Terakhir
-                            </h2>
-                        </div>
-                        <Link
-                            href="/admin/activity-logs"
-                            className="text-xs font-semibold text-prussian hover:underline"
-                        >
-                            Lihat Semua Log &rarr;
-                        </Link>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs">
-                            <thead>
-                                <tr className="border-b border-sidebar-border text-ink-muted bg-canvas-subtle/50">
-                                    <th className="py-2.5 px-3 font-semibold w-40">Waktu</th>
-                                    <th className="py-2.5 px-3 font-semibold w-36">Pengguna</th>
-                                    <th className="py-2.5 px-3 font-semibold w-24">Aksi</th>
-                                    <th className="py-2.5 px-3 font-semibold w-32">Modul</th>
-                                    <th className="py-2.5 px-3 font-semibold">Deskripsi Aktivitas</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-sidebar-border">
-                                {recentLogs.length > 0 ? (
-                                    recentLogs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-canvas-subtle/30">
-                                            <td className="py-3 px-3 font-mono text-[11px] text-ink-muted whitespace-nowrap">
-                                                {new Date(log.created_at).toLocaleDateString('id-ID', {
-                                                    day: 'numeric',
-                                                    month: 'short',
-                                                    hour: '2-digit',
-                                                    minute: '2-digit',
-                                                })}
-                                            </td>
-                                            <td className="py-3 px-3 font-medium text-ink whitespace-nowrap">
-                                                {log.user_name || 'Sistem'}
-                                            </td>
-                                            <td className="py-3 px-3 whitespace-nowrap">
-                                                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                                                    log.action === 'create'
-                                                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                                        : log.action === 'update'
-                                                        ? 'bg-blue-50 text-[#0F2C59] border border-blue-200'
-                                                        : log.action === 'delete'
-                                                        ? 'bg-rose-50 text-[#C85A32] border border-rose-200'
-                                                        : log.action === 'upload'
-                                                        ? 'bg-amber-50 text-amber-800 border border-amber-200'
-                                                        : log.action === 'login'
-                                                        ? 'bg-purple-50 text-purple-700 border border-purple-200'
-                                                        : 'bg-stone-100 text-stone-600'
-                                                }`}>
-                                                    {log.action}
-                                                </span>
-                                            </td>
-                                            <td className="py-3 px-3 whitespace-nowrap text-ink-muted">
-                                                {log.module}
-                                            </td>
-                                            <td className="py-3 px-3 font-medium text-ink">
-                                                {log.description}
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={5} className="py-6 text-center text-ink-muted italic">
-                                            Belum ada aktivitas yang tercatat.
                                         </td>
                                     </tr>
                                 )}
