@@ -461,6 +461,10 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                             src={form.photo}
                                             alt="Preview"
                                             className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.onerror = null;
+                                                e.currentTarget.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%238C949D"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>';
+                                            }}
                                         />
                                     ) : (
                                         <UserIcon className="w-6 h-6 text-[#8C949D]" />
@@ -489,6 +493,18 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                                 </Button>
                                             }
                                         />
+                                        {form.photo && (
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setForm({ ...form, photo: '' })}
+                                                className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 text-xs h-8 whitespace-nowrap"
+                                            >
+                                                <TrashIcon className="w-3.5 h-3.5 mr-1" />
+                                                Hapus Foto
+                                            </Button>
+                                        )}
                                     </div>
                                     <p className="text-[10px] text-[#5A626A]">
                                         Disarankan menggunakan foto formal berlatar belakang polos rasio 3:4.
