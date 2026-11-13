@@ -109,41 +109,73 @@ export default function Welcome({
             <Head title={`${schoolName} - ${tagline}`} />
 
             {/* Asymmetric Hero & Bento Grid */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-12">
-                {/* School Headline Banner */}
-                <div className="border-b border-line pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div>
-                        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-ink mt-2 tracking-tight">
-                            {schoolName}
-                        </h1>
-                        <p className="text-ink-secondary text-base md:text-lg mt-2 max-w-2xl font-normal leading-relaxed">
-                            {tagline}
-                        </p>
-                    </div>
-
-                    <div className="flex items-center gap-2 shrink-0">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-canvas-subtle text-ink-secondary text-xs font-medium border border-line">
-                            <span className="w-2 h-2 rounded-full bg-status-published" />
-                            Tahun Ajaran Aktif 2025/2026
-                        </span>
-                    </div>
-                </div>
-
-                {/* Slot Foto Gedung / Kegiatan Opsional Berbingkai di Hero Section */}
-                {heroBannerImage && (
-                    <figure className="mb-8 overflow-hidden rounded-lg border border-stone-200/90 bg-stone-100">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-12">
+                {heroBannerImage ? (
+                    /* Immersive Hero Banner: Text integrated over the image */
+                    <div className="relative mb-8 rounded-lg overflow-hidden border border-stone-300/80 shadow-xs min-h-[340px] sm:min-h-[400px] md:min-h-[440px] flex flex-col justify-end">
+                        {/* Background Image */}
                         <img
                             src={heroBannerImage}
                             alt={heroBannerCaption || schoolName}
-                            className="w-full aspect-[16/9] sm:aspect-[21/9] object-cover"
+                            className="absolute inset-0 w-full h-full object-cover"
                         />
-                        {heroBannerCaption && (
-                            <figcaption className="px-4 py-2.5 text-xs text-ink-secondary bg-white/90 border-t border-stone-200/80 font-sans italic flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-terracotta shrink-0" />
-                                <span>{heroBannerCaption}</span>
-                            </figcaption>
-                        )}
-                    </figure>
+
+                        {/* Architectural Editorial Scrim / Gradient Overlay for high-contrast legibility */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F3F]/95 via-[#0A1F3F]/55 to-black/20" />
+
+                        {/* Top Utility Indicator inside Hero */}
+                        <div className="relative z-10 p-6 sm:p-8 md:p-10 flex flex-col justify-between h-full">
+                            <div className="flex items-center justify-between gap-4">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-medium border border-white/20">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                                    Tahun Ajaran Aktif 2025/2026
+                                </span>
+
+                                {heroBannerCaption && (
+                                    <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md text-white/90 text-xs font-sans border border-white/10">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-terracotta shrink-0" />
+                                        <span className="truncate max-w-xs">{heroBannerCaption}</span>
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Headline & Tagline Overlay */}
+                            <div className="mt-16 sm:mt-24 max-w-3xl">
+                                <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight drop-shadow-xs">
+                                    {schoolName}
+                                </h1>
+                                <p className="text-white/90 text-base sm:text-lg mt-2.5 font-normal leading-relaxed drop-shadow-xs max-w-2xl">
+                                    {tagline}
+                                </p>
+
+                                {heroBannerCaption && (
+                                    <p className="sm:hidden text-xs text-white/80 mt-3 italic flex items-center gap-1.5">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-terracotta shrink-0" />
+                                        <span>{heroBannerCaption}</span>
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    /* Default Typographic Headline Banner (when no image banner is set) */
+                    <div className="border-b border-line pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <div>
+                            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-ink mt-2 tracking-tight">
+                                {schoolName}
+                            </h1>
+                            <p className="text-ink-secondary text-base md:text-lg mt-2 max-w-2xl font-normal leading-relaxed">
+                                {tagline}
+                            </p>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-canvas-subtle text-ink-secondary text-xs font-medium border border-line">
+                                <span className="w-2 h-2 rounded-full bg-status-published" />
+                                Tahun Ajaran Aktif 2025/2026
+                            </span>
+                        </div>
+                    </div>
                 )}
 
                 {/* Hero Grid: Sambutan Kepala Sekolah & Pengumuman Resmi */}
