@@ -84,9 +84,9 @@ export default function Welcome({
     achievements = [],
     principal,
 }: WelcomeProps) {
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const tagline = settings?.school_tagline || 'Berkarakter, Berprestasi, dan Berwawasan Global';
-    const speech = settings?.principal_speech || 'Selamat datang di Portal Resmi SMP Negeri 1 Nusantara...';
+    const speech = settings?.principal_speech || 'Selamat datang di Portal Resmi SMP Negeri 5 Sambas...';
     const principalName = principal?.name || settings?.principal_name || 'Drs. H. Mulyadi, M.Pd.';
     const principalPosition = principal?.position || 'Kepala Sekolah';
 
@@ -109,9 +109,6 @@ export default function Welcome({
                 {/* School Headline Banner */}
                 <div className="border-b border-line pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                        <span className="text-xs font-mono uppercase tracking-widest text-prussian font-semibold">
-                            Edisi Informasi & Warta Resmi
-                        </span>
                         <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-ink mt-2 tracking-tight">
                             {schoolName}
                         </h1>

@@ -72,7 +72,7 @@ export default function NewsDirectory({
     filters,
 }: Props) {
     const [search, setSearch] = useState(filters.q || '');
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
 
     const formatDate = (dateStr: string | null) => {
         if (!dateStr) return '';

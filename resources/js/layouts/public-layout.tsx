@@ -40,9 +40,9 @@ export default function PublicLayout({
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const npsn = settings?.npsn || '20109876';
-    const email = settings?.email || 'humas@smpn1nusantara.sch.id';
+    const email = settings?.email || 'humas@smpn5sambas.sch.id';
     const phone = settings?.phone || '(021) 7890-1234';
     const whatsapp = settings?.whatsapp || '0812-3456-7890';
     const address = settings?.address || 'Jl. Pendidikan Bangsa No. 45, Jakarta Selatan';

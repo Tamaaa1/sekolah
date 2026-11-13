@@ -29,7 +29,7 @@ export default function ExtracurricularDirectory({
     primaryMenu,
     extracurriculars = [],
 }: Props) {
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
 
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>

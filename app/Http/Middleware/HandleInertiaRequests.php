@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
+            'name' => \App\Models\Setting::get('school_name', config('app.name', 'SMP Negeri 5 Sambas')),
             'auth' => [
                 'user' => $request->user() ? [
                     'id' => $request->user()->id,

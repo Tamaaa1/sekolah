@@ -26,7 +26,7 @@ export default function AchievementDirectory({
     achievements = [],
 }: Props) {
     const [selectedLevel, setSelectedLevel] = useState<string>('all');
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
 
     const filtered =
         selectedLevel === 'all'

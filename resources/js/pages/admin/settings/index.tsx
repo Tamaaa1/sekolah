@@ -15,7 +15,7 @@ type Props = {
 
 export default function SettingsIndex({ settings = {} }: Props) {
     const { data, setData, put, processing, recentlySuccessful } = useForm({
-        school_name: settings?.school_name || 'SMP Negeri 1 Nusantara',
+        school_name: settings?.school_name || 'SMP Negeri 5 Sambas',
         npsn: settings?.npsn || '20109876',
         accreditation: settings?.accreditation || 'A (Unggul)',
         school_tagline: settings?.school_tagline || 'Berkarakter, Berprestasi, dan Berwawasan Global',
@@ -23,7 +23,7 @@ export default function SettingsIndex({ settings = {} }: Props) {
         principal_speech: settings?.principal_speech || '',
         phone: settings?.phone || '(021) 7890-1234',
         whatsapp: settings?.whatsapp || '0812-3456-7890',
-        email: settings?.email || 'humas@smpn1nusantara.sch.id',
+        email: settings?.email || 'humas@smpn5sambas.sch.id',
         address: settings?.address || 'Jl. Pendidikan Bangsa No. 45, Jakarta Selatan',
         ppdb_is_open: settings?.ppdb_is_open ?? true,
         ppdb_year: settings?.ppdb_year || '2026/2027',

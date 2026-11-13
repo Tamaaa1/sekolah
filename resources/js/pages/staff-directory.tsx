@@ -29,7 +29,7 @@ export default function StaffDirectory({
     staff,
 }: StaffDirectoryProps) {
     const [selectedTab, setSelectedTab] = useState<'all' | 'kepsek' | 'guru' | 'tendik'>('all');
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
 
     const allStaff: Staff[] = [
         ...(staff?.kepsek || []),

@@ -21,16 +21,16 @@ class InitialSchoolContentSeeder extends Seeder
         $admin = User::first();
 
         // 1. Pengaturan Identitas Sekolah
-        Setting::set('school_name', 'SMP Negeri 1 Nusantara', 'general');
+        Setting::set('school_name', 'SMP Negeri 5 Sambas', 'general');
         Setting::set('npsn', '20109876', 'general');
         Setting::set('accreditation', 'A (Unggul)', 'general');
         Setting::set('school_tagline', 'Berkarakter, Berprestasi, dan Berwawasan Global', 'general');
         Setting::set('principal_name', 'Drs. H. Mulyadi, M.Pd.', 'general');
-        Setting::set('principal_speech', 'Selamat datang di Portal Resmi SMP Negeri 1 Nusantara. Sebagai lembaga pendidikan yang mengedepankan integritas budi pekerti dan keunggulan akademik, kami berkomitmen menyelenggarakan pembelajaran yang bermakna bagi seluruh peserta didik guna menyongsong masa depan bangsa yang gemilang.', 'general');
+        Setting::set('principal_speech', 'Selamat datang di Portal Resmi SMP Negeri 5 Sambas. Sebagai lembaga pendidikan yang mengedepankan integritas budi pekerti dan keunggulan akademik, kami berkomitmen menyelenggarakan pembelajaran yang bermakna bagi seluruh peserta didik guna menyongsong masa depan bangsa yang gemilang.', 'general');
 
         Setting::set('phone', '(021) 7890-1234', 'contact');
         Setting::set('whatsapp', '0812-3456-7890', 'contact');
-        Setting::set('email', 'humas@smpn1nusantara.sch.id', 'contact');
+        Setting::set('email', 'humas@smpn5sambas.sch.id', 'contact');
         Setting::set('address', 'Jl. Pendidikan Bangsa No. 45, Kebayoran Baru, Jakarta Selatan', 'contact');
 
         Setting::set('ppdb_is_open', true, 'ppdb');

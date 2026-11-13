@@ -22,7 +22,7 @@ export default function AcademicAgendaPage({
     primaryMenu,
     agendas = [],
 }: Props) {
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
 
     const formatDateRange = (startStr: string, endStr: string | null) => {
         const start = new Date(startStr);

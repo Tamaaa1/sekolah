@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function PpdbInfo({ settings, primaryMenu }: Props) {
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const ppdbIsOpen = settings?.ppdb_is_open ?? true;
     const ppdbYear = settings?.ppdb_year || '2026/2027';
     const brochureUrl = settings?.ppdb_brochure_url || '#';

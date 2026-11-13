@@ -47,7 +47,7 @@ export default function PostDetail({
     primaryMenu,
     relatedPosts = [],
 }: PostDetailProps) {
-    const schoolName = settings?.school_name || 'SMP Negeri 1 Nusantara';
+    const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
 
     const formatDate = (dateStr: string | null) => {
         if (!dateStr) return '';
@@ -161,7 +161,7 @@ export default function PostDetail({
                         <div className="flex items-center gap-4">
                             <span className="inline-flex items-center gap-1.5">
                                 <UserIcon className="w-4 h-4 text-prussian" />
-                                {post.author?.name || 'Humas SMPN 1 Nusantara'}
+                                {post.author?.name || 'Humas SMP Negeri 5 Sambas'}
                             </span>
                             <span>•</span>
                             <span className="inline-flex items-center gap-1.5">
