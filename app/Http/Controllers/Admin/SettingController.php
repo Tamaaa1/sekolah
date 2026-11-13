@@ -43,9 +43,10 @@ class SettingController extends Controller
             'ppdb_is_open' => 'boolean',
             'ppdb_year' => 'nullable|string|max:50',
             'ppdb_portal_url' => 'nullable|string|max:255',
-            'ppdb_brochure_url' => 'nullable|string|max:255',
+            'ppdb_brochure_url' => 'nullable|string|max:500',
             'hero_banner_caption' => 'nullable|string|max:255',
             'remove_hero_banner' => 'nullable|boolean',
+            'remove_ppdb_brochure' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('hero_banner_image')) {
@@ -54,17 +55,23 @@ class SettingController extends Controller
             ]);
         }
 
+        if ($request->hasFile('ppdb_brochure_file')) {
+            $request->validate([
+                'ppdb_brochure_file' => ['file', 'mimes:pdf,jpg,jpeg,png,webp', 'max:5120'],
+            ]);
+        }
+
         // Handle Hero Banner Image Upload or Removal
         if ($request->boolean('remove_hero_banner')) {
             $oldBanner = Setting::get('hero_banner_image');
             if ($oldBanner) {
-                $this->deleteOldBanner($oldBanner);
+                $this->deleteOldFile($oldBanner);
             }
             Setting::set('hero_banner_image', null, 'hero');
         } elseif ($request->hasFile('hero_banner_image')) {
             $oldBanner = Setting::get('hero_banner_image');
             if ($oldBanner) {
-                $this->deleteOldBanner($oldBanner);
+                $this->deleteOldFile($oldBanner);
             }
 
             $uploaded = $this->uploadService->validateAndStore(
@@ -75,6 +82,30 @@ class SettingController extends Controller
 
             $bannerUrl = Storage::disk('public')->url($uploaded['file_path']);
             Setting::set('hero_banner_image', $bannerUrl, 'hero');
+        }
+
+        // Handle PPDB Brochure File (PDF or Image) Upload or Removal
+        if ($request->boolean('remove_ppdb_brochure')) {
+            $oldBrochure = Setting::get('ppdb_brochure_url');
+            if ($oldBrochure) {
+                $this->deleteOldFile($oldBrochure);
+            }
+            Setting::set('ppdb_brochure_url', null, 'ppdb');
+        } elseif ($request->hasFile('ppdb_brochure_file')) {
+            $oldBrochure = Setting::get('ppdb_brochure_url');
+            if ($oldBrochure) {
+                $this->deleteOldFile($oldBrochure);
+            }
+
+            $uploaded = $this->uploadService->validateAndStore(
+                $request->file('ppdb_brochure_file'),
+                SafeFileUploadService::TYPE_ALL,
+                'uploads/brochures',
+                'Brosur PPDB ' . Setting::get('school_name', 'SMP Negeri 5 Sambas')
+            );
+
+            $brochureUrl = Storage::disk('public')->url($uploaded['file_path']);
+            Setting::set('ppdb_brochure_url', $brochureUrl, 'ppdb');
         }
 
         if ($request->has('hero_banner_caption')) {
@@ -102,30 +133,42 @@ class SettingController extends Controller
         foreach ($fields as $key => $group) {
             if ($key === 'ppdb_is_open') {
                 Setting::set($key, $request->boolean('ppdb_is_open'), $group);
+            } elseif ($key === 'ppdb_brochure_url') {
+                if (! $request->hasFile('ppdb_brochure_file') && ! $request->boolean('remove_ppdb_brochure') && $request->has('ppdb_brochure_url')) {
+                    Setting::set($key, $request->input($key), $group);
+                }
             } elseif ($request->has($key)) {
                 Setting::set($key, $request->input($key), $group);
             }
         }
 
-        ActivityLogger::log('update', 'Pengaturan Sekolah', 'Memperbarui pengaturan identitas sekolah dan banner beranda');
+        ActivityLogger::log('update', 'Pengaturan Sekolah', 'Memperbarui pengaturan identitas sekolah, banner, dan PPDB');
 
         return back()->with('success', 'Pengaturan sekolah berhasil diperbarui.');
     }
 
     /**
-     * Delete existing hero banner file from storage safely.
+     * Delete existing uploaded file from storage safely.
      */
-    protected function deleteOldBanner(?string $bannerUrl): void
+    protected function deleteOldFile(?string $fileUrl): void
     {
-        if (! $bannerUrl) {
+        if (! $fileUrl) {
             return;
         }
 
-        $parsedPath = parse_url($bannerUrl, PHP_URL_PATH) ?: $bannerUrl;
+        $parsedPath = parse_url($fileUrl, PHP_URL_PATH) ?: $fileUrl;
         $relativePath = preg_replace('#^/storage/#', '', $parsedPath);
 
         if ($relativePath && Storage::disk('public')->exists($relativePath)) {
             Storage::disk('public')->delete($relativePath);
         }
+    }
+
+    /**
+     * Alias for backward compatibility.
+     */
+    protected function deleteOldBanner(?string $bannerUrl): void
+    {
+        $this->deleteOldFile($bannerUrl);
     }
 }

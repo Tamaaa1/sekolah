@@ -4,9 +4,12 @@ import AppLayout from '@/layouts/app-layout';
 import { toast } from 'sonner';
 import {
     AcademicCapIcon,
+    ArrowTopRightOnSquareIcon,
     ArrowUpTrayIcon,
     BuildingOfficeIcon,
     CheckIcon,
+    DocumentCheckIcon,
+    DocumentTextIcon,
     MegaphoneIcon,
     PhoneIcon,
     PhotoIcon,
@@ -23,6 +26,24 @@ export default function SettingsIndex({ settings = {} }: Props) {
     );
     const [bannerFile, setBannerFile] = useState<File | null>(null);
 
+    const [currentBrochureUrl, setCurrentBrochureUrl] = useState<string | null>(
+        settings?.ppdb_brochure_url || null
+    );
+    const [brochureFile, setBrochureFile] = useState<File | null>(null);
+    const [brochurePreview, setBrochurePreview] = useState<string | null>(null);
+    const [removeBrochure, setRemoveBrochure] = useState(false);
+
+    const isBrochureImage = (url?: string | null) => {
+        if (!url) return false;
+        return /\.(jpg|jpeg|png|webp)($|\?)/i.test(url);
+    };
+
+    const getFileName = (url?: string | null) => {
+        if (!url) return '';
+        const clean = url.split('?')[0];
+        return clean.substring(clean.lastIndexOf('/') + 1);
+    };
+
     const { data, setData, processing, recentlySuccessful } = useForm({
         school_name: settings?.school_name || 'SMP Negeri 5 Sambas',
         npsn: settings?.npsn || '30100301',
@@ -37,7 +58,7 @@ export default function SettingsIndex({ settings = {} }: Props) {
         ppdb_is_open: settings?.ppdb_is_open ?? true,
         ppdb_year: settings?.ppdb_year || '2026/2027',
         ppdb_portal_url: settings?.ppdb_portal_url || 'https://siap-ppdb.kemdikbud.go.id',
-        ppdb_brochure_url: settings?.ppdb_brochure_url || '/documents/brosur-ppdb-2026.pdf',
+        ppdb_brochure_url: settings?.ppdb_brochure_url || '',
         hero_banner_caption: settings?.hero_banner_caption || '',
         remove_hero_banner: false,
     });
@@ -61,6 +82,31 @@ export default function SettingsIndex({ settings = {} }: Props) {
         setData('remove_hero_banner', true);
     };
 
+    const handleBrochureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setBrochureFile(file);
+            setRemoveBrochure(false);
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setBrochurePreview(reader.result as string);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                setBrochurePreview(null);
+            }
+        }
+    };
+
+    const handleRemoveBrochure = () => {
+        setBrochureFile(null);
+        setBrochurePreview(null);
+        setRemoveBrochure(true);
+        setCurrentBrochureUrl(null);
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         router.post(
@@ -68,12 +114,14 @@ export default function SettingsIndex({ settings = {} }: Props) {
             {
                 ...data,
                 hero_banner_image: bannerFile,
+                ppdb_brochure_file: brochureFile,
+                remove_ppdb_brochure: removeBrochure,
                 _method: 'PUT',
             },
             {
                 forceFormData: true,
                 onSuccess: () => {
-                    toast.success('Pengaturan identitas dan banner sekolah berhasil disimpan.');
+                    toast.success('Pengaturan sekolah dan brosur PPDB berhasil disimpan.');
                 },
                 onError: (errors) => {
                     const msg = Object.values(errors).flat().join(', ');
@@ -405,6 +453,124 @@ export default function SettingsIndex({ settings = {} }: Props) {
                                     onChange={(e) => setData('ppdb_portal_url', e.target.value)}
                                     className="w-full text-xs font-mono border border-sidebar-border rounded p-2.5 focus:border-prussian"
                                 />
+                            </div>
+                        </div>
+
+                        {/* Upload Brosur PPDB (PDF atau Gambar) */}
+                        <div className="border-t border-sidebar-border pt-4 mt-2 space-y-3">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <div>
+                                    <label className="block font-semibold text-ink mb-0.5">
+                                        Berkas Brosur PPDB (PDF atau Gambar)
+                                    </label>
+                                    <p className="text-[11px] text-ink-muted leading-relaxed">
+                                        Unggah brosur atau pamflet informasi pendaftaran siswa baru. Format yang didukung: <strong>PDF, JPG, JPEG, PNG, WEBP</strong> (Maks. 5 MB).
+                                    </p>
+                                </div>
+                                {(currentBrochureUrl || brochureFile) && !removeBrochure && (
+                                    <button
+                                        type="button"
+                                        onClick={handleRemoveBrochure}
+                                        className="text-xs text-red-600 hover:text-red-700 font-medium inline-flex items-center gap-1 px-2.5 py-1 rounded border border-red-200 bg-red-50 hover:bg-red-100 transition shrink-0 self-start sm:self-auto cursor-pointer"
+                                    >
+                                        <TrashIcon className="w-3.5 h-3.5" />
+                                        <span>Hapus Brosur</span>
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Existing brochure info or preview */}
+                            {currentBrochureUrl && !removeBrochure && !brochureFile && (
+                                <div className="flex items-center justify-between p-3 rounded-lg border border-sidebar-border bg-canvas-paper/70 text-xs">
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        {isBrochureImage(currentBrochureUrl) ? (
+                                            <div className="w-12 h-12 rounded border border-sidebar-border overflow-hidden bg-white shrink-0 shadow-2xs">
+                                                <img
+                                                    src={currentBrochureUrl}
+                                                    alt="Brosur PPDB"
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="w-10 h-10 rounded bg-red-100 text-red-700 flex items-center justify-center shrink-0">
+                                                <DocumentTextIcon className="w-5 h-5" />
+                                            </div>
+                                        )}
+                                        <div className="min-w-0">
+                                            <p className="font-semibold text-ink truncate">
+                                                {getFileName(currentBrochureUrl) || 'Brosur PPDB Saat Ini'}
+                                            </p>
+                                            <p className="text-[11px] text-ink-muted">
+                                                {isBrochureImage(currentBrochureUrl) ? 'Format: Gambar (PNG/JPG/WEBP)' : 'Format: Dokumen PDF'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <a
+                                        href={currentBrochureUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-line bg-white hover:bg-canvas-subtle text-ink font-semibold text-xs transition-colors shrink-0 shadow-2xs"
+                                    >
+                                        <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-ink-muted" />
+                                        <span>Buka Berkas</span>
+                                    </a>
+                                </div>
+                            )}
+
+                            {/* New selected file preview */}
+                            {brochureFile && (
+                                <div className="flex items-center justify-between p-3 rounded-lg border border-emerald-200 bg-emerald-50/70 text-xs">
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        {brochureFile.type.startsWith('image/') && brochurePreview ? (
+                                            <div className="w-12 h-12 rounded border border-emerald-300 overflow-hidden bg-white shrink-0 shadow-2xs">
+                                                <img
+                                                    src={brochurePreview}
+                                                    alt="Pratinjau Brosur Baru"
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="w-10 h-10 rounded bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+                                                <DocumentCheckIcon className="w-5 h-5" />
+                                            </div>
+                                        )}
+                                        <div className="min-w-0">
+                                            <p className="font-semibold text-emerald-900 truncate">
+                                                {brochureFile.name} (Berkas Baru)
+                                            </p>
+                                            <p className="text-[11px] text-emerald-700">
+                                                {(brochureFile.size / 1024).toFixed(1)} KB • Siap disimpan
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setBrochureFile(null);
+                                            setBrochurePreview(null);
+                                        }}
+                                        className="text-xs text-red-600 hover:text-red-700 font-semibold px-2 py-1 cursor-pointer"
+                                    >
+                                        Batal
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* File Picker Button */}
+                            <div className="flex items-center gap-3 pt-1">
+                                <label className="relative inline-flex items-center gap-2 px-3.5 py-2 rounded border border-sidebar-border bg-white hover:bg-canvas-paper text-ink font-semibold text-xs cursor-pointer shadow-2xs transition-colors">
+                                    <ArrowUpTrayIcon className="w-4 h-4 text-ink-muted" />
+                                    <span>Pilih Berkas Brosur (PDF / Gambar)</span>
+                                    <input
+                                        type="file"
+                                        accept=".pdf,application/pdf,image/png,image/jpeg,image/webp"
+                                        onChange={handleBrochureChange}
+                                        className="sr-only"
+                                    />
+                                </label>
+                                <span className="text-[11px] text-ink-muted">
+                                    {brochureFile ? 'Berkas baru dipilih' : 'Maksimal 5 MB'}
+                                </span>
                             </div>
                         </div>
                     </div>
