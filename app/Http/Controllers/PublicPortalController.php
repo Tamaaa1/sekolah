@@ -22,6 +22,14 @@ class PublicPortalController extends Controller
     public function home(): Response
     {
         $settings = Setting::allGrouped();
+
+        if (!empty($settings['hero_banner_image'])) {
+            $banner = $settings['hero_banner_image'];
+            if (!str_starts_with($banner, 'http://') && !str_starts_with($banner, 'https://') && !str_starts_with($banner, '/')) {
+                $settings['hero_banner_image'] = \Illuminate\Support\Facades\Storage::disk('public')->url($banner);
+            }
+        }
+
         $primaryMenu = Menu::getByLocation('header_primary');
 
         $pinnedPost = Post::published()
@@ -61,7 +69,9 @@ class PublicPortalController extends Controller
             ->take(4)
             ->get();
 
-        $principal = StaffDirectory::kepsek()->first();
+        $principal = StaffDirectory::active()->kepsek()->first()
+            ?? StaffDirectory::kepsek()->first()
+            ?? StaffDirectory::active()->where('position', 'like', '%Kepala Sekolah%')->first();
 
         return Inertia::render('welcome', [
             'settings' => $settings,

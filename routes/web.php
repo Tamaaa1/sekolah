@@ -65,7 +65,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('agendas', AcademicAgendaController::class)->except(['create', 'show', 'edit']);
         Route::resource('media', MediaController::class)->only(['index', 'store', 'destroy']);
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
-        Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+        Route::match(['put', 'post'], 'settings', [SettingController::class, 'update'])->name('settings.update');
         Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
         Route::post('menus/{menu}/items', [MenuController::class, 'storeItem'])->name('menus.items.store');
         Route::delete('menus/items/{item}', [MenuController::class, 'destroyItem'])->name('menus.items.destroy');

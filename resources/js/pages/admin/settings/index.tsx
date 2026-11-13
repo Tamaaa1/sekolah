@@ -1,12 +1,16 @@
-import { Head, useForm } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Head, router, useForm } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { toast } from 'sonner';
 import {
     AcademicCapIcon,
+    ArrowUpTrayIcon,
     BuildingOfficeIcon,
     CheckIcon,
     MegaphoneIcon,
     PhoneIcon,
+    PhotoIcon,
+    TrashIcon,
 } from '@heroicons/react/24/outline';
 
 type Props = {
@@ -14,7 +18,12 @@ type Props = {
 };
 
 export default function SettingsIndex({ settings = {} }: Props) {
-    const { data, setData, put, processing, recentlySuccessful } = useForm({
+    const [bannerPreview, setBannerPreview] = useState<string | null>(
+        settings?.hero_banner_image || null
+    );
+    const [bannerFile, setBannerFile] = useState<File | null>(null);
+
+    const { data, setData, processing, recentlySuccessful } = useForm({
         school_name: settings?.school_name || 'SMP Negeri 5 Sambas',
         npsn: settings?.npsn || '20109876',
         accreditation: settings?.accreditation || 'A (Unggul)',
@@ -29,18 +38,49 @@ export default function SettingsIndex({ settings = {} }: Props) {
         ppdb_year: settings?.ppdb_year || '2026/2027',
         ppdb_portal_url: settings?.ppdb_portal_url || 'https://siap-ppdb.kemdikbud.go.id',
         ppdb_brochure_url: settings?.ppdb_brochure_url || '/documents/brosur-ppdb-2026.pdf',
+        hero_banner_caption: settings?.hero_banner_caption || '',
+        remove_hero_banner: false,
     });
+
+    const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setBannerFile(file);
+            setData('remove_hero_banner', false);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setBannerPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleRemoveBanner = () => {
+        setBannerFile(null);
+        setBannerPreview(null);
+        setData('remove_hero_banner', true);
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        put('/admin/settings', {
-            onSuccess: () => {
-                toast.success('Pengaturan identitas sekolah berhasil disimpan.');
+        router.post(
+            '/admin/settings',
+            {
+                ...data,
+                hero_banner_image: bannerFile,
+                _method: 'PUT',
             },
-            onError: () => {
-                toast.error('Gagal menyimpan pengaturan sekolah. Silakan periksa formulir.');
-            },
-        });
+            {
+                forceFormData: true,
+                onSuccess: () => {
+                    toast.success('Pengaturan identitas dan banner sekolah berhasil disimpan.');
+                },
+                onError: (errors) => {
+                    const msg = Object.values(errors).flat().join(', ');
+                    toast.error(msg || 'Gagal menyimpan pengaturan sekolah. Silakan periksa formulir.');
+                },
+            }
+        );
     };
 
     return (
@@ -59,7 +99,7 @@ export default function SettingsIndex({ settings = {} }: Props) {
                             Global School Customizer
                         </h1>
                         <p className="text-xs text-ink-muted mt-0.5">
-                            Pengaturan profil, kontak resmi, dan status PPDB yang tampil di seluruh halaman web.
+                            Pengaturan profil, kontak resmi, slot foto hero beranda, dan status PPDB yang tampil di portal sekolah.
                         </p>
                     </div>
 
@@ -176,7 +216,94 @@ export default function SettingsIndex({ settings = {} }: Props) {
                     </div>
                 </div>
 
-                {/* Section 3: Kontak & Lokasi */}
+                {/* Section 3: Slot Foto Gedung / Kegiatan Beranda (Hero Section) */}
+                <div className="bg-white rounded border border-sidebar-border p-6 shadow-xs space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-sidebar-border pb-2">
+                        <h2 className="font-serif font-bold text-base text-ink flex items-center gap-2">
+                            <PhotoIcon className="w-5 h-5 text-prussian" />
+                            <span>Slot Foto Gedung / Kegiatan Beranda (Hero Banner)</span>
+                        </h2>
+                        {bannerPreview && (
+                            <button
+                                type="button"
+                                onClick={handleRemoveBanner}
+                                className="text-xs text-red-600 hover:text-red-700 font-medium inline-flex items-center gap-1 px-2.5 py-1 rounded border border-red-200 bg-red-50 hover:bg-red-100 transition self-start sm:self-auto"
+                            >
+                                <TrashIcon className="w-3.5 h-3.5" />
+                                <span>Hapus Foto Banner</span>
+                            </button>
+                        )}
+                    </div>
+
+                    <p className="text-xs text-ink-muted leading-relaxed">
+                        Foto gedung atau dokumentasi kegiatan unggulan yang ditampilkan secara opsional di bawah judul beranda portal publik.
+                    </p>
+
+                    {bannerPreview ? (
+                        <div className="space-y-3">
+                            <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full rounded-lg overflow-hidden border border-stone-200/90 bg-stone-100 shadow-2xs">
+                                <img
+                                    src={bannerPreview}
+                                    alt="Pratinjau Banner Hero"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs text-prussian hover:text-prussian-hover font-semibold py-1.5 px-3 border border-sidebar-border rounded bg-canvas-subtle hover:bg-canvas-subtle/80 transition self-start">
+                                    <ArrowUpTrayIcon className="w-4 h-4" />
+                                    <span>Ganti Foto Banner</span>
+                                    <input
+                                        type="file"
+                                        className="hidden"
+                                        accept="image/jpeg,image/png,image/webp"
+                                        onChange={handleBannerChange}
+                                    />
+                                </label>
+                                <span className="text-[11px] text-ink-muted font-sans">
+                                    Maksimal 3 MB (JPG, PNG, WEBP). Rasio 21:9 atau 16:9 disarankan.
+                                </span>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="border border-dashed border-sidebar-border rounded-lg p-6 bg-canvas-subtle flex flex-col items-center justify-center text-center">
+                            <PhotoIcon className="w-10 h-10 text-ink-muted mb-2 stroke-1" />
+                            <p className="text-xs font-semibold text-ink mb-1">
+                                Belum ada foto banner gedung/kegiatan yang dipasang
+                            </p>
+                            <p className="text-[11px] text-ink-muted mb-4 max-w-sm">
+                                Jika dikosongkan, halaman beranda akan tampil ramping berbasis tipografi. Jika diisi, foto akan tampil berbingkai rapi di Hero Section.
+                            </p>
+                            <label className="cursor-pointer inline-flex items-center gap-1.5 px-4 py-2 bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold rounded transition shadow-xs">
+                                <ArrowUpTrayIcon className="w-4 h-4" />
+                                <span>Pilih & Unggah Foto Banner</span>
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    onChange={handleBannerChange}
+                                />
+                            </label>
+                        </div>
+                    )}
+
+                    <div className="pt-2">
+                        <label className="block font-semibold text-xs text-ink-secondary mb-1">
+                            Keterangan Singkat Foto (Caption, Opsional)
+                        </label>
+                        <input
+                            type="text"
+                            value={data.hero_banner_caption}
+                            onChange={(e) => setData('hero_banner_caption', e.target.value)}
+                            placeholder="Contoh: Gedung Pembelajaran Terpadu & Lapangan Upacara SMP Negeri 5 Sambas"
+                            className="w-full text-xs border border-sidebar-border rounded p-2.5 focus:border-prussian"
+                        />
+                        <p className="text-[11px] text-ink-muted mt-1">
+                            Keterangan ini akan muncul di bagian bawah bingkai foto banner pada halaman depan.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Section 4: Kontak & Lokasi */}
                 <div className="bg-white rounded border border-sidebar-border p-6 shadow-xs space-y-4">
                     <h2 className="font-serif font-bold text-base text-ink flex items-center gap-2 border-b border-sidebar-border pb-2">
                         <PhoneIcon className="w-5 h-5 text-prussian" />
@@ -234,7 +361,7 @@ export default function SettingsIndex({ settings = {} }: Props) {
                     </div>
                 </div>
 
-                {/* Section 4: Pengaturan PPDB */}
+                {/* Section 5: Pengaturan PPDB */}
                 <div className="bg-white rounded border border-sidebar-border p-6 shadow-xs space-y-4">
                     <h2 className="font-serif font-bold text-base text-ink flex items-center gap-2 border-b border-sidebar-border pb-2">
                         <MegaphoneIcon className="w-5 h-5 text-terracotta" />
@@ -286,4 +413,3 @@ export default function SettingsIndex({ settings = {} }: Props) {
         </AppLayout>
     );
 }
-

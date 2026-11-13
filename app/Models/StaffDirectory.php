@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class StaffDirectory extends Model
 {
@@ -21,12 +22,29 @@ class StaffDirectory extends Model
         'is_active',
     ];
 
+    protected $appends = [
+        'photo_url',
+    ];
+
     protected function casts(): array
     {
         return [
             'is_active' => 'boolean',
             'sort_order' => 'integer',
         ];
+    }
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if (! $this->photo) {
+            return null;
+        }
+
+        if (str_starts_with($this->photo, 'http://') || str_starts_with($this->photo, 'https://') || str_starts_with($this->photo, '/')) {
+            return $this->photo;
+        }
+
+        return Storage::disk('public')->url($this->photo);
     }
 
     public function scopeActive(Builder $query): Builder

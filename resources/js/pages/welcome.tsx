@@ -60,6 +60,7 @@ type Staff = {
     name: string;
     position: string;
     photo: string | null;
+    photo_url?: string | null;
     nip: string | null;
 };
 
@@ -89,6 +90,9 @@ export default function Welcome({
     const speech = settings?.principal_speech || 'Selamat datang di Portal Resmi SMP Negeri 5 Sambas...';
     const principalName = principal?.name || settings?.principal_name || 'Drs. H. Mulyadi, M.Pd.';
     const principalPosition = principal?.position || 'Kepala Sekolah';
+    const principalPhoto = principal?.photo_url || principal?.photo || null;
+    const heroBannerImage = settings?.hero_banner_image || null;
+    const heroBannerCaption = settings?.hero_banner_caption || null;
 
     const formatDate = (dateStr: string | null) => {
         if (!dateStr) return '';
@@ -125,6 +129,23 @@ export default function Welcome({
                     </div>
                 </div>
 
+                {/* Slot Foto Gedung / Kegiatan Opsional Berbingkai di Hero Section */}
+                {heroBannerImage && (
+                    <figure className="mb-8 overflow-hidden rounded-lg border border-stone-200/90 bg-stone-100">
+                        <img
+                            src={heroBannerImage}
+                            alt={heroBannerCaption || schoolName}
+                            className="w-full aspect-[16/9] sm:aspect-[21/9] object-cover"
+                        />
+                        {heroBannerCaption && (
+                            <figcaption className="px-4 py-2.5 text-xs text-ink-secondary bg-white/90 border-t border-stone-200/80 font-sans italic flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-terracotta shrink-0" />
+                                <span>{heroBannerCaption}</span>
+                            </figcaption>
+                        )}
+                    </figure>
+                )}
+
                 {/* Hero Grid: Sambutan Kepala Sekolah & Pengumuman Resmi */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
                     {/* Sambutan Kepala Sekolah Box (Col 7) */}
@@ -141,14 +162,27 @@ export default function Welcome({
                             </blockquote>
                         </div>
 
-                        <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between">
-                            <div>
-                                <div className="text-sm font-bold text-ink">{principalName}</div>
-                                <div className="text-xs text-ink-muted">{principalPosition}</div>
+                        <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-3 min-w-0">
+                                {principalPhoto ? (
+                                    <img
+                                        src={principalPhoto}
+                                        alt={principalName}
+                                        className="w-11 h-11 rounded-full object-cover object-top border border-stone-300/80 shrink-0 bg-stone-100"
+                                    />
+                                ) : (
+                                    <div className="w-11 h-11 rounded-full bg-stone-100 border border-stone-300/80 flex items-center justify-center text-ink-muted shrink-0">
+                                        <UserIcon className="w-5 h-5 text-ink-muted" />
+                                    </div>
+                                )}
+                                <div className="min-w-0">
+                                    <div className="text-sm font-bold text-ink truncate">{principalName}</div>
+                                    <div className="text-xs text-ink-muted truncate">{principalPosition}</div>
+                                </div>
                             </div>
                             <Link
                                 href="/guru-dan-staf"
-                                className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                                className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1 shrink-0"
                             >
                                 <span>Lihat Profil GTK</span>
                                 <ArrowRightIcon className="w-3.5 h-3.5" />
