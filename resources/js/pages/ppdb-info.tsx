@@ -501,12 +501,6 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                 </svg>
                             </div>
 
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-xs font-semibold mb-3">
-                                <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
-                                <span>Status: Belum Dibuka / Pendaftaran Ditutup</span>
-                            </div>
-
                             {/* Main Apology & Welcome Heading */}
                             <h1 className="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight max-w-2xl mx-auto">
                                 Maaf, Pendaftaran PPDB Belum Dibuka untuk Saat Ini
