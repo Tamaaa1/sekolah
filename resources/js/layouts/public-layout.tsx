@@ -53,6 +53,30 @@ export default function PublicLayout({
     const page = usePage<{ flash?: { error?: string; success?: string } }>();
     const flash = page.props.flash;
 
+    const currentPath = page.url.split('?')[0].replace(/\/+$/, '') || '/';
+
+    const isItemActive = (targetUrl?: string) => {
+        if (!targetUrl || targetUrl === '#' || targetUrl === '') return false;
+        let cleanTarget = targetUrl.split('?')[0].replace(/\/+$/, '') || '/';
+        if (cleanTarget.startsWith('http://') || cleanTarget.startsWith('https://')) {
+            try {
+                const parsed = new URL(cleanTarget);
+                cleanTarget = parsed.pathname.replace(/\/+$/, '') || '/';
+            } catch {
+                return false;
+            }
+        }
+        if (cleanTarget === '/') {
+            return currentPath === '/';
+        }
+        return currentPath === cleanTarget || currentPath.startsWith(cleanTarget + '/');
+    };
+
+    const isParentActive = (children?: MenuItem[]) => {
+        if (!children || children.length === 0) return false;
+        return children.some((child) => isItemActive(child.url));
+    };
+
     useEffect(() => {
         if (flash?.error) {
             toast.error(flash.error);
@@ -137,53 +161,86 @@ export default function PublicLayout({
 
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center gap-1">
-                        {menuItems.map((item) => (
-                            <div key={item.id} className="relative">
-                                {item.children && item.children.length > 0 ? (
-                                    <div
-                                        className="relative"
-                                        onMouseEnter={() => setOpenDropdown(item.id)}
-                                        onMouseLeave={() => setOpenDropdown(null)}
-                                    >
-                                        <button
-                                            type="button"
-                                            className="px-3.5 py-2 text-sm font-medium text-ink hover:text-prussian rounded hover:bg-canvas-subtle inline-flex items-center gap-1 transition-colors"
-                                        >
-                                            {item.label}
-                                            <ChevronDownIcon className="w-3.5 h-3.5 opacity-60" />
-                                        </button>
+                        {menuItems.map((item) => {
+                            const hasChildren = item.children && item.children.length > 0;
+                            const isActive = hasChildren
+                                ? isParentActive(item.children)
+                                : isItemActive(item.url);
 
-                                        {openDropdown === item.id && (
-                                            <div className="absolute top-full left-0 w-52 bg-white rounded border border-line shadow-md py-1 z-50">
-                                                {item.children.map((child) => (
-                                                    <Link
-                                                        key={child.id}
-                                                        href={child.url}
-                                                        className="block px-4 py-2 text-sm text-ink hover:bg-canvas-subtle hover:text-prussian transition-colors"
-                                                    >
-                                                        {child.label}
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                ) : (
-                                    <Link
-                                        href={item.url}
-                                        className="px-3.5 py-2 text-sm font-medium text-ink hover:text-prussian rounded hover:bg-canvas-subtle transition-colors"
-                                    >
-                                        {item.label}
-                                    </Link>
-                                )}
-                            </div>
-                        ))}
+                            return (
+                                <div key={item.id} className="relative">
+                                    {hasChildren ? (
+                                        <div
+                                            className="relative"
+                                            onMouseEnter={() => setOpenDropdown(item.id)}
+                                            onMouseLeave={() => setOpenDropdown(null)}
+                                        >
+                                            <button
+                                                type="button"
+                                                className={`relative px-3.5 py-2 text-sm font-medium rounded transition-colors inline-flex items-center gap-1.5 ${
+                                                    isActive
+                                                        ? 'text-prussian font-bold bg-prussian/[0.08]'
+                                                        : 'text-ink hover:text-prussian hover:bg-canvas-subtle'
+                                                }`}
+                                            >
+                                                <span>{item.label}</span>
+                                                <ChevronDownIcon className="w-3.5 h-3.5 opacity-60" />
+                                                {isActive && (
+                                                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-prussian rounded-full" />
+                                                )}
+                                            </button>
+
+                                            {openDropdown === item.id && (
+                                                <div className="absolute top-full left-0 w-56 bg-white rounded border border-line shadow-md py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                                                    {item.children!.map((child) => {
+                                                        const childActive = isItemActive(child.url);
+                                                        return (
+                                                            <Link
+                                                                key={child.id}
+                                                                href={child.url}
+                                                                className={`flex items-center justify-between px-4 py-2 text-sm transition-colors ${
+                                                                    childActive
+                                                                        ? 'bg-prussian/10 text-prussian font-semibold border-l-2 border-prussian pl-3.5'
+                                                                        : 'text-ink hover:bg-canvas-subtle hover:text-prussian'
+                                                                }`}
+                                                            >
+                                                                <span>{child.label}</span>
+                                                                {childActive && (
+                                                                    <span className="w-1.5 h-1.5 rounded-full bg-prussian" />
+                                                                )}
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <Link
+                                            href={item.url}
+                                            className={`relative px-3.5 py-2 text-sm font-medium rounded transition-colors inline-flex items-center ${
+                                                isActive
+                                                    ? 'text-prussian font-bold bg-prussian/[0.08]'
+                                                    : 'text-ink hover:text-prussian hover:bg-canvas-subtle'
+                                            }`}
+                                        >
+                                            <span>{item.label}</span>
+                                            {isActive && (
+                                                <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-prussian rounded-full" />
+                                            )}
+                                        </Link>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </nav>
 
                     {/* CTA Button */}
                     <div className="hidden sm:flex items-center gap-3">
                         <Link
                             href="/ppdb"
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs"
+                            className={`inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs ${
+                                isItemActive('/ppdb') ? 'ring-2 ring-terracotta ring-offset-2 ring-offset-white' : ''
+                            }`}
                         >
                             <span>Info PPDB</span>
                             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
@@ -194,7 +251,9 @@ export default function PublicLayout({
                     <div className="flex lg:hidden items-center gap-2">
                         <Link
                             href="/ppdb"
-                            className="px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold"
+                            className={`px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold ${
+                                isItemActive('/ppdb') ? 'ring-2 ring-terracotta ring-offset-1 ring-offset-white' : ''
+                            }`}
                         >
                             PPDB
                         </Link>
@@ -216,37 +275,65 @@ export default function PublicLayout({
                 {/* Mobile Navigation Drawer */}
                 {mobileMenuOpen && (
                     <div className="lg:hidden border-t border-line bg-white px-4 py-4 space-y-2">
-                        {menuItems.map((item) => (
-                            <div key={item.id} className="border-b border-line/50 pb-2">
-                                {item.children && item.children.length > 0 ? (
-                                    <div>
-                                        <div className="font-semibold text-sm text-ink px-2 py-1">
-                                            {item.label}
+                        {menuItems.map((item) => {
+                            const hasChildren = item.children && item.children.length > 0;
+                            const isActive = hasChildren
+                                ? isParentActive(item.children)
+                                : isItemActive(item.url);
+
+                            return (
+                                <div key={item.id} className="border-b border-line/50 pb-2">
+                                    {hasChildren ? (
+                                        <div>
+                                            <div
+                                                className={`font-semibold text-sm px-2 py-1 ${
+                                                    isActive ? 'text-prussian font-bold' : 'text-ink'
+                                                }`}
+                                            >
+                                                {item.label}
+                                            </div>
+                                            <div className="pl-3 mt-1 space-y-1">
+                                                {item.children!.map((child) => {
+                                                    const childActive = isItemActive(child.url);
+                                                    return (
+                                                        <Link
+                                                            key={child.id}
+                                                            href={child.url}
+                                                            onClick={() => setMobileMenuOpen(false)}
+                                                            className={`flex items-center justify-between px-3 py-1.5 rounded text-sm transition-colors ${
+                                                                childActive
+                                                                    ? 'bg-prussian/10 text-prussian font-semibold border-l-2 border-prussian pl-2.5'
+                                                                    : 'text-ink-secondary hover:text-prussian hover:bg-canvas-subtle'
+                                                            }`}
+                                                        >
+                                                            <span>{child.label}</span>
+                                                            {childActive && (
+                                                                <span className="w-1.5 h-1.5 rounded-full bg-prussian" />
+                                                            )}
+                                                        </Link>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                        <div className="pl-4 mt-1 space-y-1">
-                                            {item.children.map((child) => (
-                                                <Link
-                                                    key={child.id}
-                                                    href={child.url}
-                                                    onClick={() => setMobileMenuOpen(false)}
-                                                    className="block py-1 text-sm text-ink-secondary hover:text-prussian"
-                                                >
-                                                    {child.label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <Link
-                                        href={item.url}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="block px-2 py-1.5 text-sm font-medium text-ink hover:text-prussian"
-                                    >
-                                        {item.label}
-                                    </Link>
-                                )}
-                            </div>
-                        ))}
+                                    ) : (
+                                        <Link
+                                            href={item.url}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className={`flex items-center justify-between px-3 py-2 rounded text-sm font-medium transition-colors ${
+                                                isActive
+                                                    ? 'bg-prussian/10 text-prussian font-bold border-l-2 border-prussian pl-2.5'
+                                                    : 'text-ink hover:text-prussian hover:bg-canvas-subtle'
+                                            }`}
+                                        >
+                                            <span>{item.label}</span>
+                                            {isActive && (
+                                                <span className="w-1.5 h-1.5 rounded-full bg-prussian" />
+                                            )}
+                                        </Link>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
             </header>
