@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\StaffDirectory;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -50,7 +51,8 @@ class StaffDirectoryController extends Controller
             'is_active' => ['boolean'],
         ]);
 
-        StaffDirectory::create($validated);
+        $item = StaffDirectory::create($validated);
+        ActivityLogger::log('create', 'Guru & Staf TU', "Menambahkan data tenaga pendidik/staf: '{$item->name}' ({$item->position})", $item);
 
         return redirect()->back()->with('success', 'Data tenaga pendidik/kependidikan berhasil ditambahkan.');
     }
@@ -69,13 +71,16 @@ class StaffDirectoryController extends Controller
         ]);
 
         $staff->update($validated);
+        ActivityLogger::log('update', 'Guru & Staf TU', "Memperbarui data tenaga pendidik/staf: '{$staff->name}'", $staff);
 
         return redirect()->back()->with('success', 'Data tenaga pendidik/kependidikan berhasil diperbarui.');
     }
 
     public function destroy(StaffDirectory $staff): RedirectResponse
     {
+        $name = $staff->name;
         $staff->delete();
+        ActivityLogger::log('delete', 'Guru & Staf TU', "Menghapus data tenaga pendidik/staf: '{$name}'");
 
         return redirect()->back()->with('success', 'Data tenaga pendidik/kependidikan berhasil dihapus.');
     }

@@ -4,6 +4,7 @@ import {
     ArrowTopRightOnSquareIcon,
     Bars3BottomLeftIcon,
     CalendarDaysIcon,
+    ClipboardDocumentListIcon,
     Cog6ToothIcon,
     DocumentTextIcon,
     HomeIcon,
@@ -83,6 +84,11 @@ const mainNavItems: NavItem[] = [
         title: 'Pengaturan Sekolah',
         href: '/admin/settings',
         icon: Cog6ToothIcon,
+    },
+    {
+        title: 'Log Aktivitas',
+        href: '/admin/activity-logs',
+        icon: ClipboardDocumentListIcon,
     },
 ];
 

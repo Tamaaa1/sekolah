@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Achievement;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -53,7 +54,8 @@ class AchievementController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
-        Achievement::create($validated);
+        $item = Achievement::create($validated);
+        ActivityLogger::log('create', 'Prestasi Siswa', "Mencatat prestasi baru: '{$item->title}' oleh {$item->student_name} ({$item->rank})", $item);
 
         return redirect()->back()->with('success', 'Catatan prestasi siswa berhasil disimpan.');
     }
@@ -72,13 +74,16 @@ class AchievementController extends Controller
         ]);
 
         $achievement->update($validated);
+        ActivityLogger::log('update', 'Prestasi Siswa', "Memperbarui catatan prestasi: '{$achievement->title}'", $achievement);
 
         return redirect()->back()->with('success', 'Catatan prestasi siswa berhasil diperbarui.');
     }
 
     public function destroy(Achievement $achievement): RedirectResponse
     {
+        $title = $achievement->title;
         $achievement->delete();
+        ActivityLogger::log('delete', 'Prestasi Siswa', "Menghapus catatan prestasi: '{$title}'");
 
         return redirect()->back()->with('success', 'Catatan prestasi siswa berhasil dihapus.');
     }

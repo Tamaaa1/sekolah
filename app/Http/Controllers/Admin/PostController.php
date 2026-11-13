@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Taxonomy;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -108,6 +109,13 @@ class PostController extends Controller
             $post->taxonomies()->sync($validated['category_ids']);
         }
 
+        $module = match ($post->type) {
+            'announcement' => 'Pengumuman',
+            'page' => 'Halaman Statis',
+            default => 'Berita & Artikel',
+        };
+        ActivityLogger::log('create', $module, "Menambahkan {$module} baru: '{$post->title}'", $post);
+
         return redirect()->route('admin.posts.index', ['type' => $post->type])
             ->with('success', 'Konten berhasil disimpan.');
     }
@@ -168,6 +176,13 @@ class PostController extends Controller
             $post->taxonomies()->sync($validated['category_ids']);
         }
 
+        $module = match ($post->type) {
+            'announcement' => 'Pengumuman',
+            'page' => 'Halaman Statis',
+            default => 'Berita & Artikel',
+        };
+        ActivityLogger::log('update', $module, "Memperbarui {$module}: '{$post->title}'", $post);
+
         return redirect()->route('admin.posts.index', ['type' => $post->type])
             ->with('success', 'Konten berhasil diperbarui.');
     }
@@ -175,7 +190,16 @@ class PostController extends Controller
     public function destroy(Post $post): RedirectResponse
     {
         $type = $post->type;
+        $title = $post->title;
+        $module = match ($type) {
+            'announcement' => 'Pengumuman',
+            'page' => 'Halaman Statis',
+            default => 'Berita & Artikel',
+        };
+
         $post->delete();
+
+        ActivityLogger::log('delete', $module, "Menghapus {$module}: '{$title}'");
 
         return redirect()->route('admin.posts.index', ['type' => $type])
             ->with('success', 'Konten berhasil dihapus.');

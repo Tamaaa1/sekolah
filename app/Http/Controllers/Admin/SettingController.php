@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -46,6 +47,8 @@ class SettingController extends Controller
 
             Setting::set($key, $value, $group);
         }
+
+        ActivityLogger::log('update', 'Pengaturan Sekolah', 'Memperbarui pengaturan identitas dan informasi sekolah');
 
         return back()->with('success', 'Pengaturan sekolah berhasil diperbarui.');
     }

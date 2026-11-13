@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Extracurricular;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -50,7 +51,8 @@ class ExtracurricularController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        Extracurricular::create($validated);
+        $item = Extracurricular::create($validated);
+        ActivityLogger::log('create', 'Ekstrakurikuler', "Menambahkan kegiatan ekstrakurikuler: '{$item->name}'", $item);
 
         return redirect()->back()->with('success', 'Data kegiatan ekstrakurikuler berhasil ditambahkan.');
     }
@@ -73,13 +75,16 @@ class ExtracurricularController extends Controller
         }
 
         $extracurricular->update($validated);
+        ActivityLogger::log('update', 'Ekstrakurikuler', "Memperbarui kegiatan ekstrakurikuler: '{$extracurricular->name}'", $extracurricular);
 
         return redirect()->back()->with('success', 'Data kegiatan ekstrakurikuler berhasil diperbarui.');
     }
 
     public function destroy(Extracurricular $extracurricular): RedirectResponse
     {
+        $name = $extracurricular->name;
         $extracurricular->delete();
+        ActivityLogger::log('delete', 'Ekstrakurikuler', "Menghapus kegiatan ekstrakurikuler: '{$name}'");
 
         return redirect()->back()->with('success', 'Data kegiatan ekstrakurikuler berhasil dihapus.');
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AcademicAgendaController;
 use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\ExtracurricularController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Admin\StaffDirectoryController;
 use App\Http\Controllers\PublicPortalController;
 use App\Models\AcademicAgenda;
 use App\Models\Achievement;
+use App\Models\ActivityLog;
 use App\Models\Extracurricular;
 use App\Models\Media;
 use App\Models\Post;
@@ -51,7 +53,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'extracurricularCount' => Extracurricular::count(),
                 'achievementCount' => Achievement::count(),
                 'mediaCount' => Media::count(),
+                'activityLogCount' => ActivityLog::count(),
                 'recentPosts' => Post::latest()->take(5)->get(),
+                'recentLogs' => ActivityLog::latest('id')->take(5)->get(),
             ]);
         })->name('dashboard');
 
@@ -66,6 +70,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
         Route::post('menus/{menu}/items', [MenuController::class, 'storeItem'])->name('menus.items.store');
         Route::delete('menus/items/{item}', [MenuController::class, 'destroyItem'])->name('menus.items.destroy');
+        Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+        Route::delete('activity-logs', [ActivityLogController::class, 'clear'])->name('activity-logs.clear');
     });
 });
 

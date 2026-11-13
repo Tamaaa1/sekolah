@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AcademicAgenda;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -43,7 +44,8 @@ class AcademicAgendaController extends Controller
             'is_active' => ['boolean'],
         ]);
 
-        AcademicAgenda::create($validated);
+        $item = AcademicAgenda::create($validated);
+        ActivityLogger::log('create', 'Agenda Akademik', "Menambahkan agenda: '{$item->title}' ({$item->start_date})", $item);
 
         return redirect()->back()->with('success', 'Jadwal agenda akademik berhasil ditambahkan.');
     }
@@ -60,13 +62,16 @@ class AcademicAgendaController extends Controller
         ]);
 
         $agenda->update($validated);
+        ActivityLogger::log('update', 'Agenda Akademik', "Memperbarui agenda: '{$agenda->title}'", $agenda);
 
         return redirect()->back()->with('success', 'Jadwal agenda akademik berhasil diperbarui.');
     }
 
     public function destroy(AcademicAgenda $agenda): RedirectResponse
     {
+        $title = $agenda->title;
         $agenda->delete();
+        ActivityLogger::log('delete', 'Agenda Akademik', "Menghapus agenda: '{$title}'");
 
         return redirect()->back()->with('success', 'Jadwal agenda akademik berhasil dihapus.');
     }

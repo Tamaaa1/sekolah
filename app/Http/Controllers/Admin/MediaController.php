@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Media;
+use App\Services\ActivityLogger;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -56,6 +57,8 @@ class MediaController extends Controller
             'alt_text' => $request->input('alt_text', $originalName),
         ]);
 
+        ActivityLogger::log('upload', 'Pustaka Media', "Mengunggah berkas media: '{$originalName}' ({$safeFileName})", $media);
+
         if (! $request->header('X-Inertia') && ($request->expectsJson() || $request->wantsJson() || $request->has('json') || $request->ajax() || $request->header('X-Requested-With') === 'XMLHttpRequest')) {
             return response()->json([
                 'success' => true,
@@ -72,7 +75,9 @@ class MediaController extends Controller
             Storage::disk('public')->delete($medium->file_path);
         }
 
+        $name = $medium->name;
         $medium->delete();
+        ActivityLogger::log('delete', 'Pustaka Media', "Menghapus berkas media: '{$name}'");
 
         if (! request()->header('X-Inertia') && (request()->expectsJson() || request()->wantsJson() || request()->has('json') || request()->ajax() || request()->header('X-Requested-With') === 'XMLHttpRequest')) {
             return response()->json(['success' => true]);

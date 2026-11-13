@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\Post;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -46,14 +47,18 @@ class MenuController extends Controller
         ]);
 
         $validated['menu_id'] = $menu->id;
-        MenuItem::create($validated);
+        $createdItem = MenuItem::create($validated);
+        ActivityLogger::log('create', 'Menu Navigasi', "Menambahkan item menu: '{$createdItem->label}' pada {$menu->name}", $createdItem);
 
         return back()->with('success', 'Item menu berhasil ditambahkan.');
     }
 
     public function destroyItem(MenuItem $item): RedirectResponse
     {
+        $label = $item->label;
         $item->delete();
+        ActivityLogger::log('delete', 'Menu Navigasi', "Menghapus item menu: '{$label}'");
+
         return back()->with('success', 'Item menu berhasil dihapus.');
     }
 }
