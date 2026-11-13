@@ -130,13 +130,8 @@ export default function PublicLayout({
                         <div className="w-12 h-12 rounded bg-prussian text-white flex items-center justify-center font-serif text-2xl font-bold tracking-tight border border-line-strong">
                             <AcademicCapIcon className="w-7 h-7" />
                         </div>
-                        <div>
-                            <div className="font-serif font-bold text-xl md:text-2xl text-ink tracking-tight leading-none group-hover:text-prussian transition-colors">
-                                {schoolName}
-                            </div>
-                            <div className="text-xs text-ink-muted mt-1 uppercase tracking-wider font-medium">
-                                Portal Resmi Sekolah Menengah Pertama
-                            </div>
+                        <div className="font-serif font-bold text-xl md:text-2xl text-ink tracking-tight leading-none group-hover:text-prussian transition-colors">
+                            {schoolName}
                         </div>
                     </Link>
 
