@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import ScrollStack, { ScrollStackItem } from '@/components/ui/scroll-stack';
 import {
     AcademicCapIcon,
     ArrowDownTrayIcon,
@@ -159,321 +160,354 @@ export default function Welcome({
                     </div>
                 )}
 
-                {/* Hero Grid: Sambutan Kepala Sekolah & Pengumuman Resmi */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                    {/* Sambutan Kepala Sekolah Box (Col 7) */}
-                    <div className="lg:col-span-7 bg-white rounded border border-line p-6 sm:p-8 flex flex-col justify-between shadow-xs">
-                        <div>
-                            <div className="flex items-center gap-2 mb-4">
-                                <AcademicCapIcon className="w-5 h-5 text-prussian" />
-                                <span className="text-xs font-semibold uppercase tracking-wider text-prussian">
-                                    Sambutan Kepala Sekolah
-                                </span>
-                            </div>
-                            <blockquote className="font-serif italic text-ink text-base sm:text-lg leading-relaxed pl-4 border-l-2 border-prussian my-2">
-                                &ldquo;{speech}&rdquo;
-                            </blockquote>
-                        </div>
-
-                        <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between gap-4">
-                            <div className="flex items-center gap-3 min-w-0">
-                                {principalPhoto ? (
-                                    <img
-                                        src={principalPhoto}
-                                        alt={principalName}
-                                        className="w-11 h-11 rounded-full object-cover object-top border border-stone-300/80 shrink-0 bg-stone-100"
-                                    />
-                                ) : (
-                                    <div className="w-11 h-11 rounded-full bg-stone-100 border border-stone-300/80 flex items-center justify-center text-ink-muted shrink-0">
-                                        <UserIcon className="w-5 h-5 text-ink-muted" />
-                                    </div>
-                                )}
-                                <div className="min-w-0">
-                                    <div className="text-sm font-bold text-ink truncate">{principalName}</div>
-                                    <div className="text-xs text-ink-muted truncate">{principalPosition}</div>
-                                </div>
-                            </div>
-                            <Link
-                                href="/guru-dan-staf"
-                                className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1 shrink-0"
-                            >
-                                <span>Lihat Profil GTK</span>
-                                <ArrowRightIcon className="w-3.5 h-3.5" />
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Recent Announcements Widget (Col 5) */}
-                    <div className="lg:col-span-5 bg-white rounded border border-line p-6 shadow-xs flex flex-col justify-between">
-                        <div>
-                            <div className="flex items-center justify-between pb-3 border-b border-line mb-4">
-                                <div className="flex items-center gap-2">
-                                    <MegaphoneIcon className="w-4 h-4 text-terracotta" />
-                                    <span className="text-xs font-bold uppercase tracking-wider text-ink">
-                                        Pengumuman Resmi
-                                    </span>
-                                </div>
-                                <span className="text-[11px] text-ink-muted font-mono">Warta Terbaru</span>
-                            </div>
-
-                            <div className="space-y-3.5">
-                                {announcements.length > 0 ? (
-                                    announcements.map((item) => (
-                                        <div
-                                            key={item.id}
-                                            className="group block pb-3 border-b border-line/40 last:border-0 last:pb-0"
-                                        >
-                                            <div className="text-[11px] text-ink-muted mb-0.5">
-                                                {formatDate(item.published_at)}
-                                            </div>
-                                            <Link
-                                                href={`/${item.slug}`}
-                                                className="text-xs sm:text-sm font-semibold text-ink group-hover:text-prussian transition-colors line-clamp-2"
-                                            >
-                                                {item.title}
-                                            </Link>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p className="text-xs text-ink-muted italic py-4 text-center">
-                                        Belum ada pengumuman terbaru.
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-
-                        {announcements.length > 0 && (
-                            <div className="mt-4 pt-3 border-t border-line/60 text-right">
-                                <Link
-                                    href="/pengumuman"
-                                    className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1"
-                                >
-                                    <span>Semua Pengumuman</span>
-                                    <ArrowRightIcon className="w-3.5 h-3.5" />
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </section>
-
-            {/* Berita Terbaru & Warta Sekolah */}
-            <section className="bg-white border-y border-line py-14">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="flex items-end justify-between border-b border-line pb-4 mb-8">
-                        <div>
-                            <span className="text-xs font-mono uppercase tracking-wider text-ink-muted">
-                                Berita & Dokumentasi
-                            </span>
-                            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-1">
-                                Warta & Liputan Terkini
-                            </h2>
-                        </div>
-                        <Link
-                            href="/berita"
-                            className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-prussian hover:underline"
-                        >
-                            <span>Indeks Berita</span>
-                            <ChevronRightIcon className="w-4 h-4" />
-                        </Link>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {latestPosts.length > 0 ? (
-                            latestPosts.map((post) => (
-                                <article
-                                    key={post.id}
-                                    className="bg-canvas-paper rounded border border-line p-5 flex flex-col justify-between hover:border-line-strong transition-all group"
-                                >
+                {/* Scroll Stack Sections: 4 Cards */}
+                <div className="mt-8">
+                    <ScrollStack
+                        useWindowScroll={true}
+                        stackPosition="96px"
+                        itemDistance={100}
+                        itemStackDistance={24}
+                        itemScale={0.035}
+                        baseScale={0.88}
+                        dimAmount={0.14}
+                        holdDistance={160}
+                        smoothScroll={false}
+                    >
+                        {/* Section 1: Sambutan Kepala Sekolah & Pengumuman Resmi */}
+                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                                {/* Sambutan Kepala Sekolah (Col 7) */}
+                                <div className="lg:col-span-7 flex flex-col justify-between">
                                     <div>
-                                        <div className="flex items-center gap-2 mb-2 text-xs text-ink-muted">
-                                            {post.categories && post.categories[0] && (
-                                                <span className="px-2 py-0.5 rounded-xs bg-canvas-subtle text-ink font-medium">
-                                                    {post.categories[0].name}
-                                                </span>
-                                            )}
-                                            <span>{formatDate(post.published_at)}</span>
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <AcademicCapIcon className="w-5 h-5 text-prussian" />
+                                            <span className="text-xs font-semibold uppercase tracking-wider text-prussian">
+                                                Sambutan Kepala Sekolah
+                                            </span>
                                         </div>
-
-                                        <Link href={`/${post.slug}`}>
-                                            <h3 className="font-serif font-bold text-lg text-ink group-hover:text-prussian transition-colors leading-snug line-clamp-3">
-                                                {post.title}
-                                            </h3>
-                                        </Link>
-
-                                        <p className="mt-2 text-ink-secondary text-xs leading-relaxed line-clamp-3">
-                                            {post.excerpt || 'Klik untuk membaca laporan selengkapnya.'}
-                                        </p>
+                                        <blockquote className="font-serif italic text-ink text-base sm:text-lg lg:text-xl leading-relaxed pl-4 border-l-2 border-prussian my-2">
+                                            &ldquo;{speech}&rdquo;
+                                        </blockquote>
                                     </div>
 
-                                    <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between text-xs">
+                                    <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between gap-4">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            {principalPhoto ? (
+                                                <img
+                                                    src={principalPhoto}
+                                                    alt={principalName}
+                                                    className="w-11 h-11 rounded-full object-cover object-top border border-stone-300/80 shrink-0 bg-stone-100"
+                                                />
+                                            ) : (
+                                                <div className="w-11 h-11 rounded-full bg-stone-100 border border-stone-300/80 flex items-center justify-center text-ink-muted shrink-0">
+                                                    <UserIcon className="w-5 h-5 text-ink-muted" />
+                                                </div>
+                                            )}
+                                            <div className="min-w-0">
+                                                <div className="text-sm font-bold text-ink truncate">{principalName}</div>
+                                                <div className="text-xs text-ink-muted truncate">{principalPosition}</div>
+                                            </div>
+                                        </div>
                                         <Link
-                                            href={`/${post.slug}`}
-                                            className="font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                                            href="/guru-dan-staf"
+                                            className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1 shrink-0"
                                         >
-                                            <span>Selengkapnya</span>
+                                            <span>Lihat Profil GTK</span>
                                             <ArrowRightIcon className="w-3.5 h-3.5" />
                                         </Link>
                                     </div>
-                                </article>
-                            ))
-                        ) : (
-                            <div className="col-span-full py-8 text-center text-ink-muted text-sm italic">
-                                Belum ada publikasi berita tambahan.
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </section>
-
-            {/* Rekap Prestasi Siswa & Agenda Akademik (Dual Grid) */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    {/* Prestasi Unggulan (Col 7) */}
-                    <div className="lg:col-span-7">
-                        <div className="flex items-end justify-between border-b border-line pb-3 mb-6">
-                            <div className="flex items-center gap-2">
-                                <TrophyIcon className="w-6 h-6 text-terracotta" />
-                                <div>
-                                    <h2 className="font-serif text-2xl font-bold text-ink">
-                                        Prestasi Siswa
-                                    </h2>
-                                    <p className="text-xs text-ink-muted">
-                                        Torehan kejuaraan akademik & seni budaya
-                                    </p>
                                 </div>
-                            </div>
-                            <Link
-                                href="/prestasi"
-                                className="text-xs font-semibold text-prussian hover:underline"
-                            >
-                                Semua Prestasi &rarr;
-                            </Link>
-                        </div>
 
-                        <div className="space-y-4">
-                            {achievements.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="bg-white rounded border border-line p-4 flex items-start gap-4 shadow-xs"
-                                >
-                                    <div className="w-12 h-12 rounded bg-canvas-subtle border border-line flex flex-col items-center justify-center shrink-0 text-prussian">
-                                        <SparklesIcon className="w-5 h-5 text-terracotta" />
-                                        <span className="text-[10px] font-bold font-mono">{item.year}</span>
-                                    </div>
-
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-prussian-light text-prussian">
-                                                {item.level}
-                                            </span>
-                                            <span className="text-xs font-semibold text-terracotta">
-                                                {item.rank}
-                                            </span>
-                                        </div>
-                                        <h4 className="font-serif font-bold text-base text-ink leading-snug">
-                                            {item.title}
-                                        </h4>
-                                        <p className="text-xs text-ink-secondary mt-0.5">
-                                            Peserta: <span className="font-medium text-ink">{item.student_name}</span> • {item.competition_name}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Kalender & Agenda Mendatang (Col 5) */}
-                    <div className="lg:col-span-5">
-                        <div className="flex items-end justify-between border-b border-line pb-3 mb-6">
-                            <div className="flex items-center gap-2">
-                                <CalendarDaysIcon className="w-6 h-6 text-prussian" />
-                                <div>
-                                    <h2 className="font-serif text-2xl font-bold text-ink">
-                                        Agenda Akademik
-                                    </h2>
-                                    <p className="text-xs text-ink-muted">
-                                        Jadwal penting kegiatan sekolah
-                                    </p>
-                                </div>
-                            </div>
-                            <Link
-                                href="/agenda"
-                                className="text-xs font-semibold text-prussian hover:underline"
-                            >
-                                Kalender Lengkap &rarr;
-                            </Link>
-                        </div>
-
-                        <div className="space-y-3">
-                            {upcomingAgendas.map((agenda) => {
-                                const startDate = new Date(agenda.start_date);
-                                const day = startDate.getDate();
-                                const month = startDate.toLocaleDateString('id-ID', { month: 'short' }).toUpperCase();
-
-                                return (
-                                    <div
-                                        key={agenda.id}
-                                        className="bg-white rounded border border-line p-4 flex items-center gap-4 shadow-xs"
-                                    >
-                                        <div className="w-12 h-12 rounded bg-prussian text-white flex flex-col items-center justify-center shrink-0 font-mono leading-none">
-                                            <span className="text-base font-bold">{day}</span>
-                                            <span className="text-[10px] uppercase tracking-wider mt-0.5 text-canvas-subtle">
-                                                {month}
-                                            </span>
+                                {/* Recent Announcements Widget (Col 5) */}
+                                <div className="lg:col-span-5 bg-canvas-subtle/50 rounded-lg border border-line p-5 flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex items-center justify-between pb-3 border-b border-line mb-3">
+                                            <div className="flex items-center gap-2">
+                                                <MegaphoneIcon className="w-4 h-4 text-terracotta" />
+                                                <span className="text-xs font-bold uppercase tracking-wider text-ink">
+                                                    Pengumuman Resmi
+                                                </span>
+                                            </div>
+                                            <span className="text-[11px] text-ink-muted font-mono">Warta Terbaru</span>
                                         </div>
 
-                                        <div className="flex-1 min-w-0">
-                                            <h4 className="font-semibold text-sm text-ink leading-snug line-clamp-2">
-                                                {agenda.title}
-                                            </h4>
-                                            {agenda.location && (
-                                                <p className="text-[11px] text-ink-muted mt-0.5">
-                                                    Lokasi: {agenda.location}
+                                        <div className="space-y-3">
+                                            {announcements.length > 0 ? (
+                                                announcements.slice(0, 3).map((item) => (
+                                                    <div
+                                                        key={item.id}
+                                                        className="group block pb-2.5 border-b border-line/40 last:border-0 last:pb-0"
+                                                    >
+                                                        <div className="text-[11px] text-ink-muted mb-0.5">
+                                                            {formatDate(item.published_at)}
+                                                        </div>
+                                                        <Link
+                                                            href={`/${item.slug}`}
+                                                            className="text-xs sm:text-sm font-semibold text-ink group-hover:text-prussian transition-colors line-clamp-2"
+                                                        >
+                                                            {item.title}
+                                                        </Link>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-xs text-ink-muted italic py-4 text-center">
+                                                    Belum ada pengumuman terbaru.
                                                 </p>
                                             )}
                                         </div>
                                     </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            {/* PPDB Banner Section */}
-            <section className="bg-canvas-subtle border-t border-line py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="bg-white rounded border border-line-strong p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xs">
-                        <div className="space-y-2 max-w-2xl">
-                            <span className="inline-block px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-terracotta-light text-terracotta border border-terracotta/20">
-                                PPDB Tahun Ajaran {settings?.ppdb_year || '2026/2027'}
-                            </span>
-                            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
-                                Bergabunglah Menjadi Bagian dari Insan Pembelajar Berkarakter
-                            </h3>
-                            <p className="text-sm text-ink-secondary leading-relaxed">
-                                Pendaftaran terbuka melalui 4 jalur: Zonasi, Afirmasi, Prestasi, dan
-                                Perpindahan Tugas Orang Tua. Pastikan berkas administratif Anda telah lengkap.
-                            </p>
-                        </div>
+                                    {announcements.length > 0 && (
+                                        <div className="mt-3 pt-2.5 border-t border-line/60 text-right">
+                                            <Link
+                                                href="/pengumuman"
+                                                className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                                            >
+                                                <span>Semua Pengumuman</span>
+                                                <ArrowRightIcon className="w-3.5 h-3.5" />
+                                            </Link>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </ScrollStackItem>
 
-                        <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full md:w-auto">
-                            <Link
-                                href="/ppdb"
-                                className="w-full sm:w-auto px-6 py-3 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-bold text-center transition-colors"
-                            >
-                                Informasi & Alur Pendaftaran
-                            </Link>
-                            <a
-                                href={settings?.ppdb_brochure_url || '#'}
-                                className="w-full sm:w-auto px-5 py-3 rounded border border-line text-ink hover:bg-canvas-subtle text-sm font-semibold text-center inline-flex items-center justify-center gap-2 transition-colors"
-                            >
-                                <ArrowDownTrayIcon className="w-4 h-4 text-ink-muted" />
-                                <span>Unduh Brosur</span>
-                            </a>
-                        </div>
-                    </div>
+                        {/* Section 2: Berita & Dokumentasi */}
+                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
+                            <div className="flex items-end justify-between border-b border-line pb-4 mb-6">
+                                <div>
+                                    <span className="text-xs font-mono uppercase tracking-wider text-prussian font-semibold">
+                                        Berita & Dokumentasi
+                                    </span>
+                                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-0.5">
+                                        Warta & Liputan Terkini
+                                    </h2>
+                                </div>
+                                <Link
+                                    href="/berita"
+                                    className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-prussian hover:underline"
+                                >
+                                    <span>Indeks Berita</span>
+                                    <ChevronRightIcon className="w-4 h-4" />
+                                </Link>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                {latestPosts.length > 0 ? (
+                                    latestPosts.slice(0, 3).map((post) => (
+                                        <article
+                                            key={post.id}
+                                            className="bg-canvas-subtle/40 rounded-lg border border-line p-5 flex flex-col justify-between hover:border-line-strong hover:bg-white hover:shadow-xs transition-all group"
+                                        >
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-2 text-xs text-ink-muted">
+                                                    {post.categories && post.categories[0] && (
+                                                        <span className="px-2 py-0.5 rounded-xs bg-white border border-line text-ink font-medium text-[11px]">
+                                                            {post.categories[0].name}
+                                                        </span>
+                                                    )}
+                                                    <span className="text-[11px]">{formatDate(post.published_at)}</span>
+                                                </div>
+
+                                                <Link href={`/${post.slug}`}>
+                                                    <h3 className="font-serif font-bold text-base sm:text-lg text-ink group-hover:text-prussian transition-colors leading-snug line-clamp-2">
+                                                        {post.title}
+                                                    </h3>
+                                                </Link>
+
+                                                <p className="mt-2 text-ink-secondary text-xs leading-relaxed line-clamp-3">
+                                                    {post.excerpt || 'Klik untuk membaca laporan selengkapnya.'}
+                                                </p>
+                                            </div>
+
+                                            <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between text-xs">
+                                                <Link
+                                                    href={`/${post.slug}`}
+                                                    className="font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                                                >
+                                                    <span>Selengkapnya</span>
+                                                    <ArrowRightIcon className="w-3.5 h-3.5" />
+                                                </Link>
+                                            </div>
+                                        </article>
+                                    ))
+                                ) : (
+                                    <div className="col-span-full py-8 text-center text-ink-muted text-sm italic">
+                                        Belum ada publikasi berita tambahan.
+                                    </div>
+                                )}
+                            </div>
+                        </ScrollStackItem>
+
+                        {/* Section 3: Prestasi Siswa & Agenda Akademik */}
+                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                                {/* Prestasi Siswa (Col 7) */}
+                                <div className="lg:col-span-7 flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex items-end justify-between border-b border-line pb-3 mb-4">
+                                            <div className="flex items-center gap-2">
+                                                <TrophyIcon className="w-5 h-5 text-terracotta" />
+                                                <div>
+                                                    <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink">
+                                                        Prestasi Siswa
+                                                    </h2>
+                                                    <p className="text-[11px] text-ink-muted">
+                                                        Torehan kejuaraan akademik & seni budaya
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <Link
+                                                href="/prestasi"
+                                                className="text-xs font-semibold text-prussian hover:underline"
+                                            >
+                                                Semua Prestasi &rarr;
+                                            </Link>
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            {achievements.length > 0 ? (
+                                                achievements.slice(0, 3).map((item) => (
+                                                    <div
+                                                        key={item.id}
+                                                        className="bg-canvas-subtle/50 rounded-lg border border-line p-3.5 flex items-start gap-3.5 shadow-2xs"
+                                                    >
+                                                        <div className="w-10 h-10 rounded bg-white border border-line flex flex-col items-center justify-center shrink-0 text-prussian">
+                                                            <SparklesIcon className="w-4 h-4 text-terracotta" />
+                                                            <span className="text-[9px] font-bold font-mono">{item.year}</span>
+                                                        </div>
+
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                                                                <span className="px-1.5 py-0.2 rounded text-[10px] font-bold uppercase tracking-wider bg-prussian-light text-prussian">
+                                                                    {item.level}
+                                                                </span>
+                                                                <span className="text-xs font-semibold text-terracotta">
+                                                                    {item.rank}
+                                                                </span>
+                                                            </div>
+                                                            <h4 className="font-serif font-bold text-sm text-ink leading-snug truncate">
+                                                                {item.title}
+                                                            </h4>
+                                                            <p className="text-[11px] text-ink-secondary mt-0.5 truncate">
+                                                                {item.student_name} • {item.competition_name}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-xs text-ink-muted italic py-4 text-center">
+                                                    Belum ada catatan prestasi.
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Agenda Akademik (Col 5) */}
+                                <div className="lg:col-span-5 flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex items-end justify-between border-b border-line pb-3 mb-4">
+                                            <div className="flex items-center gap-2">
+                                                <CalendarDaysIcon className="w-5 h-5 text-prussian" />
+                                                <div>
+                                                    <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink">
+                                                        Agenda Akademik
+                                                    </h2>
+                                                    <p className="text-[11px] text-ink-muted">
+                                                        Jadwal penting kegiatan sekolah
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <Link
+                                                href="/agenda"
+                                                className="text-xs font-semibold text-prussian hover:underline"
+                                            >
+                                                Kalender Lengkap &rarr;
+                                            </Link>
+                                        </div>
+
+                                        <div className="space-y-2.5">
+                                            {upcomingAgendas.length > 0 ? (
+                                                upcomingAgendas.slice(0, 3).map((agenda) => {
+                                                    const startDate = new Date(agenda.start_date);
+                                                    const day = startDate.getDate();
+                                                    const month = startDate.toLocaleDateString('id-ID', { month: 'short' }).toUpperCase();
+
+                                                    return (
+                                                        <div
+                                                            key={agenda.id}
+                                                            className="bg-canvas-subtle/50 rounded-lg border border-line p-3 flex items-center gap-3 shadow-2xs"
+                                                        >
+                                                            <div className="w-10 h-10 rounded bg-prussian text-white flex flex-col items-center justify-center shrink-0 font-mono leading-none">
+                                                                <span className="text-sm font-bold">{day}</span>
+                                                                <span className="text-[9px] uppercase tracking-wider mt-0.5 text-canvas-subtle">
+                                                                    {month}
+                                                                </span>
+                                                            </div>
+
+                                                            <div className="flex-1 min-w-0">
+                                                                <h4 className="font-semibold text-xs text-ink leading-snug line-clamp-1">
+                                                                    {agenda.title}
+                                                                </h4>
+                                                                {agenda.location && (
+                                                                    <p className="text-[10px] text-ink-muted mt-0.5 truncate">
+                                                                        Lokasi: {agenda.location}
+                                                                    </p>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })
+                                            ) : (
+                                                <p className="text-xs text-ink-muted italic py-4 text-center">
+                                                    Belum ada agenda terdekat.
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ScrollStackItem>
+
+                        {/* Section 4: PPDB Banner */}
+                        <ScrollStackItem itemClassName="p-6 sm:p-10 lg:p-12">
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                                <div className="space-y-3 max-w-2xl">
+                                    <span className="inline-block px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-terracotta-light text-terracotta border border-terracotta/20">
+                                        PPDB Tahun Ajaran {settings?.ppdb_year || '2026/2027'}
+                                    </span>
+                                    <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-ink leading-tight">
+                                        Bergabunglah Menjadi Bagian dari Insan Pembelajar Berkarakter
+                                    </h3>
+                                    <p className="text-sm text-ink-secondary leading-relaxed">
+                                        Pendaftaran terbuka melalui 4 jalur: Zonasi, Afirmasi, Prestasi, dan
+                                        Perpindahan Tugas Orang Tua. Pastikan berkas administratif Anda telah lengkap.
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full md:w-auto">
+                                    <Link
+                                        href="/ppdb"
+                                        className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-terracotta hover:bg-terracotta-hover text-white text-sm font-bold text-center transition-colors shadow-xs"
+                                    >
+                                        Informasi & Alur Pendaftaran
+                                    </Link>
+                                    {settings?.ppdb_brochure_url && (
+                                        <a
+                                            href={settings.ppdb_brochure_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-full sm:w-auto px-5 py-3.5 rounded-lg border border-line text-ink hover:bg-canvas-subtle text-sm font-semibold text-center inline-flex items-center justify-center gap-2 transition-colors"
+                                        >
+                                            <ArrowDownTrayIcon className="w-4 h-4 text-ink-muted" />
+                                            <span>Unduh Brosur</span>
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        </ScrollStackItem>
+                    </ScrollStack>
                 </div>
             </section>
         </PublicLayout>
