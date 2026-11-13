@@ -111,7 +111,7 @@ export default function PostsIndex({
         >
             <Head title={`Kelola ${typeLabel}`} />
 
-            <div className="p-6 space-y-6">
+            <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-sidebar-border pb-4">
                     <div>

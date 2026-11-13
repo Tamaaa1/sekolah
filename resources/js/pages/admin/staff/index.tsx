@@ -170,7 +170,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Direktori Guru & Staf TU - Panel Admin" />
 
-            <div className="p-6 max-w-7xl mx-auto space-y-6">
+            <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2DFD7] pb-4">
                     <div>
                         <h1 className="text-2xl font-serif font-bold text-[#1A2228] tracking-tight">
@@ -232,19 +232,20 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
 
                 {/* Table */}
                 <div className="bg-white border border-[#E2DFD7] rounded-xs overflow-hidden shadow-2xs">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
-                                <th className="p-3.5 w-16 text-center">Foto 3:4</th>
-                                <th className="p-3.5">Nama & NIP</th>
-                                <th className="p-3.5">Kategori</th>
-                                <th className="p-3.5">Jabatan / Mata Pelajaran</th>
-                                <th className="p-3.5 text-center w-24">Urutan</th>
-                                <th className="p-3.5 text-center w-24">Status</th>
-                                <th className="p-3.5 text-right w-28">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#E2DFD7] text-xs">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
+                                    <th className="p-3.5 w-16 text-center whitespace-nowrap">Foto 3:4</th>
+                                    <th className="p-3.5">Nama & NIP</th>
+                                    <th className="p-3.5 w-36 whitespace-nowrap">Kategori</th>
+                                    <th className="p-3.5">Jabatan / Mata Pelajaran</th>
+                                    <th className="p-3.5 text-center w-24 whitespace-nowrap">Urutan</th>
+                                    <th className="p-3.5 text-center w-24 whitespace-nowrap">Status</th>
+                                    <th className="p-3.5 text-right w-28 whitespace-nowrap">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#E2DFD7] text-xs">
                             {staff.data.length === 0 ? (
                                 <tr>
                                     <td colSpan={7} className="p-8 text-center text-[#5A626A]">
@@ -343,6 +344,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                             )}
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 {/* Pagination */}

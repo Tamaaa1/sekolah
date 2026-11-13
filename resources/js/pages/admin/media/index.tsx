@@ -10,6 +10,8 @@ import {
     DocumentIcon,
     MagnifyingGlassIcon,
     PhotoIcon,
+    Squares2X2Icon,
+    TableCellsIcon,
     TrashIcon,
 } from '@heroicons/react/24/outline';
 import type { BreadcrumbItem } from '@/types';
@@ -48,6 +50,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function MediaIndex({ media, filters }: MediaPageProps) {
     const [search, setSearch] = useState(filters.search || '');
+    const [viewMode, setViewMode] = useState<'grid' | 'table'>('table');
     const [uploading, setUploading] = useState(false);
     const [deleteModal, setDeleteModal] = useState<{
         open: boolean;
@@ -104,7 +107,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Pustaka Media - Panel Admin" />
 
-            <div className="p-6 max-w-7xl mx-auto space-y-6">
+            <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2DFD7] pb-4">
                     <div>
                         <h1 className="text-2xl font-serif font-bold text-[#1A2228] tracking-tight">
@@ -130,7 +133,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                     </div>
                 </div>
 
-                {/* Filter and Search */}
+                {/* Filter, Search, and View Mode Toggle */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-3 border border-[#E2DFD7] rounded-xs shadow-2xs">
                     <form onSubmit={handleSearch} className="flex gap-2 w-full sm:w-80">
                         <div className="relative flex-1">
@@ -146,11 +149,40 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                             Cari
                         </Button>
                     </form>
+
+                    <div className="flex items-center gap-1 border border-[#D8D2C6] p-0.5 rounded-xs bg-[#FAF9F6] self-end sm:self-auto">
+                        <button
+                            type="button"
+                            onClick={() => setViewMode('table')}
+                            className={`p-1.5 rounded-xs text-xs font-medium flex items-center gap-1.5 transition ${
+                                viewMode === 'table'
+                                    ? 'bg-[#0F2C59] text-white shadow-2xs'
+                                    : 'text-[#5A626A] hover:text-[#1A2228] hover:bg-white'
+                            }`}
+                            title="Tampilan Tabel"
+                        >
+                            <TableCellsIcon className="w-4 h-4" />
+                            <span className="text-[11px]">Tabel</span>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setViewMode('grid')}
+                            className={`p-1.5 rounded-xs text-xs font-medium flex items-center gap-1.5 transition ${
+                                viewMode === 'grid'
+                                    ? 'bg-[#0F2C59] text-white shadow-2xs'
+                                    : 'text-[#5A626A] hover:text-[#1A2228] hover:bg-white'
+                            }`}
+                            title="Tampilan Grid Galeri"
+                        >
+                            <Squares2X2Icon className="w-4 h-4" />
+                            <span className="text-[11px]">Grid</span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Grid */}
+                {/* Content: Empty State, Table View, or Grid View */}
                 {media.data.length === 0 ? (
-                    <div className="bg-white border border-[#E2DFD7] p-12 text-center rounded-xs">
+                    <div className="bg-white border border-[#E2DFD7] p-12 text-center rounded-xs shadow-2xs">
                         <PhotoIcon className="w-12 h-12 text-[#5A626A] mx-auto mb-3 stroke-1" />
                         <h3 className="text-base font-serif font-bold text-[#1A2228]">
                             Pustaka Media Masih Kosong
@@ -158,6 +190,90 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                         <p className="text-xs text-[#5A626A] mt-1 max-w-sm mx-auto">
                             Klik tombol &ldquo;Unggah Berkas&rdquo; di kanan atas untuk menambahkan foto berita, logo, atau dokumen PDF.
                         </p>
+                    </div>
+                ) : viewMode === 'table' ? (
+                    <div className="bg-white border border-[#E2DFD7] rounded-xs overflow-hidden shadow-2xs">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-[#FAF9F6] border-b border-[#E2DFD7] text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
+                                        <th className="p-3.5 w-16 text-center whitespace-nowrap">Pratinjau</th>
+                                        <th className="p-3.5">Nama Berkas</th>
+                                        <th className="p-3.5 w-32 whitespace-nowrap">Tipe</th>
+                                        <th className="p-3.5 w-28 whitespace-nowrap">Ukuran</th>
+                                        <th className="p-3.5 w-36 whitespace-nowrap">Tanggal Unggah</th>
+                                        <th className="p-3.5 text-right w-28 whitespace-nowrap">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-[#E2DFD7] text-xs">
+                                    {media.data.map((item) => {
+                                        const isImage = item.mime_type.startsWith('image/');
+                                        return (
+                                            <tr key={item.id} className="hover:bg-[#FAF9F6]/80 transition">
+                                                <td className="p-3 text-center">
+                                                    <div className="w-12 h-12 bg-[#F4F0EA] border border-[#D8D2C6] rounded-xs overflow-hidden flex items-center justify-center mx-auto">
+                                                        {isImage ? (
+                                                            <img
+                                                                src={item.url}
+                                                                alt={item.name}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        ) : (
+                                                            <DocumentIcon className="w-6 h-6 text-[#0F2C59]" />
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="p-3">
+                                                    <div className="font-semibold text-sm text-[#1A2228] line-clamp-1" title={item.name}>
+                                                        {item.name}
+                                                    </div>
+                                                    <div className="text-[11px] text-[#5A626A] font-mono line-clamp-1 mt-0.5">
+                                                        {item.file_name}
+                                                    </div>
+                                                </td>
+                                                <td className="p-3 whitespace-nowrap">
+                                                    <span className="inline-block px-2 py-0.5 text-[10px] font-mono bg-stone-100 text-[#1A2228] rounded-xs uppercase">
+                                                        {item.mime_type.split('/')[1] || item.mime_type}
+                                                    </span>
+                                                </td>
+                                                <td className="p-3 text-[#5A626A] font-mono whitespace-nowrap">
+                                                    {(item.size / 1024).toFixed(0)} KB
+                                                </td>
+                                                <td className="p-3 text-[#5A626A] font-mono whitespace-nowrap">
+                                                    {new Date(item.created_at).toLocaleDateString('id-ID', {
+                                                        day: 'numeric',
+                                                        month: 'short',
+                                                        year: 'numeric',
+                                                    })}
+                                                </td>
+                                                <td className="p-3 text-right whitespace-nowrap">
+                                                    <div className="flex items-center justify-end gap-1">
+                                                        <a
+                                                            href={item.url}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="px-2 py-1 text-[#0F2C59] hover:bg-[#FAF9F6] border border-[#D8D2C6] rounded-xs text-xs font-semibold inline-flex items-center gap-0.5"
+                                                            title="Buka Berkas"
+                                                        >
+                                                            Buka ↗
+                                                        </a>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => handleDelete(item)}
+                                                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                                            title="Hapus"
+                                                        >
+                                                            <TrashIcon className="w-4 h-4" />
+                                                        </Button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
