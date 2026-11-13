@@ -50,7 +50,7 @@ class InitialSchoolContentSeeder extends Seeder
             [
                 'author_id' => $admin->id,
                 'title' => 'Visi, Misi, dan Tujuan Sekolah',
-                'excerpt' => 'Arah dan komitmen pendidikan SMP Negeri 1 Nusantara dalam mencetak generasi cerdas berakhlak mulia.',
+                'excerpt' => 'Arah dan komitmen pendidikan SMP Negeri 5 Sambas dalam mencetak generasi cerdas berakhlak mulia.',
                 'content' => [
                     ['type' => 'heading', 'content' => 'Visi Sekolah'],
                     ['type' => 'paragraph', 'content' => 'Terwujudnya insan pembelajar yang berkarakter Pancasila, unggul dalam ilmu pengetahuan dan teknologi, serta peduli terhadap lingkungan hidup.'],
@@ -69,10 +69,10 @@ class InitialSchoolContentSeeder extends Seeder
             ['slug' => 'sejarah-sekolah'],
             [
                 'author_id' => $admin->id,
-                'title' => 'Sejarah Singkat SMP Negeri 1 Nusantara',
+                'title' => 'Sejarah Singkat SMP Negeri 5 Sambas',
                 'excerpt' => 'Perjalanan panjang dedikasi mencerdaskan anak bangsa sejak berdiri tahun 1978.',
                 'content' => [
-                    ['type' => 'paragraph', 'content' => 'SMP Negeri 1 Nusantara didirikan atas prakarsa tokoh masyarakat dan pemerintah daerah untuk memperluas akses pendidikan berkualitas di kawasan ibu kota. Selama hampir lima dekade, sekolah ini telah melahirkan ribuan alumni yang berkontribusi nyata di berbagai bidang pembangunan nasional.']
+                    ['type' => 'paragraph', 'content' => 'SMP Negeri 5 Sambas didirikan atas prakarsa tokoh masyarakat dan pemerintah daerah untuk memperluas akses pendidikan berkualitas di Sambas. Selama hampir lima dekade, sekolah ini telah melahirkan ribuan alumni yang berkontribusi nyata di berbagai bidang pembangunan nasional.']
                 ],
                 'type' => 'page',
                 'status' => 'published',
@@ -85,10 +85,10 @@ class InitialSchoolContentSeeder extends Seeder
             ['slug' => 'tim-robotik-smp-raih-emas-olimpiade-nasional-2026'],
             [
                 'author_id' => $admin->id,
-                'title' => 'Tim Robotik SMP Negeri 1 Raih Medali Emas Olimpiade Sains Nasional 2026',
+                'title' => 'Tim Robotik SMP Negeri 5 Sambas Raih Medali Emas Olimpiade Sains Nasional 2026',
                 'excerpt' => 'Karya inovasi robot penyortir sampah otomatis rancangan siswa kelas VIII berhasil menyabet predikat juara pertama.',
                 'content' => [
-                    ['type' => 'paragraph', 'content' => 'Prestasi membanggakan kembali dipersembahkan oleh perwakilan peserta didik SMP Negeri 1 Nusantara. Dalam ajang Olimpiade Sains dan Teknologi Nasional tingkat SMP tahun 2026 yang diselenggarakan di Bandung, tim robotik sekolah berhasil mengungguli puluhan peserta dari berbagai provinsi.'],
+                    ['type' => 'paragraph', 'content' => 'Prestasi membanggakan kembali dipersembahkan oleh perwakilan peserta didik SMP Negeri 5 Sambas. Dalam ajang Olimpiade Sains dan Teknologi Nasional tingkat SMP tahun 2026 yang diselenggarakan di Bandung, tim robotik sekolah berhasil mengungguli puluhan peserta dari berbagai provinsi.'],
                     ['type' => 'paragraph', 'content' => 'Kepala Sekolah menyampaikan rasa bangga dan apresiasi setinggi-tingginya kepada tim pembina serta orang tua siswa yang terus mendampingi selama masa persiapan intensif.']
                 ],
                 'type' => 'post',
@@ -180,7 +180,7 @@ class InitialSchoolContentSeeder extends Seeder
 
         // 7. Ekstrakurikuler
         Extracurricular::firstOrCreate(
-            ['slug' => 'pramuka-gudep-nusantara'],
+            ['slug' => 'pramuka-gudep-sambas'],
             [
                 'name' => 'Pramuka (Gudep 05-081)',
                 'leader_name' => 'Ahmad Fauzi, S.Pd.',
@@ -244,7 +244,7 @@ class InitialSchoolContentSeeder extends Seeder
                 'description' => 'Penilaian capaian kompetensi pembelajaran seluruh mata pelajaran untuk kelas VII, VIII, dan IX.',
                 'start_date' => '2026-05-18',
                 'end_date' => '2026-05-26',
-                'location' => 'Gedung A dan B SMPN 1 Nusantara',
+                'location' => 'Gedung A dan B SMPN 5 Sambas',
                 'is_active' => true,
             ]
         );
@@ -264,7 +264,7 @@ class InitialSchoolContentSeeder extends Seeder
                 'description' => 'Penyerahan laporan hasil belajar kepada orang tua murid dan pelepasan siswa kelas IX angkatan 2026.',
                 'start_date' => '2026-06-19',
                 'end_date' => '2026-06-19',
-                'location' => 'Aula Graha Utama Nusantara',
+                'location' => 'Aula SMP Negeri 5 Sambas',
                 'is_active' => true,
             ]
         );
