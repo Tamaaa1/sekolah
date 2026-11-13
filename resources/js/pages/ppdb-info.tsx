@@ -103,19 +103,19 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
             <Head title={`Informasi PPDB Tahun Ajaran ${ppdbYear} - ${schoolName}`} />
 
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-3 sm:pt-5 pb-10">
                 {/* STATE 1: PENDAFTARAN DITUTUP / BELUM DIBUKA */}
                 {!ppdbIsOpen ? (
-                    <div className="space-y-10">
+                    <div className="space-y-8">
                         {/* Cheerful Colorful Hero Card */}
-                        <div className="relative overflow-hidden bg-gradient-to-b from-amber-50/70 via-white to-stone-50 rounded-2xl border border-amber-200/80 p-6 sm:p-10 shadow-sm text-center">
+                        <div className="relative overflow-hidden bg-gradient-to-b from-amber-50/70 via-white to-stone-50 rounded-2xl border border-amber-200/80 p-5 sm:px-8 sm:pt-6 sm:pb-8 shadow-sm text-center">
                             {/* Decorative background blobs */}
                             <div className="absolute -top-12 -left-12 w-48 h-48 bg-amber-200/30 rounded-full blur-2xl pointer-events-none" />
                             <div className="absolute -top-12 -right-12 w-52 h-52 bg-rose-200/30 rounded-full blur-2xl pointer-events-none" />
                             <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-64 h-32 bg-sky-200/25 rounded-full blur-2xl pointer-events-none" />
 
                             {/* Cute Colorful Illustration SVG */}
-                            <div className="relative mx-auto mb-6 max-w-md w-full">
+                            <div className="relative mx-auto mb-3 max-w-md w-full">
                                 <svg
                                     viewBox="0 0 460 260"
                                     fill="none"
