@@ -133,11 +133,15 @@ class InitialSchoolContentSeeder extends Seeder
         MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m2->id, 'label' => 'Visi & Misi', 'link_type' => 'internal_post', 'target_id' => $pageVisiMisi->id, 'sort_order' => 1]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m2->id, 'label' => 'Sejarah Sekolah', 'link_type' => 'internal_post', 'target_id' => $pageSejarah->id, 'sort_order' => 2]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m2->id, 'label' => 'Direktori Guru & Staf', 'link_type' => 'custom_url', 'custom_url' => '/guru-dan-staf', 'sort_order' => 3]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m2->id, 'label' => 'Sarana & Fasilitas', 'link_type' => 'custom_url', 'custom_url' => '/fasilitas', 'sort_order' => 4]);
 
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Berita & Artikel', 'link_type' => 'custom_url', 'custom_url' => '/berita', 'sort_order' => 3]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Ekstrakurikuler', 'link_type' => 'custom_url', 'custom_url' => '/ekstrakurikuler', 'sort_order' => 4]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Prestasi', 'link_type' => 'custom_url', 'custom_url' => '/prestasi', 'sort_order' => 5]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Agenda Akademik', 'link_type' => 'custom_url', 'custom_url' => '/agenda', 'sort_order' => 6]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Galeri Foto', 'link_type' => 'custom_url', 'custom_url' => '/galeri', 'sort_order' => 7]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Pusat Unduhan', 'link_type' => 'custom_url', 'custom_url' => '/unduhan', 'sort_order' => 8]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Kontak & Saran', 'link_type' => 'custom_url', 'custom_url' => '/kontak', 'sort_order' => 9]);
 
         // 6. Direktori Guru & GTK
         StaffDirectory::firstOrCreate(

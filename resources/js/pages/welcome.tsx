@@ -6,8 +6,11 @@ import {
     AcademicCapIcon,
     ArrowDownTrayIcon,
     ArrowRightIcon,
+    BuildingOffice2Icon,
     CalendarDaysIcon,
+    CameraIcon,
     ChevronRightIcon,
+    EnvelopeIcon,
     MegaphoneIcon,
     SparklesIcon,
     TrophyIcon,
@@ -191,6 +194,69 @@ export default function Welcome({
                         </div>
                     </div>
                 )}
+
+                {/* Akses Cepat Modul & Layanan Sekolah */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 my-6">
+                    <Link
+                        href="/fasilitas"
+                        className="group p-4 bg-white rounded-xl border border-line hover:border-prussian hover:shadow-xs transition-all flex items-center gap-3"
+                    >
+                        <div className="w-9 h-9 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0 group-hover:bg-prussian group-hover:text-white transition-colors">
+                            <BuildingOffice2Icon className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                            <h3 className="text-sm font-bold text-ink group-hover:text-prussian transition-colors truncate">
+                                Fasilitas
+                            </h3>
+                            <p className="text-[11px] text-ink-muted truncate">Sarana belajar</p>
+                        </div>
+                    </Link>
+
+                    <Link
+                        href="/galeri"
+                        className="group p-4 bg-white rounded-xl border border-line hover:border-prussian hover:shadow-xs transition-all flex items-center gap-3"
+                    >
+                        <div className="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <CameraIcon className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                            <h3 className="text-sm font-bold text-ink group-hover:text-emerald-700 transition-colors truncate">
+                                Galeri Foto
+                            </h3>
+                            <p className="text-[11px] text-ink-muted truncate">Dokumentasi</p>
+                        </div>
+                    </Link>
+
+                    <Link
+                        href="/unduhan"
+                        className="group p-4 bg-white rounded-xl border border-line hover:border-prussian hover:shadow-xs transition-all flex items-center gap-3"
+                    >
+                        <div className="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                            <ArrowDownTrayIcon className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                            <h3 className="text-sm font-bold text-ink group-hover:text-amber-700 transition-colors truncate">
+                                Pusat Unduhan
+                            </h3>
+                            <p className="text-[11px] text-ink-muted truncate">Dokumen resmi</p>
+                        </div>
+                    </Link>
+
+                    <Link
+                        href="/kontak"
+                        className="group p-4 bg-white rounded-xl border border-line hover:border-prussian hover:shadow-xs transition-all flex items-center gap-3"
+                    >
+                        <div className="w-9 h-9 rounded-lg bg-terracotta/10 text-terracotta flex items-center justify-center shrink-0 group-hover:bg-terracotta group-hover:text-white transition-colors">
+                            <EnvelopeIcon className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                            <h3 className="text-sm font-bold text-ink group-hover:text-terracotta transition-colors truncate">
+                                Kontak & Saran
+                            </h3>
+                            <p className="text-[11px] text-ink-muted truncate">Aspirasi warga</p>
+                        </div>
+                    </Link>
+                </div>
 
                 {/* Scroll Stack Sections: 4 Cards */}
                 <div className="mt-8">
