@@ -7,6 +7,8 @@
 /public/storage
 /storage/*.key
 /storage/pail
+/storage/temp_*
+/storage/temp_edge_*
 /resources/js/actions
 /resources/js/routes
 /resources/js/wayfinder
