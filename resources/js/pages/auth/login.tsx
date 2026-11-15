@@ -1,8 +1,8 @@
 import { Form, Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
 import InputError from '@/components/input-error';
-import SlideToSubmit from '@/components/slide-to-submit';
 import TextLink from '@/components/text-link';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
@@ -114,14 +114,26 @@ export default function Login({ status, canResetPassword }: Props) {
                                 )}
                             </div>
 
-                            {/* Slide-to-Submit Action Button (Geser ke kanan untuk login) */}
+                            {/* Submit Button */}
                             <div className="pt-2">
-                                <SlideToSubmit
-                                    processing={processing}
-                                    label="MASUK"
-                                    loadingLabel="MEMPROSES..."
-                                />
-                                <InputError message={errors.slide_verified} className="mt-1.5 text-center" />
+                                <Button
+                                    type="submit"
+                                    disabled={processing}
+                                    tabIndex={4}
+                                    className="w-full h-11 rounded-full bg-prussian hover:bg-prussian-hover text-white font-semibold text-sm tracking-wider uppercase shadow-md shadow-prussian/20 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
+                                >
+                                    {processing ? (
+                                        <>
+                                            <Spinner className="h-4 w-4 text-white" />
+                                            <span>Memproses...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>Masuk ke Portal</span>
+                                            <ArrowRightIcon className="h-4 w-4 stroke-[2.5]" />
+                                        </>
+                                    )}
+                                </Button>
                             </div>
 
                             {/* Help & Support note */}
