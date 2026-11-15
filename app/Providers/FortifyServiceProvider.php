@@ -33,6 +33,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        $this->configurePasswordResetMail();
     }
 
     /**
@@ -93,6 +94,30 @@ class FortifyServiceProvider extends ServiceProvider
                 Limit::perMinute(5)->by($throttleKey),
                 Limit::perMinute(10)->by($request->ip()),
             ];
+        });
+    }
+
+    /**
+     * Configure localized and branded password reset notification mail.
+     */
+    private function configurePasswordResetMail(): void
+    {
+        \Illuminate\Auth\Notifications\ResetPassword::toMailUsing(function ($notifiable, string $token) {
+            $url = url(route('password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], false));
+
+            $schoolName = config('app.name', 'SMP Negeri 5 Sambas');
+
+            return (new \Illuminate\Notifications\Messages\MailMessage)
+                ->subject("Instruksi Atur Ulang Kata Sandi - {$schoolName}")
+                ->greeting("Halo, {$notifiable->name}!")
+                ->line("Kami menerima permohonan untuk mengatur ulang kata sandi akun Anda di Portal {$schoolName}.")
+                ->action('Atur Ulang Kata Sandi', $url)
+                ->line('Tautan pemulihan kata sandi ini hanya berlaku selama 60 menit.')
+                ->line('Jika Anda tidak pernah meminta pengaturan ulang kata sandi ini, silakan abaikan pesan email ini dengan aman. Akun Anda tetap terlindungi.')
+                ->salutation("Salam hangat,\nTim IT & Administrasi {$schoolName}");
         });
     }
 }
