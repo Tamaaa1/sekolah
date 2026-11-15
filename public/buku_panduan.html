@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Buku Panduan Penggunaan & Pengelolaan Portal SMP Negeri 5 Sambas</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,600;0,6..72,700;1,6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+        size: A4;
+        margin: 20mm 15mm 20mm 15mm;
+        @bottom-right {
+            content: counter(page);
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.6;
+        color: #1E293B;
+        background-color: #FFFFFF;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-break {
+        page-break-before: always;
+        break-before: page;
+    }
+
+    .avoid-break {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Cover Page */
+    .cover-container {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 40px 20px 20px 20px;
+        border-left: 8px solid #0F2C59;
+    }
+
+    .cover-header {
+        border-bottom: 2px solid #E2E8F0;
+        padding-bottom: 20px;
+    }
+
+    .school-badge {
+        font-size: 11pt;
+        font-weight: 700;
+        color: #0F2C59;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+
+    .cover-title {
+        font-family: 'Newsreader', serif;
+        font-size: 30pt;
+        font-weight: 700;
+        color: #0F172A;
+        line-height: 1.15;
+        margin: 15px 0 10px 0;
+    }
+
+    .cover-subtitle {
+        font-size: 13pt;
+        color: #475569;
+        line-height: 1.5;
+        max-width: 650px;
+    }
+
+    .cover-meta {
+        background-color: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        padding: 18px 24px;
+        margin: 30px 0;
+    }
+
+    .cover-meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        font-size: 10pt;
+    }
+
+    .cover-meta-item strong {
+        display: block;
+        color: #64748B;
+        font-size: 8.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+
+    .cover-meta-item span {
+        color: #0F172A;
+        font-weight: 600;
+    }
+
+    .cover-footer {
+        border-top: 1px solid #E2E8F0;
+        padding-top: 15px;
+        font-size: 9pt;
+        color: #64748B;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Typography & Section Styles */
+    h1.chapter-title {
+        font-family: 'Newsreader', serif;
+        font-size: 22pt;
+        color: #0F2C59;
+        border-bottom: 2.5px solid #0F2C59;
+        padding-bottom: 8px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    h2.section-title {
+        font-size: 13pt;
+        font-weight: 700;
+        color: #1E4E8C;
+        margin-top: 25px;
+        margin-bottom: 12px;
+        border-left: 4px solid #1E4E8C;
+        padding-left: 10px;
+    }
+
+    h3.sub-title {
+        font-size: 11pt;
+        font-weight: 600;
+        color: #0F172A;
+        margin-top: 18px;
+        margin-bottom: 8px;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 12px;
+        text-align: justify;
+    }
+
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 14px;
+        padding-left: 24px;
+    }
+
+    li {
+        margin-bottom: 6px;
+    }
+
+    /* Tables */
+    table.data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9.5pt;
+        margin: 15px 0 20px 0;
+    }
+
+    table.data-table th {
+        background-color: #0F2C59;
+        color: #FFFFFF;
+        text-align: left;
+        padding: 9px 12px;
+        font-weight: 600;
+    }
+
+    table.data-table td {
+        padding: 8px 12px;
+        border-bottom: 1px solid #E2E8F0;
+        color: #334155;
+    }
+
+    table.data-table tr:nth-child(even) td {
+        background-color: #F8FAFC;
+    }
+
+    /* Callout Boxes */
+    .callout {
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin: 16px 0;
+        font-size: 9.5pt;
+    }
+
+    .callout-info {
+        background-color: #EFF6FF;
+        border-left: 4px solid #3B82F6;
+        color: #1E3A8A;
+    }
+
+    .callout-warning {
+        background-color: #FFFBEB;
+        border-left: 4px solid #F59E0B;
+        color: #92400E;
+    }
+
+    .callout-success {
+        background-color: #ECFDF5;
+        border-left: 4px solid #10B981;
+        color: #065F46;
+    }
+
+    /* Figures & Screenshots */
+    .figure-card {
+        margin: 18px 0;
+        border: 1px solid #CBD5E1;
+        border-radius: 8px;
+        padding: 8px;
+        background-color: #F8FAFC;
+    }
+
+    .figure-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        border: 1px solid #E2E8F0;
+        display: block;
+    }
+
+    .figure-caption {
+        font-size: 8.5pt;
+        color: #64748B;
+        text-align: center;
+        margin-top: 8px;
+        margin-bottom: 2px;
+        font-weight: 500;
+    }
+
+    .figure-caption strong {
+        color: #0F2C59;
+    }
+
+    /* Step List Badges */
+    .step-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .step-list li {
+        position: relative;
+        padding-left: 36px;
+        margin-bottom: 12px;
+    }
+
+    .step-badge {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #0F2C59;
+        color: #FFFFFF;
+        font-size: 9pt;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 24px;
+    }
+
+    code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9pt;
+        background-color: #F1F5F9;
+        color: #0F172A;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+</style>
+</head>
+<body>
+
+<!-- ========================================================================= -->
+<!-- COVER PAGE                                                                -->
+<!-- ========================================================================= -->
+<div class="cover-container">
+    <div class="cover-header">
+        <div class="school-badge">Portal Resmi & Sistem Informasi Sekolah</div>
+        <div style="font-size: 16pt; font-weight: 800; color: #0F2C59;">SMP NEGERI 5 SAMBAS</div>
+        <div style="font-size: 9pt; color: #64748B;">Kabupaten Sambas, Kalimantan Barat</div>
+    </div>
+
+    <div>
+        <div class="cover-title">Buku Panduan Penggunaan & Pengelolaan Sistem</div>
+        <div class="cover-subtitle">
+            Dokumentasi komprehensif panduan operasional pengguna publik (siswa, orang tua, masyarakat) serta tata cara pengelolaan data master dan konten CMS untuk administrator sekolah.
+        </div>
+
+        <div class="cover-meta">
+            <div class="cover-meta-grid">
+                <div class="cover-meta-item">
+                    <strong>Tahun Ajaran</strong>
+                    <span>2026 / 2027</span>
+                </div>
+                <div class="cover-meta-item">
+                    <strong>Versi Dokumen</strong>
+                    <span>Versi 1.0 (Production Release)</span>
+                </div>
+                <div class="cover-meta-item">
+                    <strong>Sasaran Pembaca</strong>
+                    <span>Admin Sekolah, Dewan Guru, Pengurus OSIS & Publik</span>
+                </div>
+                <div class="cover-meta-item">
+                    <strong>Status Sistem</strong>
+                    <span>Aktif & Teruji (Production Ready 100%)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cover-footer">
+        <div>© 2026 SMP Negeri 5 Sambas. Hak Cipta Dilindungi Undang-Undang.</div>
+        <div>Dokumen Resmi Internal & Publik</div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- DAFTAR ISI                                                                -->
+<!-- ========================================================================= -->
+<div class="page-break"></div>
+
+<h1 class="chapter-title">Daftar Isi</h1>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 15%;">Bab</th>
+            <th style="width: 70%;">Topik Pembahasan</th>
+            <th style="width: 15%; text-align: right;">Halaman</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>BAB I</strong></td>
+            <td><strong>PENDAHULUAN & ARSITEKTUR PORTAL</strong><br>
+                1.1 Gambaran Umum Sistem Portal<br>
+                1.2 Matriks Hak Akses & Peran Pengguna (RBAC)<br>
+                1.3 Kebutuhan Sistem & Kompatibilitas Browser
+            </td>
+            <td style="text-align: right;">3</td>
+        </tr>
+        <tr>
+            <td><strong>BAB II</strong></td>
+            <td><strong>PANDUAN PENGGUNA PUBLIK (SISWA & MASYARAKAT)</strong><br>
+                2.1 Menjelajahi Beranda Utama & Asymmetric Bento Grid<br>
+                2.2 Membaca Warta, Berita & Pengumuman Sekolah<br>
+                2.3 Informasi PPDB & Alur Pengunduhan Brosur<br>
+                2.4 Direktori Dewan Guru & Tenaga Kependidikan<br>
+                2.5 Rekapitulasi Prestasi Siswa & Filter Tingkat Lomba<br>
+                2.6 Direktori Ekstrakurikuler & Jadwal Latihan<br>
+                2.7 Kalender & Agenda Akademik Sekolah<br>
+                2.8 Aksesibilitas Tombol Scroll to Top & Tampilan Mobile
+            </td>
+            <td style="text-align: right;">4</td>
+        </tr>
+        <tr>
+            <td><strong>BAB III</strong></td>
+            <td><strong>PANDUAN AUTENTIKASI & KEAMANAN AKUN</strong><br>
+                3.1 Prosedur Masuk Petugas (Login CMS)<br>
+                3.2 Prosedur Pemulihan Kata Sandi (Lupa Password via Email)<br>
+                3.3 Memperbarui Profil Akun Petugas<br>
+                3.4 Pengaturan Keamanan & Penggantian Kata Sandi Pribadi
+            </td>
+            <td style="text-align: right;">9</td>
+        </tr>
+        <tr>
+            <td><strong>BAB IV</strong></td>
+            <td><strong>PANDUAN PENGELOLAAN DATA CMS (ADMINISTRATOR)</strong><br>
+                4.1 Dasbor Ringkasan & Metrik Utama<br>
+                4.2 Manajemen Berita & Pengumuman Sekolah<br>
+                4.3 Manajemen Data Dewan Guru & Staf GTK<br>
+                4.4 Manajemen Unit Ekstrakurikuler<br>
+                4.5 Manajemen Arsip Prestasi Siswa<br>
+                4.6 Manajemen Kalender & Agenda Akademik<br>
+                4.7 Pustaka Media (Media Library & Unggah Berkas)<br>
+                4.8 Manajemen Menu Navigasi Header<br>
+                4.9 Pengaturan Identitas Sekolah & Konfigurasi PPDB<br>
+                4.10 Pemantauan Log Aktivitas Keamanan (Audit Trail)
+            </td>
+            <td style="text-align: right;">12</td>
+        </tr>
+        <tr>
+            <td><strong>BAB V</strong></td>
+            <td><strong>PANDUAN PEMELIHARAAN & TROUBLESHOOTING</strong><br>
+                5.1 Pengujian Mail Gateway via CLI (<code>php artisan mail:test</code>)<br>
+                5.2 Pembersihan Cache Aplikasi (<code>php artisan optimize:clear</code>)<br>
+                5.3 Kontak Bantuan & Layanan IT Sekolah
+            </td>
+            <td style="text-align: right;">19</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="callout callout-info">
+    <strong>Petunjuk Navigasi:</strong> Buku panduan ini disusun berurutan dari pengenalan sistem umum, navigasi pengguna publik, hingga prosedur pengelolaan konten administratif secara mendalam. Setiap topik dilengkapi ilustrasi tangkapan layar langsung dari sistem yang sedang beroperasi.
+</div>
+
+<!-- ========================================================================= -->
+<!-- BAB I: PENDAHULUAN                                                        -->
+<!-- ========================================================================= -->
+<div class="page-break"></div>
+
+<h1 class="chapter-title">BAB I: Pendahuluan & Arsitektur Portal</h1>
+
+<h2 class="section-title">1.1 Gambaran Umum Sistem Portal</h2>
+<p>
+    Portal Resmi <strong>SMP Negeri 5 Sambas</strong> adalah platform informasi berbasis web modern yang dirancang untuk memfasilitasi transparansi publik, publikasi prestasi siswa, penyampaian warta kegiatan sekolah, serta pelayanan informasi Penerimaan Peserta Didik Baru (PPDB) secara daring.
+</p>
+<p>
+    Sistem dibangun menggunakan teknologi mutakhir arsitektur monolithic SPA (Single Page Application) dengan framework backend <strong>Laravel</strong> dan frontend <strong>React Inertia.js</strong> dengan penataan antarmuka <strong>Tailwind CSS</strong>. Sistem ini memiliki integrasi perayapan mesin pencari (SEO Friendly), protokol Open Graph untuk berbagi ke media sosial, serta standar keamanan berlapis sesuai pedoman <em>OWASP Top 10</em>.
+</p>
+
+<h2 class="section-title">1.2 Matriks Hak Akses Pengguna (Role-Based Access Control)</h2>
+<p>
+    Untuk menjaga integritas dan keamanan data, sistem membagi hak akses ke dalam 4 (empat) tingkatan peran yang terisolasi dengan ketat:
+</p>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 20%;">Peran (Role)</th>
+            <th style="width: 30%;">Tanggung Jawab</th>
+            <th style="width: 50%;">Hak Akses & Batasan</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Super Admin</strong><br><em>(Tata Usaha / IT)</em></td>
+            <td>Pengelola tertinggi infrastruktur dan seluruh data sekolah.</td>
+            <td>Akses penuh ke seluruh modul CMS, pengelolaan profil sekolah & PPDB, manajemen guru, ekstrakurikuler, prestasi, agenda, menu navigasi, dan audit log keamanan.</td>
+        </tr>
+        <tr>
+            <td><strong>Editor</strong><br><em>(Dewan Guru Pembina)</em></td>
+            <td>Penyusun dan peninjau materi publikasi.</td>
+            <td>Dapat membuat, mengedit, mempublikasikan warta/berita sekolah, mengunggah dokumentasi media, serta melihat agenda kegiatan. Tidak dapat mengubah konfigurasi sistem.</td>
+        </tr>
+        <tr>
+            <td><strong>Contributor</strong><br><em>(Pengurus OSIS / Ekstrakurikuler)</em></td>
+            <td>Penyusun draf liputan kegiatan siswa.</td>
+            <td>Hanya dapat membuat tulisan warta dalam status <em>Draft</em> untuk kemudian ditinjau dan diterbitkan oleh Editor atau Super Admin.</td>
+        </tr>
+        <tr>
+            <td><strong>Pengguna Publik</strong><br><em>(Siswa, Wali Murid, Umum)</em></td>
+            <td>Konsumen informasi resmi sekolah.</td>
+            <td>Akses bebas tanpa login ke seluruh direktori publik, pengunduhan brosur PPDB, pencarian profil guru, dan kalender kegiatan.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 class="section-title">1.3 Kebutuhan Sistem & Browser yang Didukung</h2>
+<p>
+    Aplikasi web ini dirancang sangat ringan, adaptif, dan responsif terhadap berbagai ukuran layar (desktop, laptop, tablet, serta smartphone). Pengguna disarankan menggunakan peramban web versi modern berikut untuk performa visual terbaik:
+</p>
+<ul>
+    <li><strong>Google Chrome</strong> (Versi 100 ke atas) - <em>Sangat Disarankan</em></li>
+    <li><strong>Mozilla Firefox</strong> (Versi 100 ke atas)</li>
+    <li><strong>Microsoft Edge</strong> (Versi Chromium 100 ke atas)</li>
+    <li><strong>Apple Safari</strong> (iOS 15+ / macOS Monterey+)</li>
+</ul>
+
+<!-- ========================================================================= -->
+<!-- BAB II: PANDUAN PENGGUNA PUBLIK                                           -->
+<!-- ========================================================================= -->
+<div class="page-break"></div>
+
+<h1 class="chapter-title">BAB II: Panduan Pengguna Publik</h1>
+
+<h2 class="section-title">2.1 Menjelajahi Beranda Utama (Homepage)</h2>
+<p>
+    Halaman beranda merupakan gerbang utama pengunjung saat mengakses alamat website sekolah. Antarmuka beranda memadukan tipografi editorial elegan dengan tata letak <em>Asymmetric Bento Grid</em> yang informatif:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/01_beranda.png" alt="Beranda Utama Portal Sekolah">
+    <div class="figure-caption"><strong>Gambar 2.1:</strong> Tampilan Halaman Beranda Utama SMP Negeri 5 Sambas</div>
+</div>
+
+<p>Komponen utama pada beranda meliputi:</p>
+<ul class="step-list">
+    <li>
+        <div class="step-badge">1</div>
+        <strong>Immersive Hero Banner:</strong> Menampilkan foto panorama kegiatan sekolah, nama resmi, serta slogan kebanggaan sekolah.
+    </li>
+    <li>
+        <div class="step-badge">2</div>
+        <strong>Sambutan Kepala Sekolah:</strong> Memuat pesan pengantar dari pimpinan institusi beserta foto formal Kepala Sekolah.
+    </li>
+    <li>
+        <div class="step-badge">3</div>
+        <strong>Warta Pilihan & Pengumuman Mendesak:</strong> Postingan yang disematkan (pinned) akan muncul di posisi teratas agar langsung terbaca oleh orang tua murid.
+    </li>
+    <li>
+        <div class="step-badge">4</div>
+        <strong>Agenda Akademik Mendatang:</strong> Jadwal kegiatan terdekat seperti asesmen sumatif, rapat komite, atau libur semester.
+    </li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">2.2 Membaca Warta, Berita & Pengumuman Sekolah</h2>
+<p>
+    Untuk membaca arsip berita sekolah, pengunjung dapat memilih menu <strong>Berita</strong> pada bilah navigasi atas (URL: <code>/berita</code>):
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/02_berita_warta.png" alt="Direktori Warta & Berita">
+    <div class="figure-caption"><strong>Gambar 2.2:</strong> Direktori Arsip Berita & Pengumuman Sekolah</div>
+</div>
+
+<p><strong>Fitur yang Tersedia untuk Pengunjung:</strong></p>
+<ul>
+    <li><strong>Kolom Pencarian Real-Time:</strong> Ketikkan kata kunci tertentu (contoh: <em>"Olimpiade"</em>, <em>"Pramuka"</em>) lalu tekan Enter untuk menyaring artikel.</li>
+    <li><strong>Penyaring Kategori:</strong> Klik pada salah satu lencana kategori (Akademik, Kesiswaan, Ekstrakurikuler, Prestasi) untuk memfilter warta terkait.</li>
+    <li><strong>Filter Tipe Konten:</strong> Memilih untuk hanya menampilkan Berita Umum atau Surat Pengumuman Resmi.</li>
+    <li><strong>Halaman Detail & Berbagi:</strong> Mengklik judul artikel akan membuka isi berita lengkap dengan lampiran dokumen resmi yang dapat diunduh.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">2.3 Informasi PPDB & Alur Pengunduhan Brosur Resmi</h2>
+<p>
+    Halaman <strong>PPDB</strong> (URL: <code>/ppdb</code>) merupakan pusat pelayanan informasi bagi calon siswa baru dan orang tua murid:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/03_ppdb_info.png" alt="Halaman Informasi PPDB">
+    <div class="figure-caption"><strong>Gambar 2.3:</strong> Halaman Informasi Penerimaan Peserta Didik Baru (PPDB)</div>
+</div>
+
+<p><strong>Panduan Bagi Calon Wali Murid:</strong></p>
+<ul class="step-list">
+    <li>
+        <div class="step-badge">1</div>
+        <strong>Mengecek Status Pendaftaran:</strong> Kotak status di bagian atas menginformasikan apakah pendaftaran sedang <em>DIBUKA</em> atau <em>DITUTUP</em> untuk Tahun Ajaran aktif.
+    </li>
+    <li>
+        <div class="step-badge">2</div>
+        <strong>Mempelajari 4 Jalur Masuk:</strong>
+        <ul>
+            <li><strong>Jalur Zonasi (Kuota 50%):</strong> Berdasarkan domisili kartu keluarga terdekat dari sekolah.</li>
+            <li><strong>Jalur Afirmasi (Kuota 15%):</strong> Untuk pemegang KIP/PKH dan keluarga pra-sejahtera.</li>
+            <li><strong>Jalur Prestasi (Kuota 30%):</strong> Bagi peraih juara perlombaan sains, seni, atau olahraga.</li>
+            <li><strong>Jalur Perpindahan Tugas (Kuota 5%):</strong> Khusus mutasi dinas orang tua/wali.</li>
+        </ul>
+    </li>
+    <li>
+        <div class="step-badge">3</div>
+        <strong>Mengunduh Brosur Resmi:</strong> Mengklik tombol <strong>"Unduh Brosur PPDB"</strong> akan mengunduh berkas pamflet resmi (PDF/Gambar) yang memuat jadwal rinci dan persyaratan berkas.
+    </li>
+    <li>
+        <div class="step-badge">4</div>
+        <strong>Konsultasi WhatsApp Panitia:</strong> Mengklik tombol <em>"Hubungi Panitia PPDB"</em> akan langsung membuka obrolan WhatsApp resmi dengan nomor helpdesk sekolah.
+    </li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">2.4 Direktori Dewan Guru & Staf Kependidikan</h2>
+<p>
+    Masyarakat dapat mengenal seluruh tenaga pengajar melalui menu <strong>Guru & Staf</strong> (URL: <code>/guru-dan-staf</code>). Halaman ini menampilkan foto formal, nama lengkap, NIP resmi, serta mata pelajaran yang diampu:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/04_guru_staf.png" alt="Direktori Dewan Guru">
+    <div class="figure-caption"><strong>Gambar 2.4:</strong> Direktori Guru & Tenaga Kependidikan</div>
+</div>
+
+<h2 class="section-title">2.5 Rekapitulasi Prestasi Siswa & Prestasi Sekolah</h2>
+<p>
+    Arsip kejuaraan yang diraih siswa tercantum pada menu <strong>Prestasi</strong> (URL: <code>/prestasi</code>). Pengunjung dapat menyortir daftar berdasarkan tingkatan kejuaraan:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/05_prestasi.png" alt="Direktori Prestasi Siswa">
+    <div class="figure-caption"><strong>Gambar 2.5:</strong> Katalog Prestasi & Penghargaan Siswa</div>
+</div>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">2.6 Mengenal Unit Kegiatan Ekstrakurikuler</h2>
+<p>
+    Melalui menu <strong>Ekstrakurikuler</strong> (URL: <code>/ekstrakurikuler</code>), calon peserta didik dapat mengeksplorasi ragam kegiatan pengembangan bakat dan minat:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/06_ekskul.png" alt="Direktori Ekstrakurikuler">
+    <div class="figure-caption"><strong>Gambar 2.6:</strong> Katalog Kegiatan Ekstrakurikuler Siswa</div>
+</div>
+
+<h2 class="section-title">2.7 Kalender & Agenda Akademik Sekolah</h2>
+<p>
+    Menu <strong>Agenda</strong> (URL: <code>/agenda</code>) menyajikan lini masa kegiatan resmi sekolah agar para orang tua murid dapat merencanakan kegiatan pendampingan belajar:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/07_agenda.png" alt="Agenda Akademik Sekolah">
+    <div class="figure-caption"><strong>Gambar 2.7:</strong> Kalender Agenda & Kegiatan Sekolah</div>
+</div>
+
+<div class="callout callout-success">
+    <strong>Fitur Tombol Scroll-to-Top:</strong> Saat pengunjung menggulir layar ke bawah, sebuah tombol panah melayang akan otomatis muncul di sudut kanan bawah. Mengklik tombol ini akan mengembalikan posisi layar ke paling atas secara halus.
+</div>
+
+<!-- ========================================================================= -->
+<!-- BAB III: PANDUAN AUTENTIKASI PETUGAS                                      -->
+<!-- ========================================================================= -->
+<div class="page-break"></div>
+
+<h1 class="chapter-title">BAB III: Panduan Autentikasi & Keamanan Akun</h1>
+
+<h2 class="section-title">3.1 Prosedur Masuk Petugas (Login CMS)</h2>
+<p>
+    Akses ke ruang kerja pengelolaan CMS dibatasi hanya untuk staf berwenang melalui halaman login (URL: <code>/login</code>):
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/08_login.png" alt="Halaman Login Petugas">
+    <div class="figure-caption"><strong>Gambar 3.1:</strong> Formulir Otentikasi Petugas Portal</div>
+</div>
+
+<p><strong>Langkah-Langkah Masuk:</strong></p>
+<ul class="step-list">
+    <li>
+        <div class="step-badge">1</div>
+        Buka peramban dan arahkan ke alamat <code>http://domainsekolah/login</code>.
+    </li>
+    <li>
+        <div class="step-badge">2</div>
+        Masukkan <strong>Alamat Email Resmi</strong> yang telah didaftarkan administrator.
+    </li>
+    <li>
+        <div class="step-badge">3</div>
+        Ketikkan <strong>Kata Sandi</strong> akun Anda.
+    </li>
+    <li>
+        <div class="step-badge">4</div>
+        Centang opsi <em>"Ingat saya"</em> jika menggunakan perangkat komputer kerja pribadi.
+    </li>
+    <li>
+        <div class="step-badge">5</div>
+        Klik tombol <strong>"Masuk ke Portal"</strong>. Sistem akan memvalidasi data dan mengarahkan Anda ke Dasbor CMS.
+    </li>
+</ul>
+
+<div class="callout callout-warning">
+    <strong>Proteksi Keamanan Rate Limiting:</strong> Sistem secara otomatis membatasi percobaan login yang salah sebanyak maksimal 5 kali dalam 1 menit. Jika batas ini terlampaui, IP komputer akan dikunci sementara selama 60 detik untuk mencegah serangan pembajakan kata sandi.
+</div>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">3.2 Prosedur Pemulihan Kata Sandi (Lupa Password)</h2>
+<p>
+    Apabila petugas lupa kata sandi akunnya, sistem menyediakan alur pemulihan mandiri melalui email resmi tanpa perlu menghubungi tim IT secara langsung:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/09_lupa_password.png" alt="Formulir Lupa Kata Sandi">
+    <div class="figure-caption"><strong>Gambar 3.2:</strong> Formulir Permohonan Pemulihan Kata Sandi</div>
+</div>
+
+<p><strong>Tahapan Pemulihan Kata Sandi:</strong></p>
+<ol>
+    <li>Pada halaman login, klik tautan <strong>"Lupa kata sandi?"</strong>.</li>
+    <li>Ketikkan alamat email akun Anda pada kolom <em>Alamat Email Terdaftar</em>.</li>
+    <li>Klik tombol <strong>"Kirim Tautan Atur Ulang Kata Sandi"</strong>.</li>
+    <li>Buka kotak masuk (inbox) email Anda. Cari pesan dari <code>no-reply@smpn5sambas.sch.id</code> dengan subjek <em>"Instruksi Atur Ulang Kata Sandi - SMP Negeri 5 Sambas"</em>.</li>
+    <li>Klik tombol hijau <strong>"Atur Ulang Kata Sandi"</strong> di dalam email tersebut.</li>
+    <li>Masukkan kata sandi baru yang kuat (minimal 8 karakter kombinasi huruf dan angka), konfirmasi kata sandi, lalu klik <strong>"Simpan Kata Sandi Baru"</strong>.</li>
+</ol>
+
+<h2 class="section-title">3.3 Pengaturan Profil & Kata Sandi Akun Pribadi</h2>
+<p>
+    Setelah berhasil masuk, setiap petugas dapat memperbarui identitas dirinya melalui menu <strong>Pengaturan Profil</strong> (URL: <code>/settings/profile</code>) dan mengganti kata sandi di menu <strong>Keamanan</strong> (URL: <code>/settings/security</code>):
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/21_user_profile.png" alt="Pengaturan Profil Pengguna">
+    <div class="figure-caption"><strong>Gambar 3.3:</strong> Halaman Pembaruan Profil Akun Petugas</div>
+</div>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/22_user_security.png" alt="Pengaturan Keamanan Akun">
+    <div class="figure-caption"><strong>Gambar 3.4:</strong> Halaman Pengaturan Kata Sandi & Keamanan 2FA</div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- BAB IV: PANDUAN PENGELOLAAN CMS                                           -->
+<!-- ========================================================================= -->
+<div class="page-break"></div>
+
+<h1 class="chapter-title">BAB IV: Panduan Pengelolaan Data CMS</h1>
+
+<h2 class="section-title">4.1 Mengenal Dasbor Admin & Statistik Metrik</h2>
+<p>
+    Setelah masuk, administrator akan disambut oleh Dasbor CMS (URL: <code>/admin/dashboard</code>) yang menyajikan rekapitulasi data sekolah secara instan:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/10_admin_dashboard.png" alt="Dasbor Admin CMS">
+    <div class="figure-caption"><strong>Gambar 4.1:</strong> Dasbor Utama Pengelolaan CMS Sekolah</div>
+</div>
+
+<p><strong>Kartu Statistik Metrik:</strong></p>
+<ul>
+    <li><strong>Warta & Berita:</strong> Jumlah artikel berita dan pengumuman yang aktif terbit.</li>
+    <li><strong>Pendidik & Tenaga Kependidikan:</strong> Total guru dan staf GTK terdaftar.</li>
+    <li><strong>Unit Ekstrakurikuler:</strong> Jumlah kegiatan pengembangan minat dan bakat aktif.</li>
+    <li><strong>Prestasi & Penghargaan:</strong> Arsip kejuaraan yang telah dicatatkan siswa.</li>
+    <li><strong>Agenda Akademik:</strong> Jumlah kegiatan kalender pendidikan yang terjadwal.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">4.2 Manajemen Warta & Berita Sekolah</h2>
+<p>
+    Modul Berita (URL: <code>/admin/posts</code>) digunakan untuk mengelola seluruh publikasi artikel, liputan kegiatan, dan pengumuman resmi:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/11_admin_posts.png" alt="Daftar Manajemen Berita">
+    <div class="figure-caption"><strong>Gambar 4.2:</strong> Tabel Manajemen Postingan Berita & Pengumuman</div>
+</div>
+
+<h3 class="sub-title">Cara Membuat Postingan Berita / Pengumuman Baru:</h3>
+<p>
+    Klik tombol <strong>"Tambah Postingan"</strong> di sudut kanan atas untuk membuka formulir editor (URL: <code>/admin/posts/create</code>):
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/12_admin_posts_create.png" alt="Formulir Penulisan Berita">
+    <div class="figure-caption"><strong>Gambar 4.3:</strong> Formulir Editor Pembuatan Berita Baru</div>
+</div>
+
+<p><strong>Panduan Pengisian Formulir Berita:</strong></p>
+<ul class="step-list">
+    <li>
+        <div class="step-badge">1</div>
+        <strong>Judul Postingan:</strong> Tuliskan judul warta yang menarik dan informatif. Slug URL akan otomatis digenerate oleh sistem.
+    </li>
+    <li>
+        <div class="step-badge">2</div>
+        <strong>Tipe Konten:</strong> Pilih apakah berupa <em>Berita Umum</em>, <em>Surat Pengumuman</em>, atau <em>Halaman Profil Statis</em>.
+    </li>
+    <li>
+        <div class="step-badge">3</div>
+        <strong>Ringkasan (Excerpt):</strong> Tuliskan 1-2 kalimat rangkuman berita. Teks ini akan menjadi pratinjau kartu di beranda dan meta deskripsi Google SEO.
+    </li>
+    <li>
+        <div class="step-badge">4</div>
+        <strong>Konten Utama (Editor Teks Kaya):</strong> Tuliskan uraian berita lengkap. Anda dapat menambahkan format tebal, miring, poin daftar, dan kutipan.
+    </li>
+    <li>
+        <div class="step-badge">5</div>
+        <strong>Gambar Unggulan (Featured Image):</strong> Unggah foto dokumentasi kegiatan beresolusi tinggi (format JPG/PNG/WebP, maksimal 5MB).
+    </li>
+    <li>
+        <div class="step-badge">6</div>
+        <strong>Lampiran Dokumen (Opsional):</strong> Unggah berkas surat edaran atau PDF pengumuman jika postingan memerlukan unduhan berkas.
+    </li>
+    <li>
+        <div class="step-badge">7</div>
+        <strong>Kategori & Sematan:</strong> Centang kategori terkait dan centang <em>"Sematkan ke paling atas (Pin Post)"</em> jika ingin artikel selalu berada di urutan teratas.
+    </li>
+    <li>
+        <div class="step-badge">8</div>
+        <strong>Status Publikasi:</strong> Pilih <em>"Terbitkan (Published)"</em> agar langsung tayang, atau <em>"Draf (Draft)"</em> jika tulisan masih dalam proses penyusunan.
+    </li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">4.3 Manajemen Data Dewan Guru & Tenaga Kependidikan</h2>
+<p>
+    Untuk memperbarui daftar pengajar, buka menu <strong>Pendidik & GTK</strong> (URL: <code>/admin/staff</code>):
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/13_admin_staff.png" alt="Manajemen Guru dan Staf">
+    <div class="figure-caption"><strong>Gambar 4.4:</strong> Panel Manajemen Pendidik & Tenaga Kependidikan</div>
+</div>
+
+<p><strong>Langkah Menambah Data Guru / Staf Baru:</strong></p>
+<ol>
+    <li>Klik tombol <strong>"Tambah Guru / Staf"</strong>.</li>
+    <li>Isi <strong>Nama Lengkap Beserta Gelar</strong> (contoh: <em>"Drs. H. Mulyadi, M.Pd."</em>).</li>
+    <li>Masukkan <strong>NIP</strong> (Nomor Induk Pegawai). Jika honorer/GTT, centang opsi tanpa NIP atau isi tanda hubung.</li>
+    <li>Tentukan <strong>Kategori</strong>: <em>Kepala Sekolah</em>, <em>Guru / Pendidik</em>, atau <em>Tenaga Kependidikan (Tendik)</em>.</li>
+    <li>Tuliskan <strong>Mata Pelajaran</strong> yang diampu (contoh: <em>"Matematika"</em>, <em>"Bahasa Indonesia"</em>).</li>
+    <li>Unggah <strong>Pas Foto Formal</strong> dengan latar belakang polos.</li>
+    <li>Klik <strong>"Simpan Data Guru"</strong>. Data akan langsung muncul pada direktori publik.</li>
+</ol>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">4.4 Manajemen Unit Ekstrakurikuler</h2>
+<p>
+    Pengelolaan unit ekstrakurikuler dilakukan melalui menu <code>/admin/extracurriculars</code>:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/14_admin_ekskul.png" alt="Manajemen Ekstrakurikuler">
+    <div class="figure-caption"><strong>Gambar 4.5:</strong> Panel Manajemen Ekstrakurikuler Siswa</div>
+</div>
+
+<p><strong>Langkah Pengisian Ekstrakurikuler:</strong></p>
+<ul>
+    <li>Ketikkan <strong>Nama Ekstrakurikuler</strong> (contoh: <em>"Pramuka Gugus Depan"</em>, <em>"PMR Madya"</em>).</li>
+    <li>Masukkan <strong>Nama Guru Pembina / Pelatih</strong>.</li>
+    <li>Atur <strong>Hari Latihan</strong> (contoh: <em>Jumat</em>) dan <strong>Jam Pelaksanaan</strong> (contoh: <em>15.00 - 17.00 WIB</em>).</li>
+    <li>Tuliskan <strong>Deskripsi Singkat</strong> kegiatan dan target kompetensi siswa.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">4.5 Manajemen Arsip Prestasi Siswa</h2>
+<p>
+    Setiap capaian kejuaraan yang diraih siswa wajib didokumentasikan di menu <code>/admin/achievements</code>:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/15_admin_prestasi.png" alt="Manajemen Prestasi Siswa">
+    <div class="figure-caption"><strong>Gambar 4.6:</strong> Panel Manajemen Arsip Prestasi Siswa</div>
+</div>
+
+<p><strong>Formulir Pencatatan Prestasi:</strong></p>
+<ul>
+    <li><strong>Judul Penghargaan:</strong> contoh: <em>"Juara 1 Lomba Cepat Tepat Sains"</em>.</li>
+    <li><strong>Nama Siswa / Tim:</strong> Nama lengkap peserta didik peraih penghargaan.</li>
+    <li><strong>Nama Ajang Kompetisi:</strong> Penyelenggara atau nama olimpiade resmi.</li>
+    <li><strong>Tingkat Lomba:</strong> Pilih <em>Kabupaten</em>, <em>Provinsi</em>, <em>Nasional</em>, atau <em>Internasional</em>.</li>
+    <li><strong>Tahun Perolehan:</strong> Tahun ajaran diterimanya piagam penghargaan.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">4.6 Manajemen Kalender & Agenda Akademik</h2>
+<p>
+    Pengelolaan agenda sekolah dilakukan pada menu <code>/admin/agendas</code>:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/16_admin_agendas.png" alt="Manajemen Agenda Akademik">
+    <div class="figure-caption"><strong>Gambar 4.7:</strong> Panel Kalender & Agenda Akademik</div>
+</div>
+
+<p>
+    Setiap entri agenda memuat <strong>Judul Kegiatan</strong>, <strong>Tanggal Mulai</strong>, <strong>Tanggal Berakhir</strong>, serta <strong>Lokasi Kegiatan</strong> (contoh: <em>"Aula Utama SMPN 5 Sambas"</em>).
+</p>
+
+<h2 class="section-title">4.7 Pustaka Media (Media Library)</h2>
+<p>
+    Menu <strong>Media</strong> (URL: <code>/admin/media</code>) berfungsi sebagai tempat penyimpanan terpusat seluruh foto kegiatan, infografis, dan berkas sekolah:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/17_admin_media.png" alt="Pustaka Media Sekolah">
+    <div class="figure-caption"><strong>Gambar 4.8:</strong> Panel Pustaka Media & Berkas Sekolah</div>
+</div>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">4.8 Manajemen Menu Navigasi Header</h2>
+<p>
+    Struktur tautan navigasi pada bilah menu atas dapat diatur melalui menu <code>/admin/menus</code>:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/18_admin_menus.png" alt="Manajemen Navigasi Menu">
+    <div class="figure-caption"><strong>Gambar 4.9:</strong> Panel Penataan Menu Navigasi Header</div>
+</div>
+
+<h2 class="section-title">4.9 Pengaturan Profil Sekolah & Konfigurasi PPDB</h2>
+<p>
+    Menu <strong>Pengaturan</strong> (URL: <code>/admin/settings</code>) adalah modul paling krusial untuk mengonfigurasi identitas institusi dan status pendaftaran peserta didik baru:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/19_admin_settings.png" alt="Pengaturan Sekolah dan PPDB">
+    <div class="figure-caption"><strong>Gambar 4.10:</strong> Panel Pengaturan Identitas Sekolah & Konfigurasi PPDB</div>
+</div>
+
+<p><strong>Parameter yang Dikelola:</strong></p>
+<ul class="step-list">
+    <li>
+        <div class="step-badge">1</div>
+        <strong>Identitas Resmi:</strong> Nama Sekolah, Slogan / Motto Pendidikan, Alamat Kantor, Nomor Telepon, dan Email Resmi.
+    </li>
+    <li>
+        <div class="step-badge">2</div>
+        <strong>Sakelar Status PPDB:</strong> Centang opsi <em>"Buka Status Pendaftaran PPDB di Website"</em> saat musim pendaftaran dimulai, atau hapus centang saat kuota telah terpenuhi.
+    </li>
+    <li>
+        <div class="step-badge">3</div>
+        <strong>Tahun Ajaran & Portal Dinas:</strong> Tentukan tahun ajaran aktif (misal: <code>2026/2027</code>) dan tautan formulir pendaftaran dinas (misal: <code>https://siap-ppdb.kemdikbud.go.id</code>).
+    </li>
+    <li>
+        <div class="step-badge">4</div>
+        <strong>Unggah Brosur PPDB:</strong> Unggah berkas brosur resmi (format PDF atau gambar pamflet). Tautan unduhan di halaman depan publik akan otomatis terhubung ke berkas terbaru ini.
+    </li>
+    <li>
+        <div class="step-badge">5</div>
+        <strong>Kontak WhatsApp Helpdesk:</strong> Masukkan nomor WhatsApp panitia penerimaan siswa baru agar orang tua murid dapat berkonsultasi langsung.
+    </li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 class="section-title">4.10 Pemantauan Log Audit Aktivitas Petugas</h2>
+<p>
+    Demi keamanan operasional, Super Admin dapat meninjau rekaman audit trail pada menu <code>/admin/activity-logs</code>:
+</p>
+
+<div class="figure-card avoid-break">
+    <img src="guide_images/20_admin_activity_logs.png" alt="Log Aktivitas Keamanan">
+    <div class="figure-caption"><strong>Gambar 4.11:</strong> Rekaman Audit Trail Aktivitas Petugas</div>
+</div>
+
+<p>
+    Sistem mencatat secara permanen setiap aktivitas: waktu login berhasil, percobaan login gagal, penambahan data, pengeditan berita, serta alamat IP dan perangkat yang digunakan petugas.
+</p>
+
+<!-- ========================================================================= -->
+<!-- BAB V: PANDUAN TEKNIS & TROUBLESHOOTING                                   -->
+<!-- ========================================================================= -->
+<div class="page-break"></div>
+
+<h1 class="chapter-title">BAB V: Panduan Pemeliharaan & Troubleshooting</h1>
+
+<h2 class="section-title">5.1 Uji Konektivitas Mail Gateway (SMTP) via CLI</h2>
+<p>
+    Apabila email pemulihan kata sandi tidak terkirim, administrator server dapat menguji koneksi server email secara langsung melalui baris perintah terminal:
+</p>
+<pre><code>php artisan mail:test email_tujuan@gmail.com</code></pre>
+<p>
+    Perintah ini akan melakukan handshake langsung ke server SMTP pengirim, mengirimkan pesan uji coba, serta menampilkan diagnosa kesalahan jika port terblokir atau kredensial kata sandi salah.
+</p>
+
+<h2 class="section-title">5.2 Pembersihan & Pembaruan Cache Aplikasi</h2>
+<p>
+    Jika terjadi perubahan konfigurasi <code>.env</code> atau penambahan menu yang belum terlihat di peramban, jalankan perintah pembersihan cache berikut:
+</p>
+<pre><code>php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache</code></pre>
+
+<h2 class="section-title">5.3 Layanan Kontak Dukungan IT Sekolah</h2>
+<p>
+    Apabila staf pengajar atau administrator mengalami kendala teknis di luar panduan ini, silakan menghubungi tim administrator:
+</p>
+<ul>
+    <li><strong>Unit Kerja:</strong> Tim IT & Tata Usaha SMP Negeri 5 Sambas</li>
+    <li><strong>Alamat Kantor:</strong> Kabupaten Sambas, Kalimantan Barat</li>
+    <li><strong>Portal Bantuan:</strong> <code>https://smpn5sambas.sch.id</code></li>
+</ul>
+
+<div style="margin-top: 50px; text-align: center; border-top: 1px solid #E2E8F0; padding-top: 20px;">
+    <p style="font-size: 9pt; color: #64748B; margin-bottom: 0;">
+        — Dokumen Buku Panduan Resmi SMP Negeri 5 Sambas (Edisi Produksi 2026) —
+    </p>
+</div>
+
+</body>
+</html>
