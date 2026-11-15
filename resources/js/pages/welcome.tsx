@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import ScrollStack, { ScrollStackItem } from '@/components/ui/scroll-stack';
 import {
     AcademicCapIcon,
@@ -105,9 +106,40 @@ export default function Welcome({
         });
     };
 
+    const schoolSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'School',
+        name: schoolName,
+        alternateName: ['SMPN 5 Sambas', 'SMP Negeri 5 Sambas'],
+        description:
+            settings?.school_description ||
+            `${schoolName} - ${tagline}. Portal informasi resmi, PPDB, warta kegiatan, dan agenda pendidikan.`,
+        url: typeof window !== 'undefined' ? window.location.origin : undefined,
+        logo: settings?.school_logo || undefined,
+        image: heroBannerImage || undefined,
+        address: {
+            '@type': 'PostalAddress',
+            streetAddress: settings?.school_address || 'Kabupaten Sambas',
+            addressLocality: 'Sambas',
+            addressRegion: 'Kalimantan Barat',
+            addressCountry: 'ID',
+        },
+        telephone: settings?.school_phone || undefined,
+        email: settings?.school_email || undefined,
+    };
+
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`${schoolName} - ${tagline}`} />
+            <SeoHead
+                title={`${schoolName} - ${tagline}`}
+                description={
+                    settings?.school_description ||
+                    `Portal Resmi ${schoolName}, Sambas, Kalimantan Barat. Informasi profil sekolah, penerimaan peserta didik baru (PPDB), prestasi siswa, warta kegiatan, serta agenda pendidikan terkini.`
+                }
+                keywords="SMP Negeri 5 Sambas, SMPN 5 Sambas, sekolah menengah pertama sambas, PPDB SMPN 5 Sambas, sekolah unggul sambas, pendidikan sambas kalbar, prestasi siswa smpn 5 sambas"
+                ogImage={heroBannerImage}
+                jsonLd={schoolSchema}
+            />
 
             {/* Asymmetric Hero & Bento Grid */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-12">

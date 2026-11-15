@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import {
     ArrowRightIcon,
     CalendarDaysIcon,
@@ -132,7 +133,11 @@ export default function NewsDirectory({
 
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`Berita & Warta Sekolah - ${schoolName}`} />
+            <SeoHead
+                title={`Berita & Warta Terkini - ${schoolName}`}
+                description={`Pusat informasi, warta pendidikan, prestasi, dan pengumuman resmi ${schoolName}. Temukan update kegiatan siswa dan program sekolah terbaru.`}
+                keywords={`berita ${schoolName}, warta sekolah, pengumuman ${schoolName}, artikel pendidikan sambas`}
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                 {/* Page Header (Consistent with Staff, Ekskul, and Prestasi pages) */}

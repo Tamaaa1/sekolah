@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import {
     ArrowDownTrayIcon,
     ArrowLeftIcon,
@@ -99,9 +100,26 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
         },
     ];
 
+    const ppdbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'EducationalOccupationalProgram',
+        name: `PPDB ${schoolName} Tahun Ajaran ${ppdbYear}`,
+        description: `Informasi lengkap Penerimaan Peserta Didik Baru (PPDB) ${schoolName} Tahun Ajaran ${ppdbYear}. Alur pendaftaran, persyaratan berkas, jalur zonasi, afirmasi, prestasi, dan perpindahan tugas orang tua.`,
+        provider: {
+            '@type': 'School',
+            name: schoolName,
+            address: settings?.school_address || 'Kabupaten Sambas',
+        },
+    };
+
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`Informasi PPDB Tahun Ajaran ${ppdbYear} - ${schoolName}`} />
+            <SeoHead
+                title={`Informasi PPDB Tahun Ajaran ${ppdbYear} - ${schoolName}`}
+                description={`Penerimaan Peserta Didik Baru (PPDB) ${schoolName} Tahun Ajaran ${ppdbYear}. Ketahui jadwal, persyaratan berkas, jalur pendaftaran zonasi, afirmasi, prestasi, dan link pendaftaran online resmi.`}
+                keywords={`PPDB ${schoolName}, pendaftaran siswa baru sambas, PPDB SMP sambas ${ppdbYear}, syarat masuk SMPN 5 sambas, zonasi smp 5 sambas`}
+                jsonLd={ppdbSchema}
+            />
 
             <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-3 sm:pt-5 pb-10">
                 {/* STATE 1: PENDAFTARAN DITUTUP / BELUM DIBUKA */}

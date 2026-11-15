@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StaffDirectoryController;
 use App\Http\Controllers\PublicPortalController;
+use App\Http\Controllers\SitemapController;
 use App\Models\AcademicAgenda;
 use App\Models\Achievement;
 use App\Models\Extracurricular;
@@ -33,6 +34,7 @@ Route::get('/ekstrakurikuler', [PublicPortalController::class, 'extracurriculars
 Route::get('/prestasi', [PublicPortalController::class, 'achievements'])->name('public.achievements');
 Route::get('/agenda', [PublicPortalController::class, 'agendas'])->name('public.agendas');
 Route::get('/ppdb', [PublicPortalController::class, 'ppdb'])->name('public.ppdb');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 /*
 |--------------------------------------------------------------------------

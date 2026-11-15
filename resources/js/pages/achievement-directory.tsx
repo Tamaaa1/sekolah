@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import { SparklesIcon, TrophyIcon } from '@heroicons/react/24/outline';
 
 type Achievement = {
@@ -35,7 +36,11 @@ export default function AchievementDirectory({
 
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`Rekap Prestasi Siswa - ${schoolName}`} />
+            <SeoHead
+                title={`Rekapitulasi Prestasi Siswa - ${schoolName}`}
+                description={`Katalog pencapaian prestasi akademik dan non-akademik siswa-siswi ${schoolName} di tingkat kabupaten, provinsi, nasional, dan internasional.`}
+                keywords={`prestasi siswa ${schoolName}, juara osn sambas, prestasi smpn 5 sambas, kejuaraan pelajar sambas`}
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                 <div className="border-b border-line pb-6 mb-8">

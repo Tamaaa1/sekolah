@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import { AcademicCapIcon, UserIcon } from '@heroicons/react/24/outline';
 
 type Staff = {
@@ -44,7 +45,11 @@ export default function StaffDirectory({
 
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`Direktori Pendidik & Tenaga Kependidikan - ${schoolName}`} />
+            <SeoHead
+                title={`Direktori Guru & Tenaga Kependidikan - ${schoolName}`}
+                description={`Profil lengkap dewan guru, kepala sekolah, dan tenaga kependidikan ${schoolName}. Pendidik profesional dan berdedikasi membimbing generasi unggul di Sambas.`}
+                keywords={`guru ${schoolName}, kepala sekolah ${schoolName}, tenaga kependidikan sambas, dewan guru smpn 5 sambas`}
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                 <div className="border-b border-line pb-6 mb-8">

@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import { CalendarDaysIcon, MapPinIcon } from '@heroicons/react/24/outline';
 
 type Agenda = {
@@ -38,7 +39,11 @@ export default function AcademicAgendaPage({
 
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`Kalender & Agenda Akademik - ${schoolName}`} />
+            <SeoHead
+                title={`Kalender & Agenda Akademik - ${schoolName}`}
+                description={`Kalender pendidikan dan jadwal kegiatan akademik ${schoolName}. Pelaksanaan ujian, masa libur, rapat dewan komite, dan agenda sekolah terlengkap.`}
+                keywords={`agenda ${schoolName}, kalender akademik smpn 5 sambas, jadwal ujian sambas, kegiatan sekolah sambas`}
+            />
 
             <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
                 <div className="border-b border-line pb-6 mb-8">

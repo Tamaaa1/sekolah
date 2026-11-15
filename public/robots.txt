@@ -1,2 +1,19 @@
+# robots.txt for SMP Negeri 5 Sambas
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /settings/
+Disallow: /login
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /confirm-password
+Allow: /
+Allow: /berita
+Allow: /ppdb
+Allow: /guru-dan-staf
+Allow: /prestasi
+Allow: /ekstrakurikuler
+Allow: /agenda
+
+# XML Sitemap Pointer for Search Engine Crawlers
+Sitemap: /sitemap.xml

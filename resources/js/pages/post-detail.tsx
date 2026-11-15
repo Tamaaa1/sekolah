@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import {
     BookmarkIcon,
     CalendarDaysIcon,
@@ -121,9 +122,42 @@ export default function PostDetail({
         return null;
     };
 
+    const authorName = post.author?.name || schoolName;
+    const articleSchema = {
+        '@context': 'https://schema.org',
+        '@type': post.type === 'post' ? 'NewsArticle' : 'Article',
+        headline: post.title,
+        description: post.excerpt || post.title,
+        image: post.featured_image ? [post.featured_image] : undefined,
+        datePublished: post.published_at || undefined,
+        dateModified: post.published_at || undefined,
+        author: {
+            '@type': 'Person',
+            name: authorName,
+        },
+        publisher: {
+            '@type': 'EducationalOrganization',
+            name: schoolName,
+            logo: settings?.school_logo
+                ? {
+                      '@type': 'ImageObject',
+                      url: settings.school_logo,
+                  }
+                : undefined,
+        },
+    };
+
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`${post.title} - ${schoolName}`} />
+            <SeoHead
+                title={post.title}
+                description={post.excerpt || `${post.title} - ${schoolName}`}
+                ogType="article"
+                ogImage={post.featured_image}
+                author={authorName}
+                publishedAt={post.published_at}
+                jsonLd={articleSchema}
+            />
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
                 {/* Article Header */}

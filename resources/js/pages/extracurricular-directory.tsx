@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
+import SeoHead from '@/components/seo-head';
 import {
     CalendarDaysIcon,
     ClockIcon,
@@ -33,7 +34,11 @@ export default function ExtracurricularDirectory({
 
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
-            <Head title={`Kegiatan Ekstrakurikuler Siswa - ${schoolName}`} />
+            <SeoHead
+                title={`Kegiatan Ekstrakurikuler Siswa - ${schoolName}`}
+                description={`Daftar kegiatan ekstrakurikuler di ${schoolName}: Pramuka, PMR, Paskibra, OSN, seni musik, dan olahraga. Wadah pengembangan minat, bakat, dan karakter siswa.`}
+                keywords={`ekstrakurikuler ${schoolName}, ekskul smpn 5 sambas, kegiatan siswa sambas, pramuka smpn 5 sambas`}
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                 <div className="border-b border-line pb-6 mb-8">
