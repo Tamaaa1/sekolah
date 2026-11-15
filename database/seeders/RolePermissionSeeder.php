@@ -40,6 +40,10 @@ class RolePermissionSeeder extends Seeder
             'manage extracurriculars',
             'manage achievements',
             'manage ppdb',
+            'manage facilities',
+            'manage downloads',
+            'manage galleries',
+            'manage messages',
 
             // Pengaturan & Menu (Super Admin only)
             'manage menus',
@@ -69,6 +73,10 @@ class RolePermissionSeeder extends Seeder
             'manage staff',
             'manage extracurriculars',
             'manage achievements',
+            'manage facilities',
+            'manage downloads',
+            'manage galleries',
+            'manage messages',
         ]);
 
         // 3. Role Contributor (OSIS / Siswa / Ekskul)

@@ -1,18 +1,23 @@
 import { Link } from '@inertiajs/react';
 import {
     AcademicCapIcon,
+    ArrowDownTrayIcon,
     ArrowTopRightOnSquareIcon,
     Bars3BottomLeftIcon,
+    BuildingOffice2Icon,
     CalendarDaysIcon,
+    CameraIcon,
     ClipboardDocumentListIcon,
     Cog6ToothIcon,
     DocumentTextIcon,
+    EnvelopeIcon,
     HomeIcon,
     MegaphoneIcon,
     NewspaperIcon,
     PhotoIcon,
     TrophyIcon,
     UserGroupIcon,
+    UsersIcon,
 } from '@heroicons/react/24/outline';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -61,6 +66,26 @@ const mainNavItems: NavItem[] = [
         icon: UserGroupIcon,
     },
     {
+        title: 'Sarana & Fasilitas',
+        href: '/admin/facilities',
+        icon: BuildingOffice2Icon,
+    },
+    {
+        title: 'Pusat Unduhan',
+        href: '/admin/downloads',
+        icon: ArrowDownTrayIcon,
+    },
+    {
+        title: 'Galeri Kegiatan',
+        href: '/admin/galleries',
+        icon: CameraIcon,
+    },
+    {
+        title: 'Pesan Masuk',
+        href: '/admin/messages',
+        icon: EnvelopeIcon,
+    },
+    {
         title: 'Prestasi Siswa',
         href: '/admin/achievements',
         icon: TrophyIcon,
@@ -84,6 +109,11 @@ const mainNavItems: NavItem[] = [
         title: 'Pengaturan Sekolah',
         href: '/admin/settings',
         icon: Cog6ToothIcon,
+    },
+    {
+        title: 'Manajemen Pengguna',
+        href: '/admin/users',
+        icon: UsersIcon,
     },
     {
         title: 'Log Aktivitas',

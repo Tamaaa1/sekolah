@@ -3,17 +3,26 @@
 use App\Http\Controllers\Admin\AcademicAgendaController;
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\Admin\DownloadController;
 use App\Http\Controllers\Admin\ExtracurricularController;
+use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StaffDirectoryController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PublicPortalController;
 use App\Http\Controllers\SitemapController;
 use App\Models\AcademicAgenda;
 use App\Models\Achievement;
+use App\Models\ContactMessage;
+use App\Models\Download;
 use App\Models\Extracurricular;
+use App\Models\Facility;
+use App\Models\Gallery;
 use App\Models\Media;
 use App\Models\Post;
 use App\Models\StaffDirectory;
@@ -30,10 +39,16 @@ Route::get('/', [PublicPortalController::class, 'home'])->name('home');
 Route::get('/berita', [PublicPortalController::class, 'posts'])->name('public.posts');
 Route::get('/artikel', fn () => redirect()->route('public.posts'));
 Route::get('/guru-dan-staf', [PublicPortalController::class, 'staff'])->name('public.staff');
+Route::get('/fasilitas', [PublicPortalController::class, 'facilities'])->name('public.facilities');
 Route::get('/ekstrakurikuler', [PublicPortalController::class, 'extracurriculars'])->name('public.extracurriculars');
 Route::get('/prestasi', [PublicPortalController::class, 'achievements'])->name('public.achievements');
 Route::get('/agenda', [PublicPortalController::class, 'agendas'])->name('public.agendas');
 Route::get('/ppdb', [PublicPortalController::class, 'ppdb'])->name('public.ppdb');
+Route::get('/unduhan', [PublicPortalController::class, 'downloads'])->name('public.downloads');
+Route::get('/unduhan/{slug}/file', [PublicPortalController::class, 'downloadFile'])->name('public.downloads.file');
+Route::get('/galeri', [PublicPortalController::class, 'galleries'])->name('public.galleries');
+Route::get('/kontak', [PublicPortalController::class, 'contact'])->name('public.contact');
+Route::post('/kontak', [PublicPortalController::class, 'storeContactMessage'])->name('public.contact.store')->middleware('throttle:5,1');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 /*
@@ -54,6 +69,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'staffCount' => StaffDirectory::count(),
                 'agendaCount' => AcademicAgenda::count(),
                 'extracurricularCount' => Extracurricular::count(),
+                'facilityCount' => Facility::count(),
+                'downloadCount' => Download::count(),
+                'galleryCount' => Gallery::count(),
+                'unreadMessageCount' => ContactMessage::where('is_read', false)->count(),
                 'achievementCount' => Achievement::count(),
                 'mediaCount' => Media::count(),
                 'recentPosts' => Post::latest()->take(5)->get(),
@@ -63,6 +82,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('posts', PostController::class);
         Route::resource('staff', StaffDirectoryController::class)->except(['create', 'show', 'edit'])->middleware('can:manage staff');
         Route::resource('extracurriculars', ExtracurricularController::class)->except(['create', 'show', 'edit'])->middleware('can:manage extracurriculars');
+        Route::resource('facilities', FacilityController::class)->except(['create', 'show', 'edit'])->middleware('can:manage facilities');
+        Route::resource('downloads', DownloadController::class)->except(['create', 'show', 'edit'])->middleware('can:manage downloads');
+        Route::resource('galleries', GalleryController::class)->except(['create', 'show', 'edit'])->middleware('can:manage galleries');
+        Route::get('messages', [ContactMessageController::class, 'index'])->name('messages.index')->middleware('can:manage messages');
+        Route::patch('messages/{message}/read', [ContactMessageController::class, 'toggleRead'])->name('messages.toggle-read')->middleware('can:manage messages');
+        Route::delete('messages/{message}', [ContactMessageController::class, 'destroy'])->name('messages.destroy')->middleware('can:manage messages');
         Route::resource('achievements', AchievementController::class)->except(['create', 'show', 'edit'])->middleware('can:manage achievements');
         Route::resource('agendas', AcademicAgendaController::class)->except(['create', 'show', 'edit'])->middleware('can:manage agendas');
         Route::resource('media', MediaController::class)->only(['index', 'store', 'destroy'])->middleware('can:manage media');
@@ -73,6 +98,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('menus/items/{item}', [MenuController::class, 'destroyItem'])->name('menus.items.destroy')->middleware('can:manage menus');
         Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index')->middleware('role:Super Admin');
         Route::delete('activity-logs', [ActivityLogController::class, 'clear'])->name('activity-logs.clear')->middleware('role:Super Admin');
+        Route::resource('users', UserController::class)->except(['create', 'show', 'edit'])->middleware('role:Super Admin');
     });
 });
 

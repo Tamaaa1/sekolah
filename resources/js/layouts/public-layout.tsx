@@ -96,12 +96,16 @@ export default function PublicLayout({
                 { id: 21, label: 'Visi & Misi', url: '/visi-misi-sekolah' },
                 { id: 22, label: 'Sejarah Sekolah', url: '/sejarah-sekolah' },
                 { id: 23, label: 'Direktori Guru & Staf', url: '/guru-dan-staf' },
+                { id: 24, label: 'Sarana & Fasilitas', url: '/fasilitas' },
             ],
         },
         { id: 3, label: 'Berita', url: '/berita' },
         { id: 4, label: 'Ekstrakurikuler', url: '/ekstrakurikuler' },
         { id: 5, label: 'Prestasi', url: '/prestasi' },
         { id: 6, label: 'Agenda', url: '/agenda' },
+        { id: 7, label: 'Unduhan', url: '/unduhan' },
+        { id: 8, label: 'Galeri', url: '/galeri' },
+        { id: 9, label: 'Kontak', url: '/kontak' },
     ];
 
     return (
@@ -396,6 +400,11 @@ export default function PublicLayout({
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/fasilitas" className="hover:text-white transition-colors">
+                                    Sarana & Fasilitas Sekolah
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/ekstrakurikuler" className="hover:text-white transition-colors">
                                     Kegiatan Ekstrakurikuler Siswa
                                 </Link>
@@ -408,6 +417,21 @@ export default function PublicLayout({
                             <li>
                                 <Link href="/agenda" className="hover:text-white transition-colors">
                                     Kalender & Agenda Sekolah
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/unduhan" className="hover:text-white transition-colors">
+                                    Pusat Unduhan Dokumen
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/galeri" className="hover:text-white transition-colors">
+                                    Galeri Foto Kegiatan
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/kontak" className="hover:text-white transition-colors">
+                                    Hubungi Kami & Aspirasi
                                 </Link>
                             </li>
                         </ul>

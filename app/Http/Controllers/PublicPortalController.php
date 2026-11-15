@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\AcademicAgenda;
 use App\Models\Achievement;
+use App\Models\ContactMessage;
+use App\Models\Download;
 use App\Models\Extracurricular;
+use App\Models\Facility;
+use App\Models\Gallery;
 use App\Models\Menu;
 use App\Models\Post;
 use App\Models\Setting;
 use App\Models\StaffDirectory;
 use App\Models\Taxonomy;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -268,6 +273,181 @@ class PublicPortalController extends Controller
             'settings' => $settings,
             'primaryMenu' => $primaryMenu,
         ]);
+    }
+
+    /**
+     * Direktori Sarana & Fasilitas Sekolah
+     */
+    public function facilities(Request $request): Response
+    {
+        $settings = Setting::allGrouped();
+        $primaryMenu = Menu::getByLocation('header_primary');
+
+        $query = Facility::active()->orderBy('sort_order', 'asc')->latest('id');
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->query('category'));
+        }
+
+        if ($request->filled('q')) {
+            $keyword = trim($request->query('q'));
+            $query->where(function ($sub) use ($keyword) {
+                $sub->where('name', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%")
+                    ->orWhere('location', 'like', "%{$keyword}%");
+            });
+        }
+
+        $facilities = $query->get();
+        $categories = Facility::active()->distinct()->whereNotNull('category')->pluck('category');
+
+        return Inertia::render('facility-directory', [
+            'settings' => $settings,
+            'primaryMenu' => $primaryMenu,
+            'facilities' => $facilities,
+            'categories' => $categories,
+            'filters' => [
+                'category' => $request->query('category', ''),
+                'q' => $request->query('q', ''),
+            ],
+        ]);
+    }
+
+    /**
+     * Direktori Pusat Unduhan Dokumen
+     */
+    public function downloads(Request $request): Response
+    {
+        $settings = Setting::allGrouped();
+        $primaryMenu = Menu::getByLocation('header_primary');
+
+        $query = Download::active()->orderBy('sort_order', 'asc')->latest('id');
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->query('category'));
+        }
+
+        if ($request->filled('q')) {
+            $keyword = trim($request->query('q'));
+            $query->where(function ($sub) use ($keyword) {
+                $sub->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
+            });
+        }
+
+        $downloads = $query->get();
+        $categories = Download::active()->distinct()->whereNotNull('category')->pluck('category');
+
+        return Inertia::render('download-directory', [
+            'settings' => $settings,
+            'primaryMenu' => $primaryMenu,
+            'downloads' => $downloads,
+            'categories' => $categories,
+            'filters' => [
+                'category' => $request->query('category', ''),
+                'q' => $request->query('q', ''),
+            ],
+        ]);
+    }
+
+    /**
+     * Unduh Berkas & Catat Statistik Download
+     */
+    public function downloadFile(string $slug): \Symfony\Component\HttpFoundation\Response
+    {
+        $download = Download::where('slug', $slug)->active()->firstOrFail();
+        $download->increment('download_count');
+
+        $path = $download->file_path;
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return redirect()->away($path);
+        }
+
+        $publicPath = public_path(ltrim($path, '/'));
+        if (file_exists($publicPath)) {
+            return response()->download($publicPath);
+        }
+
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+            return \Illuminate\Support\Facades\Storage::disk('public')->download($path);
+        }
+
+        return redirect($path);
+    }
+
+    /**
+     * Halaman Galeri Foto & Dokumentasi Kegiatan
+     */
+    public function galleries(Request $request): Response
+    {
+        $settings = Setting::allGrouped();
+        $primaryMenu = Menu::getByLocation('header_primary');
+
+        $query = Gallery::active()->orderBy('sort_order', 'asc')->latest('event_date')->latest('id');
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->query('category'));
+        }
+
+        if ($request->filled('q')) {
+            $keyword = trim($request->query('q'));
+            $query->where(function ($sub) use ($keyword) {
+                $sub->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
+            });
+        }
+
+        $galleries = $query->get();
+        $categories = Gallery::active()->distinct()->whereNotNull('category')->pluck('category');
+
+        return Inertia::render('gallery-directory', [
+            'settings' => $settings,
+            'primaryMenu' => $primaryMenu,
+            'galleries' => $galleries,
+            'categories' => $categories,
+            'filters' => [
+                'category' => $request->query('category', ''),
+                'q' => $request->query('q', ''),
+            ],
+        ]);
+    }
+
+    /**
+     * Halaman Kontak & Formulir Aspirasi / Buku Tamu
+     */
+    public function contact(): Response
+    {
+        $settings = Setting::allGrouped();
+        $primaryMenu = Menu::getByLocation('header_primary');
+
+        return Inertia::render('contact', [
+            'settings' => $settings,
+            'primaryMenu' => $primaryMenu,
+        ]);
+    }
+
+    /**
+     * Simpan Pesan Kontak / Aspirasi dari Publik
+     */
+    public function storeContactMessage(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:150'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'subject' => ['required', 'string', 'max:255'],
+            'message' => ['required', 'string', 'max:3000'],
+        ]);
+
+        ContactMessage::create([
+            ...$validated,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'is_read' => false,
+        ]);
+
+        return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
     }
 }
 

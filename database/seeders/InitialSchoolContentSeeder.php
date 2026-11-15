@@ -18,7 +18,14 @@ class InitialSchoolContentSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::first();
+        $admin = User::first() ?? User::firstOrCreate(
+            ['email' => 'admin@sekolah.sch.id'],
+            [
+                'name' => 'Tata Usaha (Super Admin)',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
 
         // 1. Pengaturan Identitas Sekolah
         Setting::set('school_name', 'SMP Negeri 5 Sambas', 'general');
@@ -268,6 +275,204 @@ class InitialSchoolContentSeeder extends Seeder
                 'is_active' => true,
             ]
         );
+
+        // 10. Fasilitas & Sarana Prasarana
+        $facilities = [
+            [
+                'name' => 'Laboratorium Komputer Modern',
+                'slug' => 'laboratorium-komputer-modern',
+                'category' => 'Ruang Pembelajaran',
+                'description' => 'Fasilitas penunjang pembelajaran TIK, literasi digital, asesmen berbasis komputer (ANBK), dan pelatihan koding siswa dengan koneksi internet serat optik kecepatan tinggi.',
+                'image' => 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80',
+                'capacity' => '40 Unit PC Komputer',
+                'location' => 'Gedung B Lantai 2',
+                'features' => ['40 PC All-in-One Core i5', 'Pendingin Ruangan (AC)', 'Proyektor Interaktif', 'Jaringan LAN Gigabit & WiFi Dedicated', 'UPS Backup Listrik'],
+                'sort_order' => 1,
+            ],
+            [
+                'name' => 'Perpustakaan Digital "Graha Pustaka"',
+                'slug' => 'perpustakaan-digital-graha-pustaka',
+                'category' => 'Fasilitas Penunjang',
+                'description' => 'Pusat literasi dengan ribuan judul buku cetak, ensiklopedia, jurnal pendidikan, serta terminal akses e-book dan katalog digital bagi seluruh warga sekolah.',
+                'image' => 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80',
+                'capacity' => '80 Siswa',
+                'location' => 'Gedung A Lantai 1',
+                'features' => ['Ribuan Koleksi Buku', 'Ruang Baca Nyaman & Hening Ber-AC', 'Katalog Digital OPAC', 'Meja Diskusi Kelompok', 'Loker Penyimpanan Penitipan'],
+                'sort_order' => 2,
+            ],
+            [
+                'name' => 'Laboratorium IPA & Riset Sains',
+                'slug' => 'laboratorium-ipa-dan-riset-sains',
+                'category' => 'Ruang Pembelajaran',
+                'description' => 'Ruang praktikum sains terpadu yang memadukan eksperimen Fisika, Kimia sederhana, dan Biologi dengan instrumen mikroskopik dan perlengkapan keselamatan kerja lengkap.',
+                'image' => 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80',
+                'capacity' => '36 Siswa',
+                'location' => 'Gedung B Lantai 1',
+                'features' => ['Mikroskop Binokuler Digital', 'Alat Peraga Anatomi & Fisika', 'Wastafel Praktikum per Meja', 'Peralatan Keselamatan & P3K', 'Ruang Preparasi Bahan Praktikum'],
+                'sort_order' => 3,
+            ],
+            [
+                'name' => 'Lapangan Olahraga Serbaguna',
+                'slug' => 'lapangan-olahraga-serbaguna',
+                'category' => 'Sarana Olahraga',
+                'description' => 'Arena aktivitas jasmani luar ruang dengan lantai semen cor bertaraf standar, mendukung cabang olahraga basket, futsal, bola voli, dan bulutangkis.',
+                'image' => 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
+                'capacity' => '300 Penonton',
+                'location' => 'Lapangan Utama Terbuka',
+                'features' => ['Ring Basket Portabel Standar', 'Gawang Futsal & Jaring Pengaman', 'Tiang Net Voli Fleksibel', 'Tribun Penonton Teduh', 'Penerangan Lapangan Malam Hari'],
+                'sort_order' => 4,
+            ],
+            [
+                'name' => 'Musholla Sekolah "Nurul Ilmi"',
+                'slug' => 'musholla-sekolah-nurul-ilmi',
+                'category' => 'Tempat Ibadah',
+                'description' => 'Sarana pembinaan spiritual dan ibadah berjamaah, kegiatan keputrian, pembacaan Al-Quran pagi, dan peringatan hari besar keagamaan Islam.',
+                'image' => 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80',
+                'capacity' => '150 Jamaah',
+                'location' => 'Sayap Kanan Belakang Gedung Utama',
+                'features' => ['Tempat Wudhu Terpisah Putra/Putri', 'Karpet Sajadah Tebal & Wangi', 'Pendingin Ruangan & Kipas Dinding', 'Sound System Adzan Jernih', 'Rak Al-Quran & Lemari Mukena'],
+                'sort_order' => 5,
+            ],
+            [
+                'name' => 'Ruang UKS & Konseling Kesehatan',
+                'slug' => 'ruang-uks-dan-konseling-kesehatan',
+                'category' => 'Fasilitas Penunjang',
+                'description' => 'Unit pelayanan kesehatan pertolongan pertama bagi siswa dan staf yang membutuhkan istirahat atau perawatan medis ringan saat kegiatan belajar mengajar berlangsung.',
+                'image' => 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80',
+                'capacity' => '6 Ranjang Pasien',
+                'location' => 'Samping Ruang Bimbingan Konseling (BK)',
+                'features' => ['Tempat Tidur Medis Nyaman', 'Persediaan Obat-obatan Esensial', 'Alat Ukur Tinggi & Timbangan Berat', 'Tabung Oksigen Siaga', 'Buku Rekam Medis Ringan'],
+                'sort_order' => 6,
+            ],
+        ];
+
+        foreach ($facilities as $fac) {
+            \App\Models\Facility::firstOrCreate(['slug' => $fac['slug']], $fac);
+        }
+
+        // 11. Pusat Unduhan Dokumen
+        $downloads = [
+            [
+                'title' => 'Kalender Pendidikan & Akademik Tahun Ajaran 2026/2027',
+                'slug' => 'kalender-pendidikan-dan-akademik-2026-2027',
+                'category' => 'Akademik & Kurikulum',
+                'description' => 'Jadwal lengkap hari efektif belajar, masa ujian sumatif, libur semester, dan agenda kegiatan tahunan sekolah.',
+                'file_path' => '/documents/kalender-akademik-2026-2027.pdf',
+                'file_type' => 'PDF',
+                'file_size' => '1.2 MB',
+                'download_count' => 124,
+                'sort_order' => 1,
+            ],
+            [
+                'title' => 'Buku Pedoman Tata Tertib & Norma Disiplin Siswa',
+                'slug' => 'buku-pedoman-tata-tertib-disiplin-siswa',
+                'category' => 'Tata Tertib & Kesiswaan',
+                'description' => 'Peraturan resmi hak dan kewajiban peserta didik, etika berpakaian seragam, serta sanksi pelanggaran kedisiplinan di sekolah.',
+                'file_path' => '/documents/pedoman-tata-tertib-siswa.pdf',
+                'file_type' => 'PDF',
+                'file_size' => '2.4 MB',
+                'download_count' => 89,
+                'sort_order' => 2,
+            ],
+            [
+                'title' => 'Formulir Surat Izin Tidak Masuk Sekolah & Keterangan Sakit',
+                'slug' => 'formulir-surat-izin-tidak-masuk-sekolah',
+                'category' => 'Formulir Layanan',
+                'description' => 'Format surat resmi permohonan izin orang tua/wali murid kepada pihak sekolah ketika berhalangan hadir mengikuti pembelajaran.',
+                'file_path' => '/documents/formulir-surat-izin-siswa.docx',
+                'file_type' => 'DOCX',
+                'file_size' => '240 KB',
+                'download_count' => 215,
+                'sort_order' => 3,
+            ],
+            [
+                'title' => 'Brosur & Panduan Alur Pendaftaran PPDB 2026',
+                'slug' => 'brosur-panduan-alur-pendaftaran-ppdb-2026',
+                'category' => 'Panduan & Informasi',
+                'description' => 'Petunjuk teknis pendaftaran siswa baru jalur zonasi, afirmasi, prestasi, dan perpindahan tugas orang tua.',
+                'file_path' => '/documents/brosur-ppdb-2026.pdf',
+                'file_type' => 'PDF',
+                'file_size' => '3.8 MB',
+                'download_count' => 342,
+                'sort_order' => 4,
+            ],
+            [
+                'title' => 'Formulir Registrasi Kegiatan Ekstrakurikuler Siswa',
+                'slug' => 'formulir-registrasi-ekstrakurikuler-siswa',
+                'category' => 'Formulir Layanan',
+                'description' => 'Lembar pendaftaran pemilihan cabang minat bakat ekstrakurikuler wajib dan pilihan bagi siswa kelas VII dan VIII.',
+                'file_path' => '/documents/formulir-pendaftaran-ekskul.pdf',
+                'file_type' => 'PDF',
+                'file_size' => '410 KB',
+                'download_count' => 176,
+                'sort_order' => 5,
+            ],
+        ];
+
+        foreach ($downloads as $dl) {
+            \App\Models\Download::firstOrCreate(['slug' => $dl['slug']], $dl);
+        }
+
+        // 12. Dokumentasi Galeri Kegiatan
+        $galleries = [
+            [
+                'title' => 'Upacara Peringatan Hari Kemerdekaan RI ke-81',
+                'slug' => 'upacara-peringatan-hari-kemerdekaan-ri-ke-81',
+                'category' => 'Upacara & Peringatan',
+                'description' => 'Khidmatnya upacara bendera memperingati HUT Kemerdekaan Republik Indonesia yang diikuti oleh seluruh dewan guru, staf TU, dan siswa-siswi.',
+                'cover_image' => 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80',
+                'event_date' => '2026-08-17',
+                'images' => [
+                    ['url' => 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Pengibaran Sang Merah Putih oleh Pasukan Paskibra Sekolah'],
+                    ['url' => 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Paduan suara membawakan lagu Indonesia Raya'],
+                    ['url' => 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Amanat Pembina Upacara oleh Kepala Sekolah'],
+                ],
+                'sort_order' => 1,
+            ],
+            [
+                'title' => 'Gelar Karya P5: Inovasi Kuliner Olahan Khas Sambas',
+                'slug' => 'gelar-karya-p5-inovasi-kuliner-khas-sambas',
+                'category' => 'Kegiatan Akademik',
+                'description' => 'Pameran kreativitas siswa kelas VII dan VIII dalam mengeksplorasi kearifan lokal melalui olahan pangan dan kerajinan tradisional Sambas.',
+                'cover_image' => 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=80',
+                'event_date' => '2026-10-24',
+                'images' => [
+                    ['url' => 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Stan pameran karya siswa dengan ragam produk kearifan lokal'],
+                    ['url' => 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Presentasi proses pembuatan produk di hadapan tim penilai'],
+                ],
+                'sort_order' => 2,
+            ],
+            [
+                'title' => 'Kemah Bhakti Gugus Depan Pramuka Penggalang',
+                'slug' => 'kemah-bhakti-gugus-depan-pramuka-penggalang',
+                'category' => 'Ekstrakurikuler',
+                'description' => 'Kegiatan perkemahan sabtu-minggu (Persami) melatih kepemimpinan, kepedulian lingkungan, pioneering, dan ketangkasan berorganisasi.',
+                'cover_image' => 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1200&q=80',
+                'event_date' => '2026-09-12',
+                'images' => [
+                    ['url' => 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Kegiatan mendirikan tenda regu dan latihan tali temali'],
+                    ['url' => 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Upacara api unggun malam keakraban pramuka'],
+                ],
+                'sort_order' => 3,
+            ],
+            [
+                'title' => 'Pelepasan & Wisuda Siswa-Siswi Angkatan 2026',
+                'slug' => 'pelepasan-dan-wisuda-siswa-angkatan-2026',
+                'category' => 'Seremoni Sekolah',
+                'description' => 'Momen penuh haru dan kebanggaan pelepasan kelulusan peserta didik kelas IX menuju jenjang pendidikan menengah atas.',
+                'cover_image' => 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80',
+                'event_date' => '2026-06-20',
+                'images' => [
+                    ['url' => 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Pengalungan medali kelulusan oleh Kepala Sekolah'],
+                    ['url' => 'https://images.unsplash.com/photo-1525921429624-479b6a26d84d?auto=format&fit=crop&w=1200&q=80', 'caption' => 'Foto bersama para wisudawan terbaik angkatan 2026'],
+                ],
+                'sort_order' => 4,
+            ],
+        ];
+
+        foreach ($galleries as $gal) {
+            \App\Models\Gallery::firstOrCreate(['slug' => $gal['slug']], $gal);
+        }
     }
 }
 

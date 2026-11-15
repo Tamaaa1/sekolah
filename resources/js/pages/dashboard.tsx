@@ -2,9 +2,13 @@ import { Head, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import {
     AcademicCapIcon,
+    ArrowDownTrayIcon,
     ArrowRightIcon,
+    BuildingOffice2Icon,
     CalendarDaysIcon,
+    CameraIcon,
     DocumentPlusIcon,
+    EnvelopeIcon,
     MegaphoneIcon,
     NewspaperIcon,
     PhotoIcon,
@@ -29,6 +33,10 @@ type Props = {
     staffCount?: number;
     agendaCount?: number;
     extracurricularCount?: number;
+    facilityCount?: number;
+    downloadCount?: number;
+    galleryCount?: number;
+    unreadMessageCount?: number;
     achievementCount?: number;
     mediaCount?: number;
     recentPosts?: Post[];
@@ -47,6 +55,10 @@ export default function Dashboard({
     staffCount = 0,
     agendaCount = 0,
     extracurricularCount = 0,
+    facilityCount = 0,
+    downloadCount = 0,
+    galleryCount = 0,
+    unreadMessageCount = 0,
     achievementCount = 0,
     mediaCount = 0,
     recentPosts = [],
@@ -213,6 +225,82 @@ export default function Dashboard({
                         <div className="p-3 bg-canvas-subtle rounded-full text-prussian">
                             <PhotoIcon className="w-6 h-6" />
                         </div>
+                    </div>
+                </div>
+
+                {/* Additional Modules (Fasilitas, Unduhan, Galeri, Pesan Masuk) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs">
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-ink-muted">Sarana & Fasilitas</span>
+                            <BuildingOffice2Icon className="w-5 h-5 text-emerald-600" />
+                        </div>
+                        <div className="font-serif text-3xl font-bold text-ink mt-2">
+                            {facilityCount}
+                        </div>
+                        <Link
+                            href="/admin/facilities"
+                            className="text-[11px] font-semibold text-emerald-700 hover:underline mt-2 inline-flex items-center gap-1"
+                        >
+                            <span>Kelola Fasilitas</span>
+                            <ArrowRightIcon className="w-3 h-3" />
+                        </Link>
+                    </div>
+
+                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs">
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-ink-muted">Pusat Unduhan</span>
+                            <ArrowDownTrayIcon className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div className="font-serif text-3xl font-bold text-ink mt-2">
+                            {downloadCount}
+                        </div>
+                        <Link
+                            href="/admin/downloads"
+                            className="text-[11px] font-semibold text-blue-700 hover:underline mt-2 inline-flex items-center gap-1"
+                        >
+                            <span>Kelola Dokumen</span>
+                            <ArrowRightIcon className="w-3 h-3" />
+                        </Link>
+                    </div>
+
+                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs">
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-ink-muted">Album Galeri</span>
+                            <CameraIcon className="w-5 h-5 text-purple-600" />
+                        </div>
+                        <div className="font-serif text-3xl font-bold text-ink mt-2">
+                            {galleryCount}
+                        </div>
+                        <Link
+                            href="/admin/galleries"
+                            className="text-[11px] font-semibold text-purple-700 hover:underline mt-2 inline-flex items-center gap-1"
+                        >
+                            <span>Kelola Galeri</span>
+                            <ArrowRightIcon className="w-3 h-3" />
+                        </Link>
+                    </div>
+
+                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs">
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-ink-muted">Pesan Masuk</span>
+                            <EnvelopeIcon className={`w-5 h-5 ${unreadMessageCount > 0 ? 'text-rose-600 animate-bounce' : 'text-neutral-500'}`} />
+                        </div>
+                        <div className="font-serif text-3xl font-bold text-ink mt-2 flex items-baseline gap-2">
+                            <span>{unreadMessageCount}</span>
+                            {unreadMessageCount > 0 && (
+                                <span className="text-xs font-sans font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                                    Belum Dibaca
+                                </span>
+                            )}
+                        </div>
+                        <Link
+                            href="/admin/messages"
+                            className="text-[11px] font-semibold text-prussian hover:underline mt-2 inline-flex items-center gap-1"
+                        >
+                            <span>Buka Kotak Masuk</span>
+                            <ArrowRightIcon className="w-3 h-3" />
+                        </Link>
                     </div>
                 </div>
 
