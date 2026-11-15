@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Taxonomy;
 use App\Services\ActivityLogger;
+use App\Services\HtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -43,6 +44,8 @@ class PostController extends Controller
 
     public function create(Request $request): Response
     {
+        abort_unless($request->user()?->can('create posts'), 403, 'Anda tidak memiliki hak akses untuk membuat konten.');
+
         $type = $request->query('type', 'post');
         $categories = Taxonomy::where('type', 'category')->get();
         $tags = Taxonomy::where('type', 'tag')->get();
@@ -57,6 +60,8 @@ class PostController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        abort_unless($request->user()?->can('create posts'), 403, 'Anda tidak memiliki hak akses untuk membuat konten.');
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug',
@@ -96,6 +101,11 @@ class PostController extends Controller
             $validated['published_at'] = now();
         }
 
+        // Sanitize rich text HTML content against Stored XSS
+        if (isset($validated['content'])) {
+            $validated['content'] = HtmlSanitizer::clean($validated['content']);
+        }
+
         // Format content to array if string
         if (is_string($validated['content'] ?? null)) {
             $validated['content'] = [
@@ -122,6 +132,14 @@ class PostController extends Controller
 
     public function edit(Post $post): Response
     {
+        $user = request()->user();
+        abort_unless($user?->can('edit posts'), 403, 'Anda tidak memiliki hak akses untuk menyunting konten.');
+
+        // IDOR Protection: Contributor can only edit their own posts
+        if ($user && $user->hasRole('Contributor') && $post->author_id !== $user->id) {
+            abort(403, 'Kontributor hanya berhak menyunting konten yang dibuat sendiri.');
+        }
+
         $post->load(['categories', 'tags']);
         $categories = Taxonomy::where('type', 'category')->get();
         $tags = Taxonomy::where('type', 'tag')->get();
@@ -136,6 +154,14 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post): RedirectResponse
     {
+        $user = $request->user();
+        abort_unless($user?->can('edit posts'), 403, 'Anda tidak memiliki hak akses untuk menyunting konten.');
+
+        // IDOR Protection: Contributor can only edit their own posts
+        if ($user && $user->hasRole('Contributor') && $post->author_id !== $user->id) {
+            abort(403, 'Kontributor hanya berhak menyunting konten yang dibuat sendiri.');
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:posts,slug,' . $post->id,
@@ -153,8 +179,6 @@ class PostController extends Controller
             'category_ids.*' => 'exists:taxonomies,id',
         ]);
 
-        $user = $request->user();
-
         // RBAC Rule: Contributor cannot publish directly
         if ($user && $user->hasRole('Contributor') && $validated['status'] === 'published') {
             $validated['status'] = 'pending_review';
@@ -162,6 +186,11 @@ class PostController extends Controller
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = $post->published_at ?? now();
+        }
+
+        // Sanitize rich text HTML content against Stored XSS
+        if (isset($validated['content'])) {
+            $validated['content'] = HtmlSanitizer::clean($validated['content']);
         }
 
         if (is_string($validated['content'] ?? null)) {
@@ -189,6 +218,8 @@ class PostController extends Controller
 
     public function destroy(Post $post): RedirectResponse
     {
+        abort_unless(request()->user()?->can('delete posts'), 403, 'Anda tidak memiliki hak akses untuk menghapus konten.');
+
         $type = $post->type;
         $title = $post->title;
         $module = match ($type) {

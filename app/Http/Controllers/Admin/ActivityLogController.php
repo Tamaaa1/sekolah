@@ -64,6 +64,8 @@ class ActivityLogController extends Controller
 
     public function clear(Request $request): RedirectResponse
     {
+        abort_unless($request->user()?->hasRole('Super Admin'), 403, 'Hanya Super Admin yang berhak membersihkan log aktivitas.');
+
         $period = $request->input('period', 'older_than_30_days');
 
         if ($period === 'all') {
