@@ -59,18 +59,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('dashboard');
 
         Route::resource('posts', PostController::class);
-        Route::resource('staff', StaffDirectoryController::class)->except(['create', 'show', 'edit']);
-        Route::resource('extracurriculars', ExtracurricularController::class)->except(['create', 'show', 'edit']);
-        Route::resource('achievements', AchievementController::class)->except(['create', 'show', 'edit']);
-        Route::resource('agendas', AcademicAgendaController::class)->except(['create', 'show', 'edit']);
-        Route::resource('media', MediaController::class)->only(['index', 'store', 'destroy']);
-        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
-        Route::match(['put', 'post'], 'settings', [SettingController::class, 'update'])->name('settings.update');
-        Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
-        Route::post('menus/{menu}/items', [MenuController::class, 'storeItem'])->name('menus.items.store');
-        Route::delete('menus/items/{item}', [MenuController::class, 'destroyItem'])->name('menus.items.destroy');
-        Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
-        Route::delete('activity-logs', [ActivityLogController::class, 'clear'])->name('activity-logs.clear');
+        Route::resource('staff', StaffDirectoryController::class)->except(['create', 'show', 'edit'])->middleware('can:manage staff');
+        Route::resource('extracurriculars', ExtracurricularController::class)->except(['create', 'show', 'edit'])->middleware('can:manage extracurriculars');
+        Route::resource('achievements', AchievementController::class)->except(['create', 'show', 'edit'])->middleware('can:manage achievements');
+        Route::resource('agendas', AcademicAgendaController::class)->except(['create', 'show', 'edit'])->middleware('can:manage agendas');
+        Route::resource('media', MediaController::class)->only(['index', 'store', 'destroy'])->middleware('can:manage media');
+        Route::get('settings', [SettingController::class, 'index'])->name('settings.index')->middleware('can:manage settings');
+        Route::match(['put', 'post'], 'settings', [SettingController::class, 'update'])->name('settings.update')->middleware('can:manage settings');
+        Route::get('menus', [MenuController::class, 'index'])->name('menus.index')->middleware('can:manage menus');
+        Route::post('menus/{menu}/items', [MenuController::class, 'storeItem'])->name('menus.items.store')->middleware('can:manage menus');
+        Route::delete('menus/items/{item}', [MenuController::class, 'destroyItem'])->name('menus.items.destroy')->middleware('can:manage menus');
+        Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index')->middleware('role:Super Admin');
+        Route::delete('activity-logs', [ActivityLogController::class, 'clear'])->name('activity-logs.clear')->middleware('role:Super Admin');
     });
 });
 

@@ -82,7 +82,7 @@ class PostController extends Controller
         }
 
         $validated['author_id'] = $user ? $user->id : 1;
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title']);
+        $validated['slug'] = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['title']);
 
         // Check if slug duplicate
         $originalSlug = $validated['slug'];
