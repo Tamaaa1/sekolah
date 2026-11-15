@@ -121,6 +121,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                     label="MASUK"
                                     loadingLabel="MEMPROSES..."
                                 />
+                                <InputError message={errors.slide_verified} className="mt-1.5 text-center" />
                             </div>
 
                             {/* Help & Support note */}

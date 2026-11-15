@@ -20,9 +20,11 @@ export default function SlideToSubmit({
 }: SlideToSubmitProps) {
     const trackRef = useRef<HTMLDivElement>(null);
     const submitBtnRef = useRef<HTMLButtonElement>(null);
+    const verifiedInputRef = useRef<HTMLInputElement>(null);
     const [dragX, setDragX] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [isShaking, setIsShaking] = useState(false);
     const startXRef = useRef(0);
 
     const getMaxDrag = useCallback(() => {
@@ -38,10 +40,16 @@ export default function SlideToSubmit({
         if (processing) {
             setIsCompleted(true);
             setDragX(getMaxDrag());
+            if (verifiedInputRef.current) {
+                verifiedInputRef.current.value = '1';
+            }
         } else {
-            // When processing ends (e.g. error returned), reset position
+            // When processing ends (e.g. error returned or reset), reset position
             setIsCompleted(false);
             setDragX(0);
+            if (verifiedInputRef.current) {
+                verifiedInputRef.current.value = '0';
+            }
         }
     }, [processing, getMaxDrag]);
 
@@ -54,6 +62,37 @@ export default function SlideToSubmit({
         setIsDragging(true);
     };
 
+    const attemptSubmission = () => {
+        const form = trackRef.current?.closest('form');
+        if (form && !form.checkValidity()) {
+            // Form is invalid: report native browser errors, shake slider, and reset handle
+            form.reportValidity();
+            setIsDragging(false);
+            setIsCompleted(false);
+            setDragX(0);
+            if (verifiedInputRef.current) {
+                verifiedInputRef.current.value = '0';
+            }
+            setIsShaking(true);
+            setTimeout(() => setIsShaking(false), 500);
+            return;
+        }
+
+        // Form is valid: set slide verification, complete visual transition, and submit
+        setIsDragging(false);
+        setIsCompleted(true);
+        setDragX(getMaxDrag());
+        if (verifiedInputRef.current) {
+            verifiedInputRef.current.value = '1';
+        }
+        if (onSlideComplete) {
+            onSlideComplete();
+        }
+        setTimeout(() => {
+            submitBtnRef.current?.click();
+        }, 20);
+    };
+
     const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDragging || processing || isCompleted) return;
 
@@ -63,12 +102,9 @@ export default function SlideToSubmit({
 
         setDragX(boundedX);
 
-        // Auto trigger when dragged to 90%
-        if (boundedX >= max * 0.9) {
-            setIsDragging(false);
-            setIsCompleted(true);
-            setDragX(max);
-            triggerSubmit();
+        // Auto trigger when dragged to 92% of the track
+        if (boundedX >= max * 0.92) {
+            attemptSubmission();
         }
     };
 
@@ -78,13 +114,14 @@ export default function SlideToSubmit({
         setIsDragging(false);
         const max = getMaxDrag();
 
-        if (dragX >= max * 0.85) {
-            setIsCompleted(true);
-            setDragX(max);
-            triggerSubmit();
+        if (dragX >= max * 0.88) {
+            attemptSubmission();
         } else {
             // Snap back smoothly
             setDragX(0);
+            if (verifiedInputRef.current) {
+                verifiedInputRef.current.value = '0';
+            }
         }
     };
 
@@ -92,22 +129,9 @@ export default function SlideToSubmit({
         if (!isDragging || processing || isCompleted) return;
         setIsDragging(false);
         setDragX(0);
-    };
-
-    const triggerSubmit = () => {
-        if (onSlideComplete) {
-            onSlideComplete();
+        if (verifiedInputRef.current) {
+            verifiedInputRef.current.value = '0';
         }
-        submitBtnRef.current?.click();
-    };
-
-    // Clicking the track also performs smooth slide & submit for convenience
-    const handleTrackClick = () => {
-        if (processing || isCompleted || isDragging) return;
-        const max = getMaxDrag();
-        setIsCompleted(true);
-        setDragX(max);
-        triggerSubmit();
     };
 
     const max = getMaxDrag();
@@ -125,14 +149,22 @@ export default function SlideToSubmit({
                 data-test="slide-submit-button"
             />
 
+            {/* Hidden verified token input to enforce server-side slide verification */}
+            <input
+                type="hidden"
+                name="slide_verified"
+                ref={verifiedInputRef}
+                defaultValue="0"
+            />
+
             {/* Slide Track */}
             <div
                 ref={trackRef}
-                onClick={handleTrackClick}
                 className={cn(
-                    'relative h-13 w-full rounded-full bg-prussian p-1 overflow-hidden shadow-md shadow-prussian/25 flex items-center cursor-pointer transition-colors touch-none',
+                    'relative h-13 w-full rounded-full bg-prussian p-1 overflow-hidden shadow-md shadow-prussian/25 flex items-center transition-colors touch-none',
                     isDragging && 'shadow-lg shadow-prussian/35',
-                    isCompleted && 'bg-prussian-hover'
+                    isCompleted && 'bg-prussian-hover',
+                    isShaking && 'animate-head-shake ring-2 ring-terracotta/50'
                 )}
             >
                 {/* Active dragged trail background */}
@@ -180,12 +212,25 @@ export default function SlideToSubmit({
                     aria-valuemax={100}
                     tabIndex={0}
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
+                        if (processing || isCompleted) return;
+                        const maxDrag = getMaxDrag();
+                        if (e.key === 'ArrowRight') {
                             e.preventDefault();
-                            handleTrackClick();
-                        } else if (e.key === 'ArrowRight') {
+                            const nextX = Math.min(maxDrag, dragX + maxDrag * 0.25);
+                            setDragX(nextX);
+                            if (nextX >= maxDrag * 0.9) {
+                                attemptSubmission();
+                            }
+                        } else if (e.key === 'ArrowLeft') {
                             e.preventDefault();
-                            handleTrackClick();
+                            setDragX((prev) => Math.max(0, prev - maxDrag * 0.25));
+                        } else if (e.key === 'Home') {
+                            e.preventDefault();
+                            setDragX(0);
+                        } else if (e.key === 'End') {
+                            e.preventDefault();
+                            setDragX(maxDrag);
+                            attemptSubmission();
                         }
                     }}
                 >
@@ -197,12 +242,11 @@ export default function SlideToSubmit({
                 </div>
             </div>
 
-            {/* Subtle assistive hint for first-time users */}
+            {/* Clear assistive instructions */}
             <div className="flex justify-between items-center px-2 pt-1 text-[10px] text-ink-muted/70">
-                <span>Geser ke kanan untuk login</span>
-                <span>atau tekan Enter</span>
+                <span>Tarik tombol ke kanan untuk masuk</span>
+                <span>Verifikasi geser aktif</span>
             </div>
         </div>
     );
 }
-
