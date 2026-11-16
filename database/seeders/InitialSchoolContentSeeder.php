@@ -140,7 +140,6 @@ class InitialSchoolContentSeeder extends Seeder
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Prestasi', 'link_type' => 'custom_url', 'custom_url' => '/prestasi', 'sort_order' => 5]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Agenda Akademik', 'link_type' => 'custom_url', 'custom_url' => '/agenda', 'sort_order' => 6]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Galeri Foto', 'link_type' => 'custom_url', 'custom_url' => '/galeri', 'sort_order' => 7]);
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Kontak & Saran', 'link_type' => 'custom_url', 'custom_url' => '/kontak', 'sort_order' => 8]);
 
         // 6. Direktori Guru & GTK
         StaffDirectory::firstOrCreate(

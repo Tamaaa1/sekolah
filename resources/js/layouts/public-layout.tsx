@@ -104,7 +104,6 @@ export default function PublicLayout({
         { id: 5, label: 'Prestasi', url: '/prestasi' },
         { id: 6, label: 'Agenda', url: '/agenda' },
         { id: 8, label: 'Galeri', url: '/galeri' },
-        { id: 9, label: 'Kontak', url: '/kontak' },
     ];
 
     return (
@@ -124,24 +123,9 @@ export default function PublicLayout({
                     </div>
 
                     <div className="flex items-center gap-4 text-canvas-subtle">
-                        <a
-                            href={`tel:${phone}`}
-                            className="inline-flex items-center gap-1 hover:text-white transition-colors"
-                        >
-                            <PhoneIcon className="w-3.5 h-3.5" />
-                            <span className="hidden md:inline">{phone}</span>
-                        </a>
-                        <span className="hidden md:inline-block text-canvas-subtle/40">•</span>
-                        <a
-                            href={`mailto:${email}`}
-                            className="inline-flex items-center gap-1 hover:text-white transition-colors"
-                        >
-                            <EnvelopeIcon className="w-3.5 h-3.5" />
-                            <span className="hidden md:inline">{email}</span>
-                        </a>
                         <Link
                             href="/dashboard"
-                            className="ml-2 px-2 py-0.5 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-paper hover:text-prussian transition-colors"
+                            className="px-2.5 py-0.5 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-paper hover:text-prussian transition-colors font-medium"
                         >
                             Login Portal
                         </Link>

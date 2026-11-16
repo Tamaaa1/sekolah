@@ -7,8 +7,13 @@ import {
     ArrowDownTrayIcon,
     ArrowRightIcon,
     CalendarDaysIcon,
+    ChatBubbleBottomCenterTextIcon,
     ChevronRightIcon,
+    ClockIcon,
+    EnvelopeIcon,
+    MapPinIcon,
     MegaphoneIcon,
+    PhoneIcon,
     TrophyIcon,
     UserIcon,
 } from '@heroicons/react/24/outline';
@@ -89,6 +94,10 @@ export default function Welcome({
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const tagline = settings?.school_tagline || 'Berkarakter, Berprestasi, dan Berwawasan Global';
     const speech = settings?.principal_speech || 'Selamat datang di Portal Resmi SMP Negeri 5 Sambas...';
+    const address = settings?.address || 'Jl. Raya Semberang, Kec. Sambas, Kab. Sambas, Prov. Kalimantan Barat';
+    const email = settings?.email || 'humas@smpn5sambas.sch.id';
+    const phone = settings?.phone || '(021) 7890-1234';
+    const whatsapp = settings?.whatsapp || '0812-3456-7890';
     const principalName = principal?.name || settings?.principal_name || 'Drs. H. Mulyadi, M.Pd.';
     const principalPosition = principal?.position || 'Kepala Sekolah';
     const principalPhoto = principal?.photo_url || principal?.photo || null;
@@ -535,6 +544,117 @@ export default function Welcome({
                                             <span>Unduh Brosur</span>
                                         </a>
                                     )}
+                                </div>
+                            </div>
+                        </ScrollStackItem>
+
+                        {/* Section 5: Kontak & Kotak Saran (Aspirasi Warga) */}
+                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                                {/* Left Column: Info Kontak Resmi (Col 7) */}
+                                <div className="lg:col-span-7 flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <ChatBubbleBottomCenterTextIcon className="w-5 h-5 text-prussian" />
+                                            <span className="text-xs font-semibold uppercase tracking-wider text-prussian">
+                                                Kontak & Layanan Publik
+                                            </span>
+                                        </div>
+
+                                        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink leading-tight mb-3">
+                                            Hubungi Kami & Salurkan Aspirasi Anda
+                                        </h3>
+                                        <p className="text-sm text-ink-secondary leading-relaxed mb-6">
+                                            Pintu komunikasi resmi {schoolName} terbuka lebar bagi peserta didik, orang tua/wali, alumni, serta masyarakat luas. Sampaikan saran, masukan konstruktif, atau pertanyaan seputar kegiatan sekolah.
+                                        </p>
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div className="p-4 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
+                                                <div className="w-9 h-9 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                                    <MapPinIcon className="w-5 h-5" />
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <h4 className="text-xs font-bold text-ink uppercase tracking-wide">Alamat Sekolah</h4>
+                                                    <p className="text-xs text-ink-secondary mt-1 leading-snug">{address}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="p-4 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
+                                                <div className="w-9 h-9 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                                    <PhoneIcon className="w-5 h-5" />
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <h4 className="text-xs font-bold text-ink uppercase tracking-wide">Telepon & WhatsApp</h4>
+                                                    <p className="text-xs text-ink-secondary mt-1 leading-snug font-mono">Telp: {phone}</p>
+                                                    <p className="text-xs text-ink-secondary mt-0.5 leading-snug font-mono">WA: {whatsapp}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="p-4 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
+                                                <div className="w-9 h-9 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                                    <EnvelopeIcon className="w-5 h-5" />
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <h4 className="text-xs font-bold text-ink uppercase tracking-wide">Surat Elektronik</h4>
+                                                    <p className="text-xs text-ink-secondary mt-1 leading-snug font-mono truncate">{email}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="p-4 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
+                                                <div className="w-9 h-9 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                                    <ClockIcon className="w-5 h-5" />
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <h4 className="text-xs font-bold text-ink uppercase tracking-wide">Jam Operasional TU</h4>
+                                                    <p className="text-xs text-ink-secondary mt-1 leading-snug">Senin – Jumat</p>
+                                                    <p className="text-xs text-ink-secondary mt-0.5 leading-snug font-mono">07.30 – 14.30 WIB</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Column: Kotak Saran & Aspirasi (Col 5) */}
+                                <div className="lg:col-span-5 flex flex-col justify-between bg-canvas-subtle p-6 rounded-xl border border-line">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="w-2 h-2 rounded-full bg-terracotta" />
+                                            <h4 className="font-serif text-lg font-bold text-ink">Kotak Saran Digital</h4>
+                                        </div>
+                                        <p className="text-xs text-ink-secondary leading-relaxed mb-6">
+                                            Kirimkan aspirasi, kritik membangun, atau pertanyaan langsung ke staf tata usaha dan pimpinan sekolah secara daring melalui formulir resmi.
+                                        </p>
+                                        <div className="p-4 bg-white rounded-lg border border-line space-y-2 mb-6">
+                                            <p className="text-xs text-ink font-semibold flex items-center gap-2">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                                                Respon Cepat & Terverifikasi
+                                            </p>
+                                            <p className="text-[11px] text-ink-muted leading-relaxed">
+                                                Setiap pesan yang masuk melalui buku tamu digital tercatat dalam sistem admin sekolah untuk ditindaklanjuti secara bertanggung jawab.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-3 pt-2">
+                                        <Link
+                                            href="/kontak"
+                                            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-prussian hover:bg-prussian-hover text-white text-sm font-semibold transition-colors shadow-xs"
+                                        >
+                                            <span>Buka Formulir Kontak & Saran</span>
+                                            <ArrowRightIcon className="w-4 h-4" />
+                                        </Link>
+
+                                        {whatsapp && (
+                                            <a
+                                                href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-line text-ink hover:bg-white text-xs font-semibold transition-colors"
+                                            >
+                                                <span>Konsultasi Langsung via WhatsApp</span>
+                                            </a>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </ScrollStackItem>
