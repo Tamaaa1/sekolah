@@ -12,12 +12,8 @@ import {
     ChatBubbleBottomCenterTextIcon,
     CheckCircleIcon,
     ChevronRightIcon,
-    ClockIcon,
-    EnvelopeIcon,
-    MapPinIcon,
     MegaphoneIcon,
     PaperAirplaneIcon,
-    PhoneIcon,
     TrophyIcon,
     UserIcon,
 } from '@heroicons/react/24/outline';
@@ -98,10 +94,6 @@ export default function Welcome({
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const tagline = settings?.school_tagline || 'Berkarakter, Berprestasi, dan Berwawasan Global';
     const speech = settings?.principal_speech || 'Selamat datang di Portal Resmi SMP Negeri 5 Sambas...';
-    const address = settings?.address || 'Jl. Raya Semberang, Kec. Sambas, Kab. Sambas, Prov. Kalimantan Barat';
-    const email = settings?.email || 'humas@smpn5sambas.sch.id';
-    const phone = settings?.phone || '(021) 7890-1234';
-    const whatsapp = settings?.whatsapp || '0812-3456-7890';
     const principalName = principal?.name || settings?.principal_name || 'Drs. H. Mulyadi, M.Pd.';
     const principalPosition = principal?.position || 'Kepala Sekolah';
     const principalPhoto = principal?.photo_url || principal?.photo || null;
@@ -604,254 +596,180 @@ export default function Welcome({
                             </div>
                         </ScrollStackItem>
 
-                        {/* Section 5: Kontak & Kotak Saran (Aspirasi Warga) */}
+                        {/* Section 5: Kotak Saran Digital (Aspirasi Warga) */}
                         <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                                {/* Left Column: Info Kontak Resmi (Col 5) */}
-                                <div className="lg:col-span-5 space-y-6">
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <ChatBubbleBottomCenterTextIcon className="w-5 h-5 text-prussian" />
-                                            <span className="text-xs font-semibold uppercase tracking-wider text-prussian">
-                                                Kontak & Layanan Publik
-                                            </span>
+                            <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 md:p-10 rounded-xl border border-line shadow-xs">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
+                                    <div className="flex items-center gap-2.5">
+                                        <div className="w-8 h-8 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                            <ChatBubbleBottomCenterTextIcon className="w-4 h-4" />
                                         </div>
-
-                                        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink leading-tight mb-3">
-                                            Hubungi Kami
+                                        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
+                                            Kotak Saran & Aspirasi Digital
                                         </h3>
-                                        <p className="text-sm text-ink-secondary leading-relaxed">
-                                            Pintu komunikasi resmi {schoolName} terbuka lebar bagi peserta didik, orang tua/wali, alumni, serta masyarakat luas.
-                                        </p>
                                     </div>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3.5">
-                                        <div className="p-3.5 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
-                                            <div className="w-8 h-8 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0 mt-0.5">
-                                                <MapPinIcon className="w-4 h-4" />
-                                            </div>
-                                            <div className="min-w-0">
-                                                <h4 className="text-[11px] font-bold text-ink uppercase tracking-wide">Alamat Sekolah</h4>
-                                                <p className="text-xs text-ink-secondary mt-0.5 leading-snug">{address}</p>
-                                            </div>
-                                        </div>
-
-                                        <div className="p-3.5 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
-                                            <div className="w-8 h-8 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0 mt-0.5">
-                                                <PhoneIcon className="w-4 h-4" />
-                                            </div>
-                                            <div className="min-w-0">
-                                                <h4 className="text-[11px] font-bold text-ink uppercase tracking-wide">Telepon & WhatsApp</h4>
-                                                <p className="text-xs text-ink-secondary mt-0.5 leading-snug font-mono">Telp: {phone}</p>
-                                                <p className="text-xs text-ink-secondary mt-0.5 leading-snug font-mono">WA: {whatsapp}</p>
-                                            </div>
-                                        </div>
-
-                                        <div className="p-3.5 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
-                                            <div className="w-8 h-8 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0 mt-0.5">
-                                                <EnvelopeIcon className="w-4 h-4" />
-                                            </div>
-                                            <div className="min-w-0">
-                                                <h4 className="text-[11px] font-bold text-ink uppercase tracking-wide">Surat Elektronik</h4>
-                                                <p className="text-xs text-ink-secondary mt-0.5 leading-snug font-mono truncate">{email}</p>
-                                            </div>
-                                        </div>
-
-                                        <div className="p-3.5 rounded-lg bg-canvas-subtle border border-line flex items-start gap-3">
-                                            <div className="w-8 h-8 rounded-md bg-prussian/10 text-prussian flex items-center justify-center shrink-0 mt-0.5">
-                                                <ClockIcon className="w-4 h-4" />
-                                            </div>
-                                            <div className="min-w-0">
-                                                <h4 className="text-[11px] font-bold text-ink uppercase tracking-wide">Jam Operasional TU</h4>
-                                                <p className="text-xs text-ink-secondary mt-0.5 leading-snug">Senin – Jumat (07.30 – 14.30 WIB)</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {whatsapp && (
-                                        <a
-                                            href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-line text-ink hover:bg-canvas-subtle text-xs font-semibold transition-colors"
-                                        >
-                                            <PhoneIcon className="w-4 h-4 text-emerald-600" />
-                                            <span>Konsultasi Langsung via WhatsApp</span>
-                                        </a>
-                                    )}
+                                    <span className="self-start sm:self-auto text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                                        Buku Tamu Langsung
+                                    </span>
                                 </div>
 
-                                {/* Right Column: Formulir Tulis Pesan & Saran Langsung (Col 7) */}
-                                <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-xl border border-line shadow-xs">
-                                    <div className="flex items-center justify-between gap-3 mb-2">
-                                        <div className="flex items-center gap-2">
-                                            <span className="w-2.5 h-2.5 rounded-full bg-terracotta" />
-                                            <h4 className="font-serif text-xl font-bold text-ink">
-                                                Kotak Saran Digital
-                                            </h4>
+                                <p className="text-sm text-ink-secondary leading-relaxed mb-6 max-w-2xl">
+                                    Sampaikan kritik membangun, pertanyaan, atau saran perbaikan demi kemajuan {schoolName}. Setiap pesan yang Anda kirimkan tercatat langsung di panel administrasi sekolah untuk ditindaklanjuti secara bertanggung jawab.
+                                </p>
+
+                                {sentSuccess ? (
+                                    <div className="p-8 rounded-lg bg-emerald-50/70 border border-emerald-200 text-center space-y-3 animate-in fade-in duration-200">
+                                        <div className="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                            <CheckCircleIcon className="w-7 h-7" />
                                         </div>
-                                        <span className="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                                            Buku Tamu Langsung
-                                        </span>
+                                        <h4 className="font-serif text-xl font-bold text-emerald-900">
+                                            Pesan & Saran Anda Berhasil Dikirim!
+                                        </h4>
+                                        <p className="text-sm text-emerald-800 max-w-md mx-auto leading-relaxed">
+                                            Terima kasih atas aspirasi Anda. Pesan telah tercatat secara resmi di sistem administrasi {schoolName} dan akan segera ditindaklanjuti.
+                                        </p>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSentSuccess(false)}
+                                            className="mt-3 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition-colors cursor-pointer"
+                                        >
+                                            <span>Tulis Pesan Baru</span>
+                                        </button>
                                     </div>
-                                    <p className="text-xs text-ink-secondary leading-relaxed mb-6">
-                                        Tuliskan saran, masukan, pertanyaan, atau aspirasi Anda langsung di sini tanpa perlu berpindah halaman:
-                                    </p>
+                                ) : (
+                                    <form onSubmit={handleContactSubmit} className="space-y-4">
+                                        {/* Honeypot Spam Bot Trap */}
+                                        <input
+                                            type="text"
+                                            name="honeypot"
+                                            value={contactForm.honeypot}
+                                            onChange={(e) =>
+                                                setContactForm({ ...contactForm, honeypot: e.target.value })
+                                            }
+                                            className="hidden"
+                                            tabIndex={-1}
+                                            autoComplete="off"
+                                        />
 
-                                    {sentSuccess ? (
-                                        <div className="p-6 rounded-lg bg-emerald-50/70 border border-emerald-200 text-center space-y-3 animate-in fade-in duration-200">
-                                            <div className="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                                                <CheckCircleIcon className="w-7 h-7" />
-                                            </div>
-                                            <h5 className="font-serif text-lg font-bold text-emerald-900">
-                                                Pesan & Saran Anda Berhasil Dikirim!
-                                            </h5>
-                                            <p className="text-xs text-emerald-800 max-w-md mx-auto leading-relaxed">
-                                                Terima kasih atas aspirasi Anda. Pesan telah tercatat secara resmi di sistem administrasi {schoolName} dan akan segera ditindaklanjuti.
-                                            </p>
-                                            <button
-                                                type="button"
-                                                onClick={() => setSentSuccess(false)}
-                                                className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition-colors cursor-pointer"
-                                            >
-                                                <span>Tulis Pesan Baru</span>
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <form onSubmit={handleContactSubmit} className="space-y-4">
-                                            {/* Honeypot Spam Bot Trap */}
-                                            <input
-                                                type="text"
-                                                name="honeypot"
-                                                value={contactForm.honeypot}
-                                                onChange={(e) =>
-                                                    setContactForm({ ...contactForm, honeypot: e.target.value })
-                                                }
-                                                className="hidden"
-                                                tabIndex={-1}
-                                                autoComplete="off"
-                                            />
-
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                <div>
-                                                    <label className="block text-xs font-semibold text-ink mb-1.5">
-                                                        Nama Lengkap <span className="text-rose-500">*</span>
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        required
-                                                        value={contactForm.name}
-                                                        onChange={(e) =>
-                                                            setContactForm({ ...contactForm, name: e.target.value })
-                                                        }
-                                                        placeholder="Contoh: Budi Santoso"
-                                                        className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
-                                                    />
-                                                    {errors.name && (
-                                                        <p className="text-xs text-rose-600 mt-1">{errors.name}</p>
-                                                    )}
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-xs font-semibold text-ink mb-1.5">
-                                                        Alamat Email <span className="text-rose-500">*</span>
-                                                    </label>
-                                                    <input
-                                                        type="email"
-                                                        required
-                                                        value={contactForm.email}
-                                                        onChange={(e) =>
-                                                            setContactForm({ ...contactForm, email: e.target.value })
-                                                        }
-                                                        placeholder="budi@example.com"
-                                                        className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
-                                                    />
-                                                    {errors.email && (
-                                                        <p className="text-xs text-rose-600 mt-1">{errors.email}</p>
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                <div>
-                                                    <label className="block text-xs font-semibold text-ink mb-1.5">
-                                                        No. WhatsApp / HP <span className="text-ink-muted font-normal">(opsional)</span>
-                                                    </label>
-                                                    <input
-                                                        type="tel"
-                                                        value={contactForm.phone}
-                                                        onChange={(e) =>
-                                                            setContactForm({ ...contactForm, phone: e.target.value })
-                                                        }
-                                                        placeholder="0812-xxxx-xxxx"
-                                                        className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-xs font-semibold text-ink mb-1.5">
-                                                        Topik / Kategori <span className="text-rose-500">*</span>
-                                                    </label>
-                                                    <select
-                                                        value={contactForm.subject}
-                                                        onChange={(e) =>
-                                                            setContactForm({ ...contactForm, subject: e.target.value })
-                                                        }
-                                                        className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
-                                                    >
-                                                        <option value="Saran, Masukan & Aspirasi Publik">
-                                                            Saran & Aspirasi Publik
-                                                        </option>
-                                                        <option value="Pertanyaan Umum & Informasi Sekolah">
-                                                            Pertanyaan Umum Sekolah
-                                                        </option>
-                                                        <option value="Penerimaan Peserta Didik Baru (PPDB)">
-                                                            Pertanyaan PPDB
-                                                        </option>
-                                                        <option value="Layanan Administrasi & Surat Keterangan">
-                                                            Layanan Administrasi / TU
-                                                        </option>
-                                                    </select>
-                                                </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-semibold text-ink mb-1.5">
+                                                    Nama Lengkap <span className="text-rose-500">*</span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={contactForm.name}
+                                                    onChange={(e) =>
+                                                        setContactForm({ ...contactForm, name: e.target.value })
+                                                    }
+                                                    placeholder="Contoh: Budi Santoso"
+                                                    className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
+                                                />
+                                                {errors.name && (
+                                                    <p className="text-xs text-rose-600 mt-1">{errors.name}</p>
+                                                )}
                                             </div>
 
                                             <div>
                                                 <label className="block text-xs font-semibold text-ink mb-1.5">
-                                                    Isi Pesan / Saran <span className="text-rose-500">*</span>
+                                                    Alamat Email <span className="text-rose-500">*</span>
                                                 </label>
-                                                <textarea
+                                                <input
+                                                    type="email"
                                                     required
-                                                    rows={3}
-                                                    value={contactForm.message}
+                                                    value={contactForm.email}
                                                     onChange={(e) =>
-                                                        setContactForm({ ...contactForm, message: e.target.value })
+                                                        setContactForm({ ...contactForm, email: e.target.value })
                                                     }
-                                                    placeholder="Tuliskan saran, masukan konstruktif, atau pertanyaan Anda secara santun dan jelas..."
-                                                    className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors resize-y"
+                                                    placeholder="budi@example.com"
+                                                    className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
                                                 />
-                                                {errors.message && (
-                                                    <p className="text-xs text-rose-600 mt-1">{errors.message}</p>
+                                                {errors.email && (
+                                                    <p className="text-xs text-rose-600 mt-1">{errors.email}</p>
                                                 )}
                                             </div>
+                                        </div>
 
-                                            <div className="pt-1 flex flex-col sm:flex-row items-center justify-between gap-3">
-                                                <p className="text-[11px] text-ink-muted">
-                                                    Pesan akan terkirim langsung ke panel administrasi sekolah.
-                                                </p>
-                                                <button
-                                                    type="submit"
-                                                    disabled={submittingContact}
-                                                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold transition-colors shadow-xs disabled:opacity-60 cursor-pointer"
-                                                >
-                                                    <PaperAirplaneIcon className="w-3.5 h-3.5" />
-                                                    <span>
-                                                        {submittingContact ? 'Mengirimkan...' : 'Kirim Pesan & Saran Sekarang'}
-                                                    </span>
-                                                </button>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-semibold text-ink mb-1.5">
+                                                    No. WhatsApp / HP <span className="text-ink-muted font-normal">(opsional)</span>
+                                                </label>
+                                                <input
+                                                    type="tel"
+                                                    value={contactForm.phone}
+                                                    onChange={(e) =>
+                                                        setContactForm({ ...contactForm, phone: e.target.value })
+                                                    }
+                                                    placeholder="0812-xxxx-xxxx"
+                                                    className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
+                                                />
                                             </div>
-                                        </form>
-                                    )}
-                                </div>
+
+                                            <div>
+                                                <label className="block text-xs font-semibold text-ink mb-1.5">
+                                                    Topik / Kategori <span className="text-rose-500">*</span>
+                                                </label>
+                                                <select
+                                                    value={contactForm.subject}
+                                                    onChange={(e) =>
+                                                        setContactForm({ ...contactForm, subject: e.target.value })
+                                                    }
+                                                    className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors"
+                                                >
+                                                    <option value="Saran, Masukan & Aspirasi Publik">
+                                                        Saran & Aspirasi Publik
+                                                    </option>
+                                                    <option value="Pertanyaan Umum & Informasi Sekolah">
+                                                        Pertanyaan Umum Sekolah
+                                                    </option>
+                                                    <option value="Penerimaan Peserta Didik Baru (PPDB)">
+                                                        Pertanyaan PPDB
+                                                    </option>
+                                                    <option value="Layanan Administrasi & Surat Keterangan">
+                                                        Layanan Administrasi / TU
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-semibold text-ink mb-1.5">
+                                                Isi Pesan / Saran <span className="text-rose-500">*</span>
+                                            </label>
+                                            <textarea
+                                                required
+                                                rows={4}
+                                                value={contactForm.message}
+                                                onChange={(e) =>
+                                                    setContactForm({ ...contactForm, message: e.target.value })
+                                                }
+                                                placeholder="Tuliskan saran, masukan konstruktif, atau pertanyaan Anda secara santun dan jelas..."
+                                                className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-canvas-paper text-ink text-sm placeholder:text-ink-muted/50 focus:outline-hidden focus:border-prussian focus:ring-1 focus:ring-prussian transition-colors resize-y"
+                                            />
+                                            {errors.message && (
+                                                <p className="text-xs text-rose-600 mt-1">{errors.message}</p>
+                                            )}
+                                        </div>
+
+                                        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-line/60">
+                                            <p className="text-xs text-ink-muted">
+                                                Pesan akan terkirim langsung ke panel administrasi sekolah.
+                                            </p>
+                                            <button
+                                                type="submit"
+                                                disabled={submittingContact}
+                                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold transition-colors shadow-xs disabled:opacity-60 cursor-pointer"
+                                            >
+                                                <PaperAirplaneIcon className="w-3.5 h-3.5" />
+                                                <span>
+                                                    {submittingContact ? 'Mengirimkan...' : 'Kirim Pesan & Saran Sekarang'}
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                )}
                             </div>
                         </ScrollStackItem>
                     </ScrollStack>
