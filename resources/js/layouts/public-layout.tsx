@@ -99,11 +99,26 @@ export default function PublicLayout({
                 { id: 24, label: 'Sarana & Fasilitas', url: '/fasilitas' },
             ],
         },
-        { id: 3, label: 'Berita & Artikel', url: '/berita' },
-        { id: 4, label: 'Ekstrakurikuler', url: '/ekstrakurikuler' },
-        { id: 5, label: 'Prestasi', url: '/prestasi' },
-        { id: 6, label: 'Agenda Akademik', url: '/agenda' },
-        { id: 8, label: 'Galeri Foto', url: '/galeri' },
+        {
+            id: 3,
+            label: 'Kesiswaan',
+            url: '#',
+            children: [
+                { id: 31, label: 'Ekstrakurikuler', url: '/ekstrakurikuler' },
+                { id: 32, label: 'Prestasi Siswa', url: '/prestasi' },
+                { id: 33, label: 'Galeri Foto & Kegiatan', url: '/galeri' },
+            ],
+        },
+        {
+            id: 4,
+            label: 'Warta & Agenda',
+            url: '#',
+            children: [
+                { id: 41, label: 'Berita & Artikel', url: '/berita' },
+                { id: 42, label: 'Pengumuman Resmi', url: '/pengumuman' },
+                { id: 43, label: 'Agenda Akademik', url: '/agenda' },
+            ],
+        },
     ];
 
     return (
@@ -137,19 +152,19 @@ export default function PublicLayout({
             <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xs border-b border-line shadow-xs">
                 <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between h-16 sm:h-20">
                     {/* Brand Logo */}
-                    <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group min-w-0 flex-1 mr-2">
+                    <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 mr-4 lg:mr-6">
                         <img
                             src={settings?.school_logo || '/images/logo.png'}
                             alt={schoolName}
                             className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
                         />
-                        <div className="font-serif font-bold text-base sm:text-xl md:text-2xl text-ink tracking-tight leading-tight group-hover:text-prussian transition-colors line-clamp-1 truncate">
+                        <div className="font-serif font-bold text-base sm:text-xl lg:text-xl xl:text-2xl text-ink tracking-tight leading-tight group-hover:text-prussian transition-colors whitespace-nowrap">
                             {schoolName}
                         </div>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden lg:flex items-center gap-1">
+                    <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
                         {menuItems.map((item) => {
                             const hasChildren = item.children && item.children.length > 0;
                             const isActive = hasChildren
@@ -180,7 +195,7 @@ export default function PublicLayout({
                                             </button>
 
                                             {openDropdown === item.id && (
-                                                <div className="absolute top-full left-0 w-56 bg-white rounded border border-line shadow-md py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                                                <div className="absolute top-full left-0 min-w-[230px] bg-white rounded border border-line shadow-md py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
                                                     {item.children!.map((child) => {
                                                         const childActive = isItemActive(child.url);
                                                         return (

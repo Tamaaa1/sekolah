@@ -135,11 +135,15 @@ class InitialSchoolContentSeeder extends Seeder
         MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m2->id, 'label' => 'Direktori Guru & Staf', 'link_type' => 'custom_url', 'custom_url' => '/guru-dan-staf', 'sort_order' => 3]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m2->id, 'label' => 'Sarana & Fasilitas', 'link_type' => 'custom_url', 'custom_url' => '/fasilitas', 'sort_order' => 4]);
 
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Berita & Artikel', 'link_type' => 'custom_url', 'custom_url' => '/berita', 'sort_order' => 3]);
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Ekstrakurikuler', 'link_type' => 'custom_url', 'custom_url' => '/ekstrakurikuler', 'sort_order' => 4]);
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Prestasi', 'link_type' => 'custom_url', 'custom_url' => '/prestasi', 'sort_order' => 5]);
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Agenda Akademik', 'link_type' => 'custom_url', 'custom_url' => '/agenda', 'sort_order' => 6]);
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Galeri Foto', 'link_type' => 'custom_url', 'custom_url' => '/galeri', 'sort_order' => 7]);
+        $m3 = MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Kesiswaan', 'link_type' => 'custom_url', 'custom_url' => '#', 'sort_order' => 3]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m3->id, 'label' => 'Ekstrakurikuler', 'link_type' => 'custom_url', 'custom_url' => '/ekstrakurikuler', 'sort_order' => 1]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m3->id, 'label' => 'Prestasi Siswa', 'link_type' => 'custom_url', 'custom_url' => '/prestasi', 'sort_order' => 2]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m3->id, 'label' => 'Galeri Foto & Kegiatan', 'link_type' => 'custom_url', 'custom_url' => '/galeri', 'sort_order' => 3]);
+
+        $m4 = MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Warta & Agenda', 'link_type' => 'custom_url', 'custom_url' => '#', 'sort_order' => 4]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m4->id, 'label' => 'Berita & Artikel', 'link_type' => 'custom_url', 'custom_url' => '/berita', 'sort_order' => 1]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m4->id, 'label' => 'Pengumuman Resmi', 'link_type' => 'custom_url', 'custom_url' => '/pengumuman', 'sort_order' => 2]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'parent_id' => $m4->id, 'label' => 'Agenda Akademik', 'link_type' => 'custom_url', 'custom_url' => '/agenda', 'sort_order' => 3]);
 
         // 6. Direktori Guru & GTK
         StaffDirectory::firstOrCreate(
