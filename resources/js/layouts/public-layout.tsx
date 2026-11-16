@@ -2,6 +2,7 @@ import { useState, useEffect, type ReactNode } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 import ScrollToTop from '@/components/scroll-to-top';
+import ThemeToggle from '@/components/theme-toggle';
 import {
     ArrowTopRightOnSquareIcon,
     Bars3Icon,
@@ -122,7 +123,8 @@ export default function PublicLayout({
                         </span>
                     </div>
 
-                    <div className="flex items-center shrink-0">
+                    <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+                        <ThemeToggle variant="topbar" />
                         <Link
                             href="/dashboard"
                             className="px-2 sm:px-2.5 py-0.5 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-paper hover:text-prussian transition-colors font-medium whitespace-nowrap text-[10px] sm:text-xs"
@@ -323,6 +325,12 @@ export default function PublicLayout({
                                 </div>
                             );
                         })}
+
+                        {/* Mobile Theme Toggle */}
+                        <div className="pt-3 border-t border-line/60 flex items-center justify-between px-2">
+                            <span className="text-xs font-medium text-ink-secondary">Mode Tampilan</span>
+                            <ThemeToggle variant="full" />
+                        </div>
                     </div>
                 )}
             </header>
