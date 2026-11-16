@@ -11,7 +11,7 @@ import {
     DocumentCheckIcon,
     DocumentTextIcon,
     InformationCircleIcon,
-    SparklesIcon,
+    TrophyIcon,
 } from '@heroicons/react/24/outline';
 
 type Props = {
@@ -89,7 +89,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
             desc: 'Siapkan dokumen kelulusan atau surat keterangan nilai rapor 5 semester.',
         },
         {
-            icon: SparklesIcon,
+            icon: TrophyIcon,
             title: 'Sertifikat & Piagam Prestasi',
             desc: 'Kumpulkan piagam kejuaraan akademik, sains, seni, atau olahraga berjenjang.',
         },

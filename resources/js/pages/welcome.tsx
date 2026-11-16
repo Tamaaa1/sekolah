@@ -12,7 +12,6 @@ import {
     ChevronRightIcon,
     EnvelopeIcon,
     MegaphoneIcon,
-    SparklesIcon,
     TrophyIcon,
     UserIcon,
 } from '@heroicons/react/24/outline';
@@ -471,7 +470,7 @@ export default function Welcome({
                                                         className="bg-canvas-subtle/50 rounded-lg border border-line p-3.5 flex items-start gap-3.5 shadow-2xs"
                                                     >
                                                         <div className="w-10 h-10 rounded bg-white border border-line flex flex-col items-center justify-center shrink-0 text-prussian">
-                                                            <SparklesIcon className="w-4 h-4 text-terracotta" />
+                                                            <TrophyIcon className="w-4 h-4 text-terracotta" />
                                                             <span className="text-[9px] font-bold font-mono">{item.year}</span>
                                                         </div>
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import PublicLayout from '@/layouts/public-layout';
 import SeoHead from '@/components/seo-head';
-import { SparklesIcon, TrophyIcon } from '@heroicons/react/24/outline';
+import { TrophyIcon } from '@heroicons/react/24/outline';
 
 type Achievement = {
     id: number;

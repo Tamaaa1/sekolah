@@ -4,7 +4,7 @@ import SeoHead from '@/components/seo-head';
 import {
     CalendarDaysIcon,
     ClockIcon,
-    SparklesIcon,
+    UserGroupIcon,
     UserIcon,
 } from '@heroicons/react/24/outline';
 
@@ -61,8 +61,8 @@ export default function ExtracurricularDirectory({
                             className="bg-white rounded border border-line p-6 flex flex-col justify-between shadow-xs hover:border-line-strong transition-all"
                         >
                             <div>
-                                <div className="w-12 h-12 rounded bg-prussian-light text-prussian flex items-center justify-center mb-4 border border-line">
-                                    <SparklesIcon className="w-6 h-6 text-prussian" />
+                                <div className="w-12 h-12 rounded bg-prussian/10 text-prussian flex items-center justify-center mb-4 border border-line">
+                                    <UserGroupIcon className="w-6 h-6 text-prussian" />
                                 </div>
 
                                 <h3 className="font-serif font-bold text-xl text-ink leading-tight">

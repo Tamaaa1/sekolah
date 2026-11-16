@@ -8,7 +8,6 @@ import {
     MagnifyingGlassIcon,
     MapPinIcon,
     PhotoIcon,
-    SparklesIcon,
     UserGroupIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
@@ -229,7 +228,7 @@ export default function FacilityDirectory({
                                                         key={idx}
                                                         className="inline-flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-md bg-neutral-100 text-neutral-700 font-medium"
                                                     >
-                                                        <SparklesIcon className="w-3 h-3 text-amber-500" />
+                                                        <CheckBadgeIcon className="w-3.5 h-3.5 text-prussian" />
                                                         {feat}
                                                     </span>
                                                 ))}
