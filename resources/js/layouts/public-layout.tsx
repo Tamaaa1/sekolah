@@ -43,7 +43,11 @@ export default function PublicLayout({
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<number | null>(null);
     const [isPageLoading, setIsPageLoading] = useState(false);
-    const [targetPageType, setTargetPageType] = useState<PublicPageType>('generic');
+    const page = usePage<{ flash?: { error?: string; success?: string } }>();
+    const flash = page.props.flash;
+
+    const currentPath = page.url.split('?')[0].replace(/\/+$/, '') || '/';
+    const [targetPageType, setTargetPageType] = useState<PublicPageType>(() => resolvePageTypeFromUrl(page.url));
 
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const npsn = settings?.npsn || '30100301';
@@ -53,11 +57,6 @@ export default function PublicLayout({
     const address = settings?.address || 'Jl. Raya Semberang, Kec. Sambas, Kab. Sambas, Prov. Kalimantan Barat';
     const accreditation = settings?.accreditation || 'A (Unggul)';
     const ppdbIsOpen = settings?.ppdb_is_open === true || settings?.ppdb_is_open === 1 || settings?.ppdb_is_open === '1';
-
-    const page = usePage<{ flash?: { error?: string; success?: string } }>();
-    const flash = page.props.flash;
-
-    const currentPath = page.url.split('?')[0].replace(/\/+$/, '') || '/';
 
     const isItemActive = (targetUrl?: string) => {
         if (!targetUrl || targetUrl === '#' || targetUrl === '') return false;
