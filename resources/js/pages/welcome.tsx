@@ -599,18 +599,13 @@ export default function Welcome({
                         {/* Section 5: Kotak Saran Digital (Aspirasi Warga) */}
                         <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
                             <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 md:p-10 rounded-xl border border-line shadow-xs">
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className="w-8 h-8 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
-                                            <ChatBubbleBottomCenterTextIcon className="w-4 h-4" />
-                                        </div>
-                                        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
-                                            Kotak Saran & Aspirasi Digital
-                                        </h3>
+                                <div className="flex items-center gap-2.5 mb-2">
+                                    <div className="w-8 h-8 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                        <ChatBubbleBottomCenterTextIcon className="w-4 h-4" />
                                     </div>
-                                    <span className="self-start sm:self-auto text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                                        Buku Tamu Langsung
-                                    </span>
+                                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
+                                        Kotak Saran & Aspirasi Digital
+                                    </h3>
                                 </div>
 
                                 <p className="text-sm text-ink-secondary leading-relaxed mb-6 max-w-2xl">
