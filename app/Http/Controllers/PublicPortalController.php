@@ -373,6 +373,14 @@ class PublicPortalController extends Controller
             return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
         }
 
+        // Mitigasi Spam & Botnet: Verifikasi Google reCAPTCHA v3
+        $recaptcha = app(\App\Services\RecaptchaService::class);
+        if (! $recaptcha->verify($request->input('recaptcha_token'), 'contact_submit', $request->ip())) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['message' => 'Verifikasi keamanan reCAPTCHA tidak valid atau terdeteksi aktivitas mencurigakan. Silakan coba kembali.']);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'email' => ['required', 'string', 'email', 'max:255'],

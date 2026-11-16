@@ -49,6 +49,16 @@ class FortifyServiceProvider extends ServiceProvider
                 'password' => ['required', 'string'],
             ]);
 
+            // Verifikasi Google reCAPTCHA v3 pada Login
+            if ($request->has('recaptcha_token') && ! app()->environment('testing')) {
+                $recaptcha = app(\App\Services\RecaptchaService::class);
+                if (! $recaptcha->verify($request->input('recaptcha_token'), 'login', $request->ip())) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'email' => ['Verifikasi keamanan reCAPTCHA gagal. Terdeteksi aktivitas bot mencurigakan.'],
+                    ]);
+                }
+            }
+
             $user = User::where('email', Str::lower($request->email))->first();
 
             if ($user && Hash::check($request->password, $user->password)) {

@@ -1,5 +1,6 @@
-import { Form, Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { Form, Head, Link, usePage } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
+import { executeRecaptcha } from '@/lib/recaptcha';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,17 @@ type Props = {
 
 export default function Login({ status, canResetPassword }: Props) {
     const [showPassword, setShowPassword] = useState(false);
+    const [recaptchaToken, setRecaptchaToken] = useState<string>('');
+    const page = usePage<{ recaptchaSiteKey?: string }>();
+
+    useEffect(() => {
+        const siteKey = page.props.recaptchaSiteKey;
+        if (siteKey) {
+            executeRecaptcha('login', siteKey).then((token) => {
+                if (token) setRecaptchaToken(token);
+            });
+        }
+    }, [page.props.recaptchaSiteKey]);
 
     return (
         <>
@@ -35,6 +47,7 @@ export default function Login({ status, canResetPassword }: Props) {
             >
                 {({ processing, errors }) => (
                     <>
+                        <input type="hidden" name="recaptcha_token" value={recaptchaToken} />
                         <div className="space-y-5">
                             {/* Email Input Field with Icon & Underline Border */}
                             <div className="space-y-1.5">

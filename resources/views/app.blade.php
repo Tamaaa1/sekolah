@@ -42,6 +42,11 @@
 
         @fonts
 
+        {{-- Google reCAPTCHA v3 (Universal Anti-Spam Guard) --}}
+        @if(config('services.recaptcha.site_key'))
+            <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}" async defer></script>
+        @endif
+
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
         <x-inertia::head>

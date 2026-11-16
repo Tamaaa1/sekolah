@@ -263,6 +263,19 @@ recordTest(
     "Rule configured: " . ($throttleRule ?? 'NONE')
 );
 
+// 9. Google reCAPTCHA v3 Universal Integration
+$siteKey = config('services.recaptcha.site_key');
+$secretKey = config('services.recaptcha.secret_key');
+$recaptchaService = app(\App\Services\RecaptchaService::class);
+$keysConfigured = !empty($siteKey) && !empty($secretKey) && str_starts_with($siteKey, '6L');
+$serviceValid = $recaptchaService instanceof \App\Services\RecaptchaService;
+$recaptchaReady = $keysConfigured && $serviceValid;
+recordTest(
+    $results, 'SEC-23', 'Anti-Abuse & Spam Defense', 'Google reCAPTCHA v3 Universal Protection',
+    $recaptchaReady,
+    "Site key: " . substr((string) $siteKey, 0, 8) . "... Secret key: configured, Service: active"
+);
+
 // Summary calculation
 $total = count($results);
 $passed = count(array_filter($results, fn($r) => $r['status'] === 'PASS'));

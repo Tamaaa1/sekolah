@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { router, usePage } from '@inertiajs/react';
+import { executeRecaptcha } from '@/lib/recaptcha';
 import PublicLayout from '@/layouts/public-layout';
 import SeoHead from '@/components/seo-head';
 import { toast } from 'sonner';
@@ -45,9 +46,10 @@ export default function Contact({ settings, primaryMenu }: ContactProps) {
     const [submitting, setSubmitting] = useState(false);
     const [sentSuccess, setSentSuccess] = useState(false);
 
-    const { errors } = usePage<{ errors: Record<string, string> }>().props;
+    const page = usePage<{ errors: Record<string, string>; recaptchaSiteKey?: string }>();
+    const errors = page.props.errors || {};
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         // Bot trap
@@ -56,6 +58,10 @@ export default function Contact({ settings, primaryMenu }: ContactProps) {
         }
 
         setSubmitting(true);
+
+        const recaptchaSiteKey = page.props.recaptchaSiteKey;
+        const recaptchaToken = await executeRecaptcha('contact_submit', recaptchaSiteKey);
+
         router.post(
             '/kontak',
             {
@@ -64,6 +70,7 @@ export default function Contact({ settings, primaryMenu }: ContactProps) {
                 phone: form.phone,
                 subject: form.subject,
                 message: form.message,
+                recaptcha_token: recaptchaToken,
             },
             {
                 preserveScroll: true,

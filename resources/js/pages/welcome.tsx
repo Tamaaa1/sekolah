@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
+import { executeRecaptcha } from '@/lib/recaptcha';
 import PublicLayout from '@/layouts/public-layout';
 import SeoHead from '@/components/seo-head';
 import ScrollStack, { ScrollStackItem } from '@/components/ui/scroll-stack';
@@ -111,9 +112,10 @@ export default function Welcome({
     const [submittingContact, setSubmittingContact] = useState(false);
     const [sentSuccess, setSentSuccess] = useState(false);
 
-    const { errors } = usePage<{ errors: Record<string, string> }>().props;
+    const page = usePage<{ errors: Record<string, string>; recaptchaSiteKey?: string }>();
+    const errors = page.props.errors || {};
 
-    const handleContactSubmit = (e: FormEvent) => {
+    const handleContactSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         if (contactForm.honeypot) {
@@ -121,6 +123,10 @@ export default function Welcome({
         }
 
         setSubmittingContact(true);
+
+        const recaptchaSiteKey = page.props.recaptchaSiteKey;
+        const recaptchaToken = await executeRecaptcha('contact_submit', recaptchaSiteKey);
+
         router.post(
             '/kontak',
             {
@@ -129,6 +135,7 @@ export default function Welcome({
                 phone: contactForm.phone,
                 subject: contactForm.subject,
                 message: contactForm.message,
+                recaptcha_token: recaptchaToken,
             },
             {
                 preserveScroll: true,
