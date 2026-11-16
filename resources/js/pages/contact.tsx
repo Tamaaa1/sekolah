@@ -266,13 +266,12 @@ export default function Contact({ settings, primaryMenu }: ContactProps) {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
                                         <label htmlFor="contact-name" className="block text-xs font-semibold text-ink uppercase tracking-wider">
-                                            Nama Lengkap *
+                                            Nama Lengkap <span className="text-ink-muted text-[11px] font-normal lowercase">(opsional / anonim)</span>
                                         </label>
                                         <input
                                             id="contact-name"
                                             type="text"
-                                            required
-                                            placeholder="Contoh: Hendra Pratama"
+                                            placeholder="Kosongkan jika ingin anonim"
                                             value={form.name}
                                             onChange={(e) => setForm({ ...form, name: e.target.value })}
                                             className="mt-1.5 w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-neutral-400 focus:border-prussian focus:outline-none focus:ring-1 focus:ring-prussian transition shadow-2xs"
@@ -282,13 +281,12 @@ export default function Contact({ settings, primaryMenu }: ContactProps) {
 
                                     <div>
                                         <label htmlFor="contact-email" className="block text-xs font-semibold text-ink uppercase tracking-wider">
-                                            Alamat Email *
+                                            Alamat Email <span className="text-ink-muted text-[11px] font-normal lowercase">(opsional)</span>
                                         </label>
                                         <input
                                             id="contact-email"
                                             type="email"
-                                            required
-                                            placeholder="nama@email.com"
+                                            placeholder="nama@email.com (opsional)"
                                             value={form.email}
                                             onChange={(e) => setForm({ ...form, email: e.target.value })}
                                             className="mt-1.5 w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-neutral-400 focus:border-prussian focus:outline-none focus:ring-1 focus:ring-prussian transition shadow-2xs"

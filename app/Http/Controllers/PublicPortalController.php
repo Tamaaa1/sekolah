@@ -382,18 +382,22 @@ class PublicPortalController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:150'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'name' => ['nullable', 'string', 'max:150'],
+            'email' => ['nullable', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
-            'subject' => ['required', 'string', 'max:255'],
+            'subject' => ['nullable', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:3000'],
         ]);
 
+        $name = !empty($validated['name']) ? strip_tags(trim($validated['name'])) : 'Anonim';
+        $email = !empty($validated['email']) ? strtolower(trim($validated['email'])) : 'anonim@smpn5sambas.sch.id';
+        $subject = !empty($validated['subject']) ? strip_tags(trim($validated['subject'])) : 'Saran & Aspirasi Anonim';
+
         ContactMessage::create([
-            'name' => strip_tags(trim($validated['name'])),
-            'email' => strtolower(trim($validated['email'])),
+            'name' => $name,
+            'email' => $email,
             'phone' => !empty($validated['phone']) ? strip_tags(trim($validated['phone'])) : null,
-            'subject' => strip_tags(trim($validated['subject'])),
+            'subject' => $subject,
             'message' => strip_tags(trim($validated['message'])),
             'ip_address' => $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 255),

@@ -248,11 +248,18 @@ export default function MessageIndex({
 
                                             <td className="py-3.5 px-4 whitespace-nowrap">
                                                 <div className="flex flex-col">
-                                                    <span className="font-semibold text-ink">
-                                                        {item.name}
-                                                    </span>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <span className="font-semibold text-ink">
+                                                            {item.name}
+                                                        </span>
+                                                        {item.email.includes('anonim') && (
+                                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                                                Anonim
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                     <span className="text-[11px] text-ink-muted font-mono mt-0.5">
-                                                        {item.email}
+                                                        {item.email.includes('anonim') ? 'Identitas Dirahasiakan' : item.email}
                                                     </span>
                                                     {item.phone && (
                                                         <span className="text-[11px] text-ink-muted font-mono">
@@ -337,7 +344,7 @@ export default function MessageIndex({
                                                 {item.subject}
                                             </h3>
                                             <p className="text-[11px] text-ink-muted mt-0.5">
-                                                {item.name} • <span className="font-mono">{item.email}</span>
+                                                {item.name} • <span className="font-mono">{item.email.includes('anonim') ? 'Anonim (Dirahasiakan)' : item.email}</span>
                                             </p>
                                         </div>
                                         <span
@@ -454,12 +461,16 @@ export default function MessageIndex({
                                         <EnvelopeIcon className="w-4 h-4 text-ink-muted" />
                                         <div>
                                             <span className="text-ink-muted">Email:</span>{' '}
-                                            <a
-                                                href={`mailto:${readingMessage.email}`}
-                                                className="font-mono text-prussian hover:underline"
-                                            >
-                                                {readingMessage.email}
-                                            </a>
+                                            {readingMessage.email.includes('anonim') ? (
+                                                <span className="text-ink-muted italic">Dirahasiakan / Tanpa Email</span>
+                                            ) : (
+                                                <a
+                                                    href={`mailto:${readingMessage.email}`}
+                                                    className="font-mono text-prussian hover:underline"
+                                                >
+                                                    {readingMessage.email}
+                                                </a>
+                                            )}
                                         </div>
                                     </div>
 
@@ -518,15 +529,17 @@ export default function MessageIndex({
                                             </a>
                                         )}
 
-                                        <a
-                                            href={`mailto:${readingMessage.email}?subject=Tanggapan: ${encodeURIComponent(
-                                                readingMessage.subject
-                                            )}`}
-                                            className="inline-flex items-center gap-1.5 px-3 py-2 rounded bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold shadow-xs transition"
-                                        >
-                                            <EnvelopeIcon className="w-4 h-4" />
-                                            <span>Balas via Email</span>
-                                        </a>
+                                        {!readingMessage.email.includes('anonim') && (
+                                            <a
+                                                href={`mailto:${readingMessage.email}?subject=Tanggapan: ${encodeURIComponent(
+                                                    readingMessage.subject
+                                                )}`}
+                                                className="inline-flex items-center gap-1.5 px-3 py-2 rounded bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold shadow-xs transition"
+                                            >
+                                                <EnvelopeIcon className="w-4 h-4" />
+                                                <span>Balas via Email</span>
+                                            </a>
+                                        )}
                                     </div>
 
                                     <Button
