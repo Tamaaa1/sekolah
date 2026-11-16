@@ -81,6 +81,11 @@ class PostController extends Controller
 
         $user = $request->user();
 
+        // Liputan Khusus (pinned) hanya berlaku untuk berita & artikel (type = post), bukan pengumuman atau halaman statis
+        if (($validated['type'] ?? '') !== 'post') {
+            $validated['is_pinned'] = false;
+        }
+
         // RBAC Rule: Contributor cannot publish directly; status defaults to pending_review
         if ($user && $user->hasRole('Contributor') && $validated['status'] === 'published') {
             $validated['status'] = 'pending_review';
@@ -178,6 +183,11 @@ class PostController extends Controller
             'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:taxonomies,id',
         ]);
+
+        // Liputan Khusus (pinned) hanya berlaku untuk berita & artikel (type = post), bukan pengumuman atau halaman statis
+        if (($validated['type'] ?? $post->type) !== 'post') {
+            $validated['is_pinned'] = false;
+        }
 
         // RBAC Rule: Contributor cannot publish directly
         if ($user && $user->hasRole('Contributor') && $validated['status'] === 'published') {

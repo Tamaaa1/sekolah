@@ -118,7 +118,7 @@ class InitialSchoolContentSeeder extends Seeder
                 ],
                 'type' => 'announcement',
                 'status' => 'published',
-                'is_pinned' => true,
+                'is_pinned' => false,
                 'published_at' => now(),
             ]
         );

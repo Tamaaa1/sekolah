@@ -176,7 +176,7 @@ export default function PostsIndex({
                                         <tr key={post.id} className="hover:bg-canvas-subtle/30 transition-colors">
                                             <td className="py-3.5 px-4 font-semibold text-ink">
                                                 <div className="flex items-center gap-1.5 flex-wrap">
-                                                    {post.is_pinned && (
+                                                    {post.type === 'post' && post.is_pinned && (
                                                         <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-xs text-[10px] font-bold bg-[#C85A32] text-white tracking-wider uppercase shadow-2xs">
                                                             ★ Liputan Khusus
                                                         </span>
@@ -255,7 +255,7 @@ export default function PostsIndex({
                                 <div key={post.id} className="p-4 space-y-3 bg-white">
                                     <div className="flex items-start justify-between gap-2.5">
                                         <div>
-                                            {post.is_pinned && (
+                                            {post.type === 'post' && post.is_pinned && (
                                                 <span className="inline-block px-2 py-0.5 rounded-xs text-[10px] font-bold bg-[#C85A32] text-white tracking-wider uppercase mb-1 shadow-2xs">
                                                     ★ Liputan Khusus
                                                 </span>
