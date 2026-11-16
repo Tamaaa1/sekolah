@@ -387,51 +387,63 @@ export default function Welcome({
                                 </Link>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-                                {latestPosts.length > 0 ? (
-                                    latestPosts.slice(0, 3).map((post) => (
-                                        <article
-                                            key={post.id}
-                                            className="bg-canvas-subtle/40 rounded-lg border border-line p-4 sm:p-5 flex flex-col justify-between hover:border-line-strong hover:bg-white hover:shadow-xs transition-all group"
-                                        >
-                                            <div>
-                                                <div className="flex items-center gap-2 mb-2 text-xs text-ink-muted">
-                                                    {post.categories && post.categories[0] && (
-                                                        <span className="px-2 py-0.5 rounded-xs bg-white border border-line text-ink font-medium text-[11px]">
-                                                            {post.categories[0].name}
-                                                        </span>
-                                                    )}
-                                                    <span className="text-[11px]">{formatDate(post.published_at)}</span>
-                                                </div>
-
-                                                <Link href={`/${post.slug}`}>
-                                                    <h3 className="font-serif font-bold text-base sm:text-lg text-ink group-hover:text-prussian transition-colors leading-snug line-clamp-2">
-                                                        {post.title}
-                                                    </h3>
-                                                </Link>
-
-                                                <p className="mt-2 text-ink-secondary text-xs leading-relaxed line-clamp-3">
-                                                    {post.excerpt || 'Klik untuk membaca laporan selengkapnya.'}
-                                                </p>
-                                            </div>
-
-                                            <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between text-xs">
-                                                <Link
-                                                    href={`/${post.slug}`}
-                                                    className="font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                            {(() => {
+                                const displayPosts = pinnedPost
+                                    ? [pinnedPost, ...latestPosts.filter((p) => p.id !== pinnedPost.id)].slice(0, 3)
+                                    : latestPosts.slice(0, 3);
+                                return (
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+                                        {displayPosts.length > 0 ? (
+                                            displayPosts.map((post) => (
+                                                <article
+                                                    key={post.id}
+                                                    className="bg-canvas-subtle/40 rounded-lg border border-line p-4 sm:p-5 flex flex-col justify-between hover:border-line-strong hover:bg-white hover:shadow-xs transition-all group"
                                                 >
-                                                    <span>Selengkapnya</span>
-                                                    <ArrowRightIcon className="w-3.5 h-3.5" />
-                                                </Link>
+                                                    <div>
+                                                        <div className="flex items-center gap-2 mb-2 text-xs text-ink-muted flex-wrap">
+                                                            {post.is_pinned && (
+                                                                <span className="px-2 py-0.5 rounded-xs bg-[#C85A32] text-white font-bold text-[10px] tracking-wider uppercase shadow-2xs">
+                                                                    ★ Sorotan
+                                                                </span>
+                                                            )}
+                                                            {post.categories && post.categories[0] && (
+                                                                <span className="px-2 py-0.5 rounded-xs bg-white border border-line text-ink font-medium text-[11px]">
+                                                                    {post.categories[0].name}
+                                                                </span>
+                                                            )}
+                                                            <span className="text-[11px] font-mono">{formatDate(post.published_at)}</span>
+                                                        </div>
+
+                                                        <Link href={`/${post.slug}`}>
+                                                            <h3 className="font-serif font-bold text-base sm:text-lg text-ink group-hover:text-prussian transition-colors leading-snug line-clamp-2">
+                                                                {post.title}
+                                                            </h3>
+                                                        </Link>
+
+                                                        <p className="mt-2 text-ink-secondary text-xs leading-relaxed line-clamp-3">
+                                                            {post.excerpt || 'Klik untuk membaca laporan selengkapnya.'}
+                                                        </p>
+                                                    </div>
+
+                                                    <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between text-xs">
+                                                        <Link
+                                                            href={`/${post.slug}`}
+                                                            className="font-semibold text-prussian hover:underline inline-flex items-center gap-1"
+                                                        >
+                                                            <span>Selengkapnya</span>
+                                                            <ArrowRightIcon className="w-3.5 h-3.5" />
+                                                        </Link>
+                                                    </div>
+                                                </article>
+                                            ))
+                                        ) : (
+                                            <div className="col-span-full py-8 text-center text-ink-muted text-sm italic">
+                                                Belum ada publikasi berita tambahan.
                                             </div>
-                                        </article>
-                                    ))
-                                ) : (
-                                    <div className="col-span-full py-8 text-center text-ink-muted text-sm italic">
-                                        Belum ada publikasi berita tambahan.
+                                        )}
                                     </div>
-                                )}
-                            </div>
+                                );
+                            })()}
                         </ScrollStackItem>
 
                         {/* Section 3: Prestasi Siswa & Agenda Akademik */}

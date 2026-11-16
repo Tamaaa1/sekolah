@@ -175,7 +175,14 @@ export default function PostsIndex({
                                     posts.data.map((post) => (
                                         <tr key={post.id} className="hover:bg-canvas-subtle/30 transition-colors">
                                             <td className="py-3.5 px-4 font-semibold text-ink">
-                                                <div className="line-clamp-2">{post.title}</div>
+                                                <div className="flex items-center gap-1.5 flex-wrap">
+                                                    {post.is_pinned && (
+                                                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-xs text-[10px] font-bold bg-[#C85A32] text-white tracking-wider uppercase shadow-2xs">
+                                                            ★ Liputan Khusus
+                                                        </span>
+                                                    )}
+                                                    <span className="line-clamp-2">{post.title}</span>
+                                                </div>
                                             </td>
                                             <td className="py-3.5 px-4 whitespace-nowrap">
                                                 {post.categories && post.categories.length > 0 ? (
@@ -247,9 +254,16 @@ export default function PostsIndex({
                             posts.data.map((post) => (
                                 <div key={post.id} className="p-4 space-y-3 bg-white">
                                     <div className="flex items-start justify-between gap-2.5">
-                                        <h3 className="font-semibold text-sm text-ink leading-snug">
-                                            {post.title}
-                                        </h3>
+                                        <div>
+                                            {post.is_pinned && (
+                                                <span className="inline-block px-2 py-0.5 rounded-xs text-[10px] font-bold bg-[#C85A32] text-white tracking-wider uppercase mb-1 shadow-2xs">
+                                                    ★ Liputan Khusus
+                                                </span>
+                                            )}
+                                            <h3 className="font-semibold text-sm text-ink leading-snug">
+                                                {post.title}
+                                            </h3>
+                                        </div>
                                         <span
                                             className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shrink-0 ${
                                                 post.status === 'published'

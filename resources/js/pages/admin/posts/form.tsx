@@ -292,17 +292,24 @@ export default function PostForm({
                                 />
                             </div>
 
-                            <div className="pt-2 border-t border-sidebar-border flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="is_pinned"
-                                    checked={data.is_pinned}
-                                    onChange={(e) => setData('is_pinned', e.target.checked)}
-                                    className="rounded border-sidebar-border text-prussian focus:ring-prussian"
-                                />
-                                <label htmlFor="is_pinned" className="text-xs font-medium text-ink cursor-pointer">
-                                    Sematkan di Beranda (Pinned)
-                                </label>
+                            <div className="pt-2 border-t border-sidebar-border">
+                                <div className="flex items-start gap-2">
+                                    <input
+                                        type="checkbox"
+                                        id="is_pinned"
+                                        checked={data.is_pinned}
+                                        onChange={(e) => setData('is_pinned', e.target.checked)}
+                                        className="mt-0.5 rounded border-sidebar-border text-prussian focus:ring-prussian"
+                                    />
+                                    <div>
+                                        <label htmlFor="is_pinned" className="text-xs font-semibold text-ink cursor-pointer block">
+                                            Jadikan Sorotan Utama / Liputan Khusus
+                                        </label>
+                                        <p className="text-[11px] text-[#5A626A] mt-0.5 leading-relaxed">
+                                            Artikel ini akan diangkat sebagai banner <strong>&ldquo;★ Liputan Khusus&rdquo;</strong> di bagian paling atas halaman Berita & Warta, serta diprioritaskan di Beranda.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
