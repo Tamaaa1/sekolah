@@ -32,6 +32,9 @@
     0 4px 12px -2px rgba(22, 48, 56, 0.06);
   transform-origin: 50% 0;
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 @media (max-width: 640px) {

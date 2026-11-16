@@ -251,12 +251,12 @@ export default function Welcome({
                     <ScrollStack
                         useWindowScroll={true}
                         stackPosition="96px"
-                        itemDistance={100}
-                        itemStackDistance={24}
-                        itemScale={0.035}
-                        baseScale={0.88}
-                        dimAmount={0.14}
-                        holdDistance={160}
+                        itemDistance={48}
+                        itemStackDistance={18}
+                        itemScale={0.015}
+                        baseScale={0.95}
+                        dimAmount={0.06}
+                        holdDistance={10}
                         smoothScroll={false}
                     >
                         {/* Section 1: Sambutan Kepala Sekolah & Pengumuman Resmi */}

@@ -373,9 +373,11 @@ const ScrollStack = ({
         observer.observe(root);
         observer.observe(inner);
         target.addEventListener('scroll', onScroll, { passive: true });
-        target.addEventListener('wheel', onWheel as EventListener, {
-            passive: false,
-        });
+        if (settingsRef.current?.smoothScroll) {
+            target.addEventListener('wheel', onWheel as EventListener, {
+                passive: false,
+            });
+        }
         target.addEventListener('pointerdown', onPress as EventListener, {
             passive: true,
         });
@@ -391,7 +393,9 @@ const ScrollStack = ({
             window.clearTimeout(rest);
             observer.disconnect();
             target.removeEventListener('scroll', onScroll);
-            target.removeEventListener('wheel', onWheel as EventListener);
+            if (settingsRef.current?.smoothScroll) {
+                target.removeEventListener('wheel', onWheel as EventListener);
+            }
             target.removeEventListener('pointerdown', onPress as EventListener);
             window.removeEventListener('pointerup', onRelease);
             window.removeEventListener('pointercancel', onRelease);

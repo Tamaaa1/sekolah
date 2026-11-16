@@ -14,11 +14,14 @@ export default function ScrollToTop({
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
+        let ticking = false;
         const toggleVisibility = () => {
-            if (window.scrollY > threshold) {
-                setVisible(true);
-            } else {
-                setVisible(false);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    setVisible(window.scrollY > threshold);
+                    ticking = false;
+                });
+                ticking = true;
             }
         };
 
