@@ -136,7 +136,7 @@ export default function PublicLayout({
             </div>
 
             {/* Main Header & Navigation */}
-            <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xs border-b border-line shadow-xs">
+            <header className="sticky top-0 z-40 bg-surface-card/95 backdrop-blur-xs border-b border-line shadow-xs">
                 <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between h-16 sm:h-20">
                     {/* Brand Logo */}
                     <Link href="/" className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 group shrink-0 mr-2 xl:mr-4">
@@ -182,7 +182,7 @@ export default function PublicLayout({
                                             </button>
 
                                             {openDropdown === item.id && (
-                                                <div className="absolute top-full left-0 min-w-[210px] bg-white rounded border border-line shadow-md py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                                                <div className="absolute top-full left-0 min-w-[210px] bg-surface-card rounded border border-line shadow-md py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
                                                     {item.children!.map((child) => {
                                                         const childActive = isItemActive(child.url);
                                                         return (
@@ -265,7 +265,7 @@ export default function PublicLayout({
 
                 {/* Mobile Navigation Drawer */}
                 {mobileMenuOpen && (
-                    <div className="lg:hidden border-t border-line bg-white px-4 py-4 space-y-2">
+                    <div className="lg:hidden border-t border-line bg-surface-card px-4 py-4 space-y-2">
                         {menuItems.map((item) => {
                             const hasChildren = item.children && item.children.length > 0;
                             const isActive = hasChildren

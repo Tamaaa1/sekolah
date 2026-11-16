@@ -171,14 +171,14 @@
 
     --ink: #F2F0EB;
     --ink-secondary: #B4B0A6;
-    --ink-muted: #7E7A70;
+    --ink-muted: #8E8A80;
 
-    --prussian: #265968;
-    --prussian-hover: #316E7F;
-    --prussian-light: #16262D;
+    --prussian: #4EA8BA;
+    --prussian-hover: #6BC2D4;
+    --prussian-light: #162830;
 
-    --terracotta: #C94C3B;
-    --terracotta-hover: #DC5846;
+    --terracotta: #E26D5C;
+    --terracotta-hover: #EA8172;
     --terracotta-light: #2A1715;
 
     --status-published: #4ADE80;
@@ -194,7 +194,7 @@
     --card-foreground: #F2F0EB;
     --popover: #181D22;
     --popover-foreground: #F2F0EB;
-    --primary: #F2F0EB;
+    --primary: #4EA8BA;
     --primary-foreground: #111417;
     --secondary: #1C2126;
     --secondary-foreground: #F2F0EB;
@@ -206,20 +206,20 @@
     --destructive-foreground: #FFFFFF;
     --border: #293038;
     --input: #293038;
-    --ring: #265968;
-    --chart-1: #265968;
-    --chart-2: #C94C3B;
+    --ring: #4EA8BA;
+    --chart-1: #4EA8BA;
+    --chart-2: #E26D5C;
     --chart-3: #4ADE80;
     --chart-4: #FBBF24;
     --chart-5: #B4B0A6;
     --sidebar: #16191D;
     --sidebar-foreground: #F2F0EB;
-    --sidebar-primary: #265968;
-    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-primary: #4EA8BA;
+    --sidebar-primary-foreground: #111417;
     --sidebar-accent: #1C2126;
     --sidebar-accent-foreground: #F2F0EB;
     --sidebar-border: #293038;
-    --sidebar-ring: #265968;
+    --sidebar-ring: #4EA8BA;
 }
 
 @layer base {
@@ -240,47 +240,59 @@
     body {
         @apply bg-background text-foreground;
     }
+}
 
-    /* Dark Mode Global Support for Cards, Modals, Forms & Borders */
-    .dark .bg-white {
-        background-color: var(--surface-card);
-    }
+/* Global Dark Mode Overrides (Unlayered with !important to reliably override hardcoded Tailwind utilities) */
+html.dark .bg-white,
+.dark .bg-white {
+    background-color: var(--surface-card) !important;
+}
 
-    .dark .bg-white\/95 {
-        background-color: color-mix(in srgb, var(--surface-card) 95%, transparent);
-    }
+html.dark .bg-white\/95,
+.dark .bg-white\/95 {
+    background-color: color-mix(in srgb, var(--surface-card) 95%, transparent) !important;
+}
 
-    .dark .bg-white\/90 {
-        background-color: color-mix(in srgb, var(--surface-card) 90%, transparent);
-    }
+html.dark .bg-white\/90,
+.dark .bg-white\/90 {
+    background-color: color-mix(in srgb, var(--surface-card) 90%, transparent) !important;
+}
 
-    .dark .bg-white\/80 {
-        background-color: color-mix(in srgb, var(--surface-card) 80%, transparent);
-    }
+html.dark .bg-white\/80,
+.dark .bg-white\/80 {
+    background-color: color-mix(in srgb, var(--surface-card) 80%, transparent) !important;
+}
 
-    .dark .bg-\[\#FAF9F6\] {
-        background-color: var(--canvas-subtle);
-    }
+html.dark .bg-\[\#FAF9F6\],
+.dark .bg-\[\#FAF9F6\] {
+    background-color: var(--canvas-subtle) !important;
+}
 
-    .dark .text-\[\#1A2228\] {
-        color: var(--ink);
-    }
+html.dark .text-\[\#1A2228\],
+.dark .text-\[\#1A2228\] {
+    color: var(--ink) !important;
+}
 
-    .dark .text-\[\#5A626A\] {
-        color: var(--ink-secondary);
-    }
+html.dark .text-\[\#5A626A\],
+.dark .text-\[\#5A626A\] {
+    color: var(--ink-secondary) !important;
+}
 
-    .dark .border-\[\#E2DFD7\],
-    .dark .border-\[\#D8D2C6\] {
-        border-color: var(--line);
-    }
+html.dark .border-\[\#E2DFD7\],
+.dark .border-\[\#E2DFD7\],
+html.dark .border-\[\#D8D2C6\],
+.dark .border-\[\#D8D2C6\] {
+    border-color: var(--line) !important;
+}
 
-    .dark input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
-    .dark textarea,
-    .dark select {
-        background-color: var(--surface-card);
-        color: var(--ink);
-        border-color: var(--line);
-    }
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+html.dark textarea,
+.dark textarea,
+html.dark select,
+.dark select {
+    background-color: var(--surface-card) !important;
+    color: var(--ink) !important;
+    border-color: var(--line) !important;
 }
 
