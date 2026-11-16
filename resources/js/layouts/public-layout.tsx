@@ -99,26 +99,11 @@ export default function PublicLayout({
                 { id: 24, label: 'Sarana & Fasilitas', url: '/fasilitas' },
             ],
         },
-        {
-            id: 3,
-            label: 'Kesiswaan',
-            url: '#',
-            children: [
-                { id: 31, label: 'Ekstrakurikuler', url: '/ekstrakurikuler' },
-                { id: 32, label: 'Prestasi Siswa', url: '/prestasi' },
-                { id: 33, label: 'Galeri Foto & Kegiatan', url: '/galeri' },
-            ],
-        },
-        {
-            id: 4,
-            label: 'Warta & Agenda',
-            url: '#',
-            children: [
-                { id: 41, label: 'Berita & Artikel', url: '/berita' },
-                { id: 42, label: 'Pengumuman Resmi', url: '/pengumuman' },
-                { id: 43, label: 'Agenda Akademik', url: '/agenda' },
-            ],
-        },
+        { id: 3, label: 'Berita', url: '/berita' },
+        { id: 4, label: 'Ekstrakurikuler', url: '/ekstrakurikuler' },
+        { id: 5, label: 'Prestasi', url: '/prestasi' },
+        { id: 6, label: 'Agenda', url: '/agenda' },
+        { id: 7, label: 'Galeri', url: '/galeri' },
     ];
 
     return (
@@ -152,19 +137,19 @@ export default function PublicLayout({
             <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xs border-b border-line shadow-xs">
                 <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between h-16 sm:h-20">
                     {/* Brand Logo */}
-                    <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 mr-4 lg:mr-6">
+                    <Link href="/" className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 group shrink-0 mr-2 xl:mr-4">
                         <img
                             src={settings?.school_logo || '/images/logo.png'}
                             alt={schoolName}
-                            className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
+                            className="w-9 h-9 sm:w-10 sm:h-10 xl:w-11 xl:h-11 object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
                         />
-                        <div className="font-serif font-bold text-base sm:text-xl lg:text-xl xl:text-2xl text-ink tracking-tight leading-tight group-hover:text-prussian transition-colors whitespace-nowrap">
+                        <div className="font-serif font-bold text-base sm:text-xl lg:text-base xl:text-xl text-ink tracking-tight leading-tight group-hover:text-prussian transition-colors whitespace-nowrap">
                             {schoolName}
                         </div>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+                    <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
                         {menuItems.map((item) => {
                             const hasChildren = item.children && item.children.length > 0;
                             const isActive = hasChildren
@@ -181,30 +166,30 @@ export default function PublicLayout({
                                         >
                                             <button
                                                 type="button"
-                                                className={`relative px-3.5 py-2 text-sm font-medium rounded transition-colors inline-flex items-center gap-1.5 ${
+                                                className={`relative px-2 xl:px-3 py-1.5 text-xs xl:text-sm font-medium rounded transition-colors inline-flex items-center gap-1 ${
                                                     isActive
                                                         ? 'text-prussian font-bold bg-prussian/[0.08]'
                                                         : 'text-ink hover:text-prussian hover:bg-canvas-subtle'
                                                 }`}
                                             >
                                                 <span>{item.label}</span>
-                                                <ChevronDownIcon className="w-3.5 h-3.5 opacity-60" />
+                                                <ChevronDownIcon className="w-3 h-3 xl:w-3.5 xl:h-3.5 opacity-60" />
                                                 {isActive && (
-                                                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-prussian rounded-full" />
+                                                    <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-prussian rounded-full" />
                                                 )}
                                             </button>
 
                                             {openDropdown === item.id && (
-                                                <div className="absolute top-full left-0 min-w-[230px] bg-white rounded border border-line shadow-md py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                                                <div className="absolute top-full left-0 min-w-[210px] bg-white rounded border border-line shadow-md py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
                                                     {item.children!.map((child) => {
                                                         const childActive = isItemActive(child.url);
                                                         return (
                                                             <Link
                                                                 key={child.id}
                                                                 href={child.url}
-                                                                className={`flex items-center justify-between px-4 py-2 text-sm transition-colors ${
+                                                                className={`flex items-center justify-between px-3.5 py-2 text-xs xl:text-sm transition-colors ${
                                                                     childActive
-                                                                        ? 'bg-prussian/10 text-prussian font-semibold border-l-2 border-prussian pl-3.5'
+                                                                        ? 'bg-prussian/10 text-prussian font-semibold border-l-2 border-prussian pl-3'
                                                                         : 'text-ink hover:bg-canvas-subtle hover:text-prussian'
                                                                 }`}
                                                             >
@@ -221,7 +206,7 @@ export default function PublicLayout({
                                     ) : (
                                         <Link
                                             href={item.url}
-                                            className={`relative px-3.5 py-2 text-sm font-medium rounded transition-colors inline-flex items-center ${
+                                            className={`relative px-2 xl:px-3 py-1.5 text-xs xl:text-sm font-medium rounded transition-colors inline-flex items-center ${
                                                 isActive
                                                     ? 'text-prussian font-bold bg-prussian/[0.08]'
                                                     : 'text-ink hover:text-prussian hover:bg-canvas-subtle'
@@ -229,7 +214,7 @@ export default function PublicLayout({
                                         >
                                             <span>{item.label}</span>
                                             {isActive && (
-                                                <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-prussian rounded-full" />
+                                                <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-prussian rounded-full" />
                                             )}
                                         </Link>
                                     )}
@@ -239,15 +224,15 @@ export default function PublicLayout({
                     </nav>
 
                     {/* CTA Button */}
-                    <div className="hidden lg:flex items-center gap-3">
+                    <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0 ml-1">
                         <Link
                             href="/ppdb"
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs ${
+                            className={`inline-flex items-center gap-1.5 px-2.5 xl:px-3.5 py-1.5 rounded bg-terracotta hover:bg-terracotta-hover text-white text-xs xl:text-sm font-semibold tracking-wide transition-colors shadow-xs ${
                                 isItemActive('/ppdb') ? 'ring-2 ring-terracotta ring-offset-2 ring-offset-white' : ''
                             }`}
                         >
                             <span>Info PPDB</span>
-                            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                            <span className="w-1.5 h-1.5 xl:w-2 xl:h-2 rounded-full bg-white animate-pulse" />
                         </Link>
                     </div>
 
