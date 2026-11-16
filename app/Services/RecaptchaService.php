@@ -20,6 +20,12 @@ class RecaptchaService
         }
 
         if (empty($token)) {
+            // Di lingkungan lokal (APP_ENV=local), berikan bypass jika token belum didapat karena domain localhost belum selesai didaftarkan di Google Console
+            if (app()->isLocal()) {
+                Log::info('[reCAPTCHA v3] Token verifikasi kosong di lingkungan lokal (APP_ENV=local). Diberikan akses bypass pengembangan.');
+                return true;
+            }
+
             Log::warning('[reCAPTCHA v3] Token verifikasi kosong atau tidak disertakan', [
                 'action' => $expectedAction,
                 'ip' => $ip,
@@ -47,6 +53,14 @@ class RecaptchaService
             $action = (string) ($data['action'] ?? '');
 
             if (! $success) {
+                // Di lingkungan lokal (APP_ENV=local), izinkan jika domain localhost/ngrok belum terpropagasi di Google Console
+                if (app()->isLocal()) {
+                    Log::info('[reCAPTCHA v3] Verifikasi Google ditolak di lingkungan lokal (APP_ENV=local), diberikan akses pengujian.', [
+                        'error_codes' => $data['error-codes'] ?? [],
+                    ]);
+                    return true;
+                }
+
                 Log::warning('[reCAPTCHA v3] Verifikasi ditolak oleh Google', [
                     'error_codes' => $data['error-codes'] ?? [],
                     'ip' => $ip,
