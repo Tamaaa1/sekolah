@@ -364,9 +364,17 @@ class PublicPortalController extends Controller
             return redirect()->away($path);
         }
 
+        // Mitigasi Path Traversal (CWE-22)
+        if (str_contains($path, '..') || str_contains($path, "\0")) {
+            abort(403, 'Akses berkas tidak diizinkan.');
+        }
+
         $publicPath = public_path(ltrim($path, '/'));
-        if (file_exists($publicPath)) {
-            return response()->download($publicPath);
+        $realPublic = realpath(public_path());
+        $realTarget = realpath($publicPath);
+
+        if ($realTarget && $realPublic && str_starts_with($realTarget, $realPublic) && file_exists($realTarget)) {
+            return response()->download($realTarget);
         }
 
         if (\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
@@ -432,6 +440,11 @@ class PublicPortalController extends Controller
      */
     public function storeContactMessage(Request $request): RedirectResponse
     {
+        // Mitigasi Spam Bot: Cek honeypot field
+        if ($request->filled('website') || $request->filled('honeypot')) {
+            return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'email' => ['required', 'string', 'email', 'max:255'],
@@ -441,9 +454,13 @@ class PublicPortalController extends Controller
         ]);
 
         ContactMessage::create([
-            ...$validated,
+            'name' => strip_tags(trim($validated['name'])),
+            'email' => strtolower(trim($validated['email'])),
+            'phone' => !empty($validated['phone']) ? strip_tags(trim($validated['phone'])) : null,
+            'subject' => strip_tags(trim($validated['subject'])),
+            'message' => strip_tags(trim($validated['message'])),
             'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 255),
             'is_read' => false,
         ]);
 

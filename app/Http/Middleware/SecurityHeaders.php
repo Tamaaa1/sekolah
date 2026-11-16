@@ -40,6 +40,11 @@ class SecurityHeaders
         // Restrict unnecessary browser features & hardware sensors
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
 
+        // Enforce Strict-Transport-Security (HSTS) on HTTPS connections
+        if ($request->isSecure() || $request->header('X-Forwarded-Proto') === 'https') {
+            $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+        }
+
         return $response;
     }
 }
