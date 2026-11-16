@@ -389,6 +389,24 @@ class PublicPortalController extends Controller
             'message' => ['required', 'string', 'max:3000'],
         ]);
 
+        // Mitigasi Konten Negatif, Kata Kasar, dan Spam Tautan/Judi Online
+        $contentFilter = app(\App\Services\ContentFilterService::class);
+        $fullTextToCheck = trim(($validated['name'] ?? '') . ' ' . ($validated['subject'] ?? '') . ' ' . ($validated['message'] ?? ''));
+        $inspection = $contentFilter->inspect($fullTextToCheck);
+
+        if (! $inspection['is_clean']) {
+            if ($inspection['type'] === 'profanity') {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors([
+                        'message' => 'Mohon gunakan bahasa yang santun dan membangun. Pesan Anda terdeteksi mengandung kata yang tidak sesuai dengan norma dan etika komunikasi sekolah.',
+                    ]);
+            }
+
+            // Untuk spam bot judi online atau kelebihan tautan: gunakan silent drop (respons sukses palsu agar bot berhenti)
+            return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
+        }
+
         $name = !empty($validated['name']) ? strip_tags(trim($validated['name'])) : 'Anonim';
         $email = !empty($validated['email']) ? strtolower(trim($validated['email'])) : 'anonim@smpn5sambas.sch.id';
         $subject = !empty($validated['subject']) ? strip_tags(trim($validated['subject'])) : 'Saran & Aspirasi Anonim';

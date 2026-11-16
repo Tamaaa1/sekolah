@@ -199,6 +199,31 @@ recordTest(
     'Contact Message Count before: ' . $initialCount . ', after: ' . $finalCount . ' (Dropped cleanly)'
 );
 
+// Profanity & Abusive Language Blacklist Test
+$contentFilter = new App\Services\ContentFilterService();
+$profaneInspection = $contentFilter->inspect('Tolong perbaiki toilet sekolah dasar anjing kotor');
+recordTest(
+    $results, 'SEC-24', 'Content Safety & Etiquette', 'Profanity & Abusive Language Blacklist',
+    !$profaneInspection['is_clean'] && $profaneInspection['type'] === 'profanity' && $profaneInspection['matched'] === 'anjing',
+    'Detected profanity keyword: "' . ($profaneInspection['matched'] ?? 'NONE') . '"'
+);
+
+// Obfuscated / Leetspeak Profanity Neutralization Test
+$leetspeakInspection = $contentFilter->inspect('Dasar k0nt0l b4ngs4t');
+recordTest(
+    $results, 'SEC-25', 'Content Safety & Etiquette', 'Obfuscated & Leetspeak Profanity Neutralization',
+    !$leetspeakInspection['is_clean'] && $leetspeakInspection['type'] === 'profanity',
+    'Leetspeak bypass prevented: "' . ($leetspeakInspection['matched'] ?? 'NONE') . '"'
+);
+
+// Online Gambling (Judol) & Link Spam Filter Test
+$gamblingInspection = $contentFilter->inspect('Daftar segera di situs slot gacor maxwin hari ini https://slot-gacor.xyz');
+recordTest(
+    $results, 'SEC-26', 'Anti-Abuse & Spam Defense', 'Online Gambling (Judol) & Link Spam Neutralization',
+    !$gamblingInspection['is_clean'] && ($gamblingInspection['type'] === 'gambling_spam' || $gamblingInspection['type'] === 'suspicious_link'),
+    'Spam pattern caught: "' . ($gamblingInspection['matched'] ?? 'NONE') . '"'
+);
+
 // 5. Path Traversal & File Access Controls
 $safeUploadService = new App\Services\SafeFileUploadService();
 $traversalBlocked = false;
