@@ -1,8 +1,9 @@
 import { useState, useEffect, type ReactNode } from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
 import { toast } from 'sonner';
 import ScrollToTop from '@/components/scroll-to-top';
 import ThemeToggle from '@/components/theme-toggle';
+import PublicPageSkeleton, { resolvePageTypeFromUrl, type PublicPageType } from '@/components/public-page-skeleton';
 import {
     ArrowTopRightOnSquareIcon,
     Bars3Icon,
@@ -41,6 +42,8 @@ export default function PublicLayout({
 }: PublicLayoutProps) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+    const [isPageLoading, setIsPageLoading] = useState(false);
+    const [targetPageType, setTargetPageType] = useState<PublicPageType>('generic');
 
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const npsn = settings?.npsn || '30100301';
@@ -86,6 +89,35 @@ export default function PublicLayout({
             toast.success(flash.success);
         }
     }, [flash]);
+
+    // Handle universal skeleton loading state during public portal page navigation
+    useEffect(() => {
+        const removeStart = router.on('start', (event) => {
+            try {
+                const targetUrl = event.detail?.visit?.url ? event.detail.visit.url.toString() : window.location.pathname;
+                setTargetPageType(resolvePageTypeFromUrl(targetUrl));
+            } catch {
+                setTargetPageType('generic');
+            }
+            setIsPageLoading(true);
+            setMobileMenuOpen(false);
+            setOpenDropdown(null);
+        });
+
+        const removeFinish = router.on('finish', () => {
+            setIsPageLoading(false);
+        });
+
+        const removeCancel = router.on('cancel', () => {
+            setIsPageLoading(false);
+        });
+
+        return () => {
+            removeStart();
+            removeFinish();
+            removeCancel();
+        };
+    }, []);
 
     const menuItems: MenuItem[] = primaryMenu?.root_items || [
         { id: 1, label: 'Beranda', url: '/' },
@@ -335,8 +367,16 @@ export default function PublicLayout({
                 )}
             </header>
 
-            {/* Page Content */}
-            <main className="flex-1">{children}</main>
+            {/* Page Content with Universal Skeleton Loading State */}
+            <main className="flex-1">
+                {isPageLoading ? (
+                    <PublicPageSkeleton type={targetPageType} />
+                ) : (
+                    <div className="animate-in fade-in duration-150">
+                        {children}
+                    </div>
+                )}
+            </main>
 
             {/* Institutional Editorial Footer */}
             <footer className="bg-prussian text-canvas-paper border-t border-prussian-hover pt-14 pb-8 mt-16">
