@@ -1,6 +1,8 @@
 .scroll-stack {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .scroll-stack--contained {
@@ -12,16 +14,20 @@
 .scroll-stack__inner {
   position: relative;
   padding-inline: 0;
+  max-width: 100%;
 }
 
 .scroll-stack__slot {
   position: sticky;
+  max-width: 100%;
 }
 
 .scroll-stack-card {
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   border-radius: 1rem;
   background: #ffffff;
   color: #1A2228;
@@ -32,6 +38,12 @@
     0 4px 12px -2px rgba(15, 44, 89, 0.06);
   transform-origin: 50% 0;
   will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .scroll-stack-card {
+    border-radius: 0.75rem;
+  }
 }
 
 .scroll-stack-card__shade {

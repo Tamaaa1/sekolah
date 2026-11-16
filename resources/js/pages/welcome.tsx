@@ -205,10 +205,10 @@ export default function Welcome({
             />
 
             {/* Asymmetric Hero & Bento Grid */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-12">
+            <section className="max-w-7xl mx-auto px-3 sm:px-6 pt-4 sm:pt-6 pb-12 overflow-x-clip">
                 {heroBannerImage ? (
                     /* Immersive Hero Banner: Clean typography over the image */
-                    <div className="relative mb-8 rounded-lg overflow-hidden border border-stone-300/80 shadow-xs min-h-[300px] sm:min-h-[360px] md:min-h-[400px] flex flex-col justify-end">
+                    <div className="relative mb-6 sm:mb-8 rounded-lg overflow-hidden border border-stone-300/80 shadow-xs min-h-[260px] sm:min-h-[360px] md:min-h-[400px] flex flex-col justify-end">
                         {/* Background Image */}
                         <img
                             src={heroBannerImage}
@@ -220,15 +220,15 @@ export default function Welcome({
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F3F]/95 via-[#0A1F3F]/50 to-transparent" />
 
                         {/* Headline & Tagline Overlay */}
-                        <div className="relative z-10 p-6 sm:p-8 md:p-10 max-w-3xl">
-                            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                        <div className="relative z-10 p-4 sm:p-8 md:p-10 max-w-3xl">
+                            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
                                 {schoolName}
                             </h1>
-                            <p className="text-white/90 text-base sm:text-lg mt-2.5 font-normal leading-relaxed max-w-2xl">
+                            <p className="text-white/90 text-sm sm:text-base md:text-lg mt-2 font-normal leading-relaxed max-w-2xl">
                                 {tagline}
                             </p>
                             {heroBannerCaption && (
-                                <p className="text-xs text-white/70 mt-3 font-sans italic">
+                                <p className="text-[11px] sm:text-xs text-white/70 mt-2 font-sans italic">
                                     {heroBannerCaption}
                                 </p>
                             )}
@@ -236,18 +236,18 @@ export default function Welcome({
                     </div>
                 ) : (
                     /* Default Typographic Headline Banner (when no image banner is set) */
-                    <div className="border-b border-line pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div className="border-b border-line pb-5 sm:pb-6 mb-6 sm:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-4">
                         <div>
-                            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-ink mt-2 tracking-tight">
+                            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold text-ink mt-1 tracking-tight">
                                 {schoolName}
                             </h1>
-                            <p className="text-ink-secondary text-base md:text-lg mt-2 max-w-2xl font-normal leading-relaxed">
+                            <p className="text-ink-secondary text-sm sm:text-base md:text-lg mt-1.5 max-w-2xl font-normal leading-relaxed">
                                 {tagline}
                             </p>
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-canvas-subtle text-ink-secondary text-xs font-medium border border-line">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-sm bg-canvas-subtle text-ink-secondary text-[11px] sm:text-xs font-medium border border-line">
                                 <span className="w-2 h-2 rounded-full bg-status-published" />
                                 Tahun Ajaran Aktif 2025/2026
                             </span>
@@ -256,56 +256,56 @@ export default function Welcome({
                 )}
 
                 {/* Scroll Stack Sections: 4 Cards */}
-                <div className="mt-8">
+                <div className="mt-6 sm:mt-8">
                     <ScrollStack
                         useWindowScroll={true}
-                        stackPosition="96px"
+                        stackPosition="80px"
                         itemDistance={100}
-                        itemStackDistance={24}
-                        itemScale={0.035}
-                        baseScale={0.88}
-                        dimAmount={0.14}
+                        itemStackDistance={20}
+                        itemScale={0.03}
+                        baseScale={0.9}
+                        dimAmount={0.12}
                         holdDistance={160}
                         smoothScroll={false}
                     >
                         {/* Section 1: Sambutan Kepala Sekolah & Pengumuman Resmi */}
-                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                        <ScrollStackItem itemClassName="p-4 sm:p-6 lg:p-8">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
                                 {/* Sambutan Kepala Sekolah (Col 7) */}
                                 <div className="lg:col-span-7 flex flex-col justify-between">
                                     <div>
-                                        <div className="flex items-center gap-2 mb-4">
-                                            <AcademicCapIcon className="w-5 h-5 text-prussian" />
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <AcademicCapIcon className="w-4 h-4 sm:w-5 sm:h-5 text-prussian" />
                                             <span className="text-xs font-semibold uppercase tracking-wider text-prussian">
                                                 Sambutan Kepala Sekolah
                                             </span>
                                         </div>
-                                        <blockquote className="font-serif italic text-ink text-base sm:text-lg lg:text-xl leading-relaxed pl-4 border-l-2 border-prussian my-2">
+                                        <blockquote className="font-serif italic text-ink text-sm sm:text-base lg:text-lg leading-relaxed pl-3.5 border-l-2 border-prussian my-2">
                                             &ldquo;{speech}&rdquo;
                                         </blockquote>
                                     </div>
 
-                                    <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between gap-4">
-                                        <div className="flex items-center gap-3 min-w-0">
+                                    <div className="mt-5 pt-3.5 border-t border-line/60 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
+                                        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                                             {principalPhoto ? (
                                                 <img
                                                     src={principalPhoto}
                                                     alt={principalName}
-                                                    className="w-11 h-11 rounded-full object-cover object-top border border-stone-300/80 shrink-0 bg-stone-100"
+                                                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover object-top border border-stone-300/80 shrink-0 bg-stone-100"
                                                 />
                                             ) : (
-                                                <div className="w-11 h-11 rounded-full bg-stone-100 border border-stone-300/80 flex items-center justify-center text-ink-muted shrink-0">
+                                                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-stone-100 border border-stone-300/80 flex items-center justify-center text-ink-muted shrink-0">
                                                     <UserIcon className="w-5 h-5 text-ink-muted" />
                                                 </div>
                                             )}
                                             <div className="min-w-0">
-                                                <div className="text-sm font-bold text-ink truncate">{principalName}</div>
-                                                <div className="text-xs text-ink-muted truncate">{principalPosition}</div>
+                                                <div className="text-xs sm:text-sm font-bold text-ink truncate">{principalName}</div>
+                                                <div className="text-[11px] sm:text-xs text-ink-muted truncate">{principalPosition}</div>
                                             </div>
                                         </div>
                                         <Link
                                             href="/guru-dan-staf"
-                                            className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1 shrink-0"
+                                            className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1 shrink-0 ml-auto sm:ml-0"
                                         >
                                             <span>Lihat Profil GTK</span>
                                             <ArrowRightIcon className="w-3.5 h-3.5" />
@@ -314,9 +314,9 @@ export default function Welcome({
                                 </div>
 
                                 {/* Recent Announcements Widget (Col 5) */}
-                                <div className="lg:col-span-5 bg-canvas-subtle/50 rounded-lg border border-line p-5 flex flex-col justify-between">
+                                <div className="lg:col-span-5 bg-canvas-subtle/50 rounded-lg border border-line p-4 sm:p-5 flex flex-col justify-between mt-4 lg:mt-0">
                                     <div>
-                                        <div className="flex items-center justify-between pb-3 border-b border-line mb-3">
+                                        <div className="flex items-center justify-between pb-2.5 border-b border-line mb-3">
                                             <div className="flex items-center gap-2">
                                                 <MegaphoneIcon className="w-4 h-4 text-terracotta" />
                                                 <span className="text-xs font-bold uppercase tracking-wider text-ink">
@@ -368,31 +368,31 @@ export default function Welcome({
                         </ScrollStackItem>
 
                         {/* Section 2: Berita & Dokumentasi */}
-                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
-                            <div className="flex items-end justify-between border-b border-line pb-4 mb-6">
+                        <ScrollStackItem itemClassName="p-4 sm:p-6 lg:p-8">
+                            <div className="flex flex-wrap sm:flex-nowrap items-baseline justify-between gap-2 border-b border-line pb-3 sm:pb-4 mb-4 sm:mb-6">
                                 <div>
                                     <span className="text-xs font-mono uppercase tracking-wider text-prussian font-semibold">
                                         Berita & Dokumentasi
                                     </span>
-                                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-0.5">
+                                    <h2 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-ink mt-0.5">
                                         Warta & Liputan Terkini
                                     </h2>
                                 </div>
                                 <Link
                                     href="/berita"
-                                    className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-prussian hover:underline"
+                                    className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-prussian hover:underline shrink-0"
                                 >
                                     <span>Indeks Berita</span>
                                     <ChevronRightIcon className="w-4 h-4" />
                                 </Link>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
                                 {latestPosts.length > 0 ? (
                                     latestPosts.slice(0, 3).map((post) => (
                                         <article
                                             key={post.id}
-                                            className="bg-canvas-subtle/40 rounded-lg border border-line p-5 flex flex-col justify-between hover:border-line-strong hover:bg-white hover:shadow-xs transition-all group"
+                                            className="bg-canvas-subtle/40 rounded-lg border border-line p-4 sm:p-5 flex flex-col justify-between hover:border-line-strong hover:bg-white hover:shadow-xs transition-all group"
                                         >
                                             <div>
                                                 <div className="flex items-center gap-2 mb-2 text-xs text-ink-muted">
@@ -435,16 +435,16 @@ export default function Welcome({
                         </ScrollStackItem>
 
                         {/* Section 3: Prestasi Siswa & Agenda Akademik */}
-                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                        <ScrollStackItem itemClassName="p-4 sm:p-6 lg:p-8">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
                                 {/* Prestasi Siswa (Col 7) */}
                                 <div className="lg:col-span-7 flex flex-col justify-between">
                                     <div>
-                                        <div className="flex items-end justify-between border-b border-line pb-3 mb-4">
+                                        <div className="flex flex-wrap sm:flex-nowrap items-baseline justify-between gap-2 border-b border-line pb-2.5 sm:pb-3 mb-3 sm:mb-4">
                                             <div className="flex items-center gap-2">
-                                                <TrophyIcon className="w-5 h-5 text-terracotta" />
+                                                <TrophyIcon className="w-5 h-5 text-terracotta shrink-0" />
                                                 <div>
-                                                    <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink">
+                                                    <h2 className="font-serif text-lg sm:text-xl md:text-2xl font-bold text-ink">
                                                         Prestasi Siswa
                                                     </h2>
                                                     <p className="text-[11px] text-ink-muted">
@@ -454,7 +454,7 @@ export default function Welcome({
                                             </div>
                                             <Link
                                                 href="/prestasi"
-                                                className="text-xs font-semibold text-prussian hover:underline"
+                                                className="text-xs font-semibold text-prussian hover:underline shrink-0"
                                             >
                                                 Semua Prestasi &rarr;
                                             </Link>
@@ -465,7 +465,7 @@ export default function Welcome({
                                                 achievements.slice(0, 3).map((item) => (
                                                     <div
                                                         key={item.id}
-                                                        className="bg-canvas-subtle/50 rounded-lg border border-line p-3.5 flex items-start gap-3.5 shadow-2xs"
+                                                        className="bg-canvas-subtle/50 rounded-lg border border-line p-3 sm:p-3.5 flex items-start gap-3 sm:gap-3.5 shadow-2xs"
                                                     >
                                                         <div className="w-10 h-10 rounded bg-white border border-line flex flex-col items-center justify-center shrink-0 text-prussian">
                                                             <TrophyIcon className="w-4 h-4 text-terracotta" />
@@ -473,7 +473,7 @@ export default function Welcome({
                                                         </div>
 
                                                         <div className="flex-1 min-w-0">
-                                                            <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                                                            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-0.5">
                                                                 <span className="px-1.5 py-0.2 rounded text-[10px] font-bold uppercase tracking-wider bg-prussian-light text-prussian">
                                                                     {item.level}
                                                                 </span>
@@ -500,13 +500,13 @@ export default function Welcome({
                                 </div>
 
                                 {/* Agenda Akademik (Col 5) */}
-                                <div className="lg:col-span-5 flex flex-col justify-between">
+                                <div className="lg:col-span-5 flex flex-col justify-between mt-4 lg:mt-0">
                                     <div>
-                                        <div className="flex items-end justify-between border-b border-line pb-3 mb-4">
+                                        <div className="flex flex-wrap sm:flex-nowrap items-baseline justify-between gap-2 border-b border-line pb-2.5 sm:pb-3 mb-3 sm:mb-4">
                                             <div className="flex items-center gap-2">
-                                                <CalendarDaysIcon className="w-5 h-5 text-prussian" />
+                                                <CalendarDaysIcon className="w-5 h-5 text-prussian shrink-0" />
                                                 <div>
-                                                    <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink">
+                                                    <h2 className="font-serif text-lg sm:text-xl md:text-2xl font-bold text-ink">
                                                         Agenda Akademik
                                                     </h2>
                                                     <p className="text-[11px] text-ink-muted">
@@ -516,7 +516,7 @@ export default function Welcome({
                                             </div>
                                             <Link
                                                 href="/agenda"
-                                                className="text-xs font-semibold text-prussian hover:underline"
+                                                className="text-xs font-semibold text-prussian hover:underline shrink-0"
                                             >
                                                 Kalender Lengkap &rarr;
                                             </Link>
@@ -566,25 +566,25 @@ export default function Welcome({
                         </ScrollStackItem>
 
                         {/* Section 4: PPDB Banner */}
-                        <ScrollStackItem itemClassName="p-6 sm:p-10 lg:p-12">
-                            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                                <div className="space-y-3 max-w-2xl">
-                                    <span className="inline-block px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-terracotta-light text-terracotta border border-terracotta/20">
+                        <ScrollStackItem itemClassName="p-5 sm:p-8 lg:p-12">
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 sm:gap-8">
+                                <div className="space-y-2.5 sm:space-y-3 max-w-2xl">
+                                    <span className="inline-block px-2.5 py-1 rounded text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-terracotta-light text-terracotta border border-terracotta/20">
                                         PPDB Tahun Ajaran {settings?.ppdb_year || '2026/2027'}
                                     </span>
-                                    <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-ink leading-tight">
+                                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-ink leading-tight">
                                         Bergabunglah Menjadi Bagian dari Insan Pembelajar Berkarakter
                                     </h3>
-                                    <p className="text-sm text-ink-secondary leading-relaxed">
+                                    <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
                                         Pendaftaran terbuka melalui 4 jalur: Zonasi, Afirmasi, Prestasi, dan
                                         Perpindahan Tugas Orang Tua. Pastikan berkas administratif Anda telah lengkap.
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full md:w-auto">
+                                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 shrink-0 w-full md:w-auto">
                                     <Link
                                         href="/ppdb"
-                                        className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-terracotta hover:bg-terracotta-hover text-white text-sm font-bold text-center transition-colors shadow-xs"
+                                        className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-terracotta hover:bg-terracotta-hover text-white text-xs sm:text-sm font-bold text-center transition-colors shadow-xs"
                                     >
                                         Informasi & Alur Pendaftaran
                                     </Link>
@@ -593,7 +593,7 @@ export default function Welcome({
                                             href={settings.ppdb_brochure_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="w-full sm:w-auto px-5 py-3.5 rounded-lg border border-line text-ink hover:bg-canvas-subtle text-sm font-semibold text-center inline-flex items-center justify-center gap-2 transition-colors"
+                                            className="w-full sm:w-auto px-4 sm:px-5 py-3 sm:py-3.5 rounded-lg border border-line text-ink hover:bg-canvas-subtle text-xs sm:text-sm font-semibold text-center inline-flex items-center justify-center gap-2 transition-colors"
                                         >
                                             <ArrowDownTrayIcon className="w-4 h-4 text-ink-muted" />
                                             <span>Unduh Brosur</span>
@@ -604,18 +604,18 @@ export default function Welcome({
                         </ScrollStackItem>
 
                         {/* Section 5: Kotak Saran Digital (Aspirasi Warga) */}
-                        <ScrollStackItem itemClassName="p-6 sm:p-8 lg:p-10">
-                            <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 md:p-10 rounded-xl border border-line shadow-xs">
+                        <ScrollStackItem itemClassName="p-4 sm:p-6 lg:p-8">
+                            <div className="max-w-4xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-xl border border-line shadow-xs">
                                 <div className="flex items-center gap-2.5 mb-2">
-                                    <div className="w-8 h-8 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
-                                        <ChatBubbleBottomCenterTextIcon className="w-4 h-4" />
+                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                        <ChatBubbleBottomCenterTextIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                     </div>
-                                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
+                                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-ink">
                                         Kotak Saran & Aspirasi Digital
                                     </h3>
                                 </div>
 
-                                <p className="text-sm text-ink-secondary leading-relaxed mb-6 max-w-2xl">
+                                <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed mb-4 sm:mb-6 max-w-2xl">
                                     Sampaikan kritik membangun, pertanyaan, atau saran perbaikan demi kemajuan {schoolName}. Setiap pesan yang Anda kirimkan tercatat langsung di panel administrasi sekolah untuk ditindaklanjuti secara bertanggung jawab.
                                 </p>
 
@@ -755,14 +755,14 @@ export default function Welcome({
                                             )}
                                         </div>
 
-                                        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-line/60">
-                                            <p className="text-xs text-ink-muted">
+                                        <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-line/60">
+                                            <p className="text-[11px] sm:text-xs text-ink-muted text-center sm:text-left">
                                                 Pesan akan terkirim langsung ke panel administrasi sekolah.
                                             </p>
                                             <button
                                                 type="submit"
                                                 disabled={submittingContact}
-                                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold transition-colors shadow-xs disabled:opacity-60 cursor-pointer"
+                                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold transition-colors shadow-xs disabled:opacity-60 cursor-pointer"
                                             >
                                                 <PaperAirplaneIcon className="w-3.5 h-3.5" />
                                                 <span>

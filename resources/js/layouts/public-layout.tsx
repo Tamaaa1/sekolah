@@ -109,23 +109,23 @@ export default function PublicLayout({
     return (
         <div className="min-h-screen bg-canvas-paper text-ink font-sans flex flex-col selection:bg-prussian-light selection:text-prussian">
             {/* Top Utility Bar */}
-            <div className="bg-prussian text-canvas-paper text-xs py-2 px-4 border-b border-prussian-hover">
-                <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex flex-wrap items-center gap-4">
-                        <span className="inline-flex items-center gap-1 font-mono">
+            <div className="bg-prussian text-canvas-paper py-1.5 sm:py-2 px-3 sm:px-4 border-b border-prussian-hover">
+                <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 text-[11px] sm:text-xs">
+                    <div className="flex items-center gap-2 sm:gap-3.5 min-w-0 truncate">
+                        <span className="inline-flex items-center gap-1 font-mono shrink-0">
                             <span className="text-canvas-subtle/70">NPSN:</span> {npsn}
                         </span>
-                        <span className="hidden sm:inline-block text-canvas-subtle/40">•</span>
-                        <span className="inline-flex items-center gap-1">
-                            <span className="text-canvas-subtle/70">Akreditasi:</span>{' '}
+                        <span className="text-canvas-subtle/40">•</span>
+                        <span className="inline-flex items-center gap-1 truncate">
+                            <span className="text-canvas-subtle/70 hidden xs:inline">Akreditasi:</span>{' '}
                             <span className="font-semibold">{accreditation}</span>
                         </span>
                     </div>
 
-                    <div className="flex items-center gap-4 text-canvas-subtle">
+                    <div className="flex items-center shrink-0">
                         <Link
                             href="/dashboard"
-                            className="px-2.5 py-0.5 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-paper hover:text-prussian transition-colors font-medium"
+                            className="px-2 sm:px-2.5 py-0.5 rounded border border-canvas-subtle/30 text-canvas-paper hover:bg-canvas-paper hover:text-prussian transition-colors font-medium whitespace-nowrap text-[10px] sm:text-xs"
                         >
                             Login Portal
                         </Link>
@@ -135,15 +135,15 @@ export default function PublicLayout({
 
             {/* Main Header & Navigation */}
             <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xs border-b border-line shadow-xs">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-20">
+                <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between h-16 sm:h-20">
                     {/* Brand Logo */}
-                    <Link href="/" className="flex items-center gap-3 group">
+                    <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group min-w-0 flex-1 mr-2">
                         <img
                             src={settings?.school_logo || '/images/logo.png'}
                             alt={schoolName}
-                            className="w-12 h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
+                            className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
                         />
-                        <div className="font-serif font-bold text-xl md:text-2xl text-ink tracking-tight leading-none group-hover:text-prussian transition-colors">
+                        <div className="font-serif font-bold text-base sm:text-xl md:text-2xl text-ink tracking-tight leading-tight group-hover:text-prussian transition-colors line-clamp-1 truncate">
                             {schoolName}
                         </div>
                     </Link>
@@ -224,7 +224,7 @@ export default function PublicLayout({
                     </nav>
 
                     {/* CTA Button */}
-                    <div className="hidden sm:flex items-center gap-3">
+                    <div className="hidden lg:flex items-center gap-3">
                         <Link
                             href="/ppdb"
                             className={`inline-flex items-center gap-2 px-4 py-2 rounded bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold tracking-wide transition-colors shadow-xs ${
@@ -237,10 +237,10 @@ export default function PublicLayout({
                     </div>
 
                     {/* Mobile Hamburger Button */}
-                    <div className="flex lg:hidden items-center gap-2">
+                    <div className="flex lg:hidden items-center gap-1.5 sm:gap-2 shrink-0">
                         <Link
                             href="/ppdb"
-                            className={`px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold ${
+                            className={`px-2.5 sm:px-3 py-1.5 rounded bg-terracotta text-white text-xs font-semibold ${
                                 isItemActive('/ppdb') ? 'ring-2 ring-terracotta ring-offset-1 ring-offset-white' : ''
                             }`}
                         >
@@ -249,13 +249,13 @@ export default function PublicLayout({
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="p-2 rounded border border-line text-ink hover:bg-canvas-subtle"
+                            className="p-1.5 sm:p-2 rounded border border-line text-ink hover:bg-canvas-subtle"
                             aria-label="Buka Menu"
                         >
                             {mobileMenuOpen ? (
-                                <XMarkIcon className="w-6 h-6" />
+                                <XMarkIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                             ) : (
-                                <Bars3Icon className="w-6 h-6" />
+                                <Bars3Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                             )}
                         </button>
                     </div>
