@@ -15,7 +15,6 @@ import {
     ChevronRightIcon,
     MegaphoneIcon,
     PaperAirplaneIcon,
-    ShieldCheckIcon,
     TrophyIcon,
     UserIcon,
 } from '@heroicons/react/24/outline';
@@ -610,24 +609,17 @@ export default function Welcome({
                         {/* Section 5: Kotak Saran Digital (Aspirasi Warga) */}
                         <ScrollStackItem itemClassName="p-4 sm:p-6 lg:p-8">
                             <div className="max-w-3xl mx-auto bg-white p-5 sm:p-7 md:p-9 rounded-xl border border-line shadow-xs">
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
-                                            <ChatBubbleBottomCenterTextIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                                        </div>
-                                        <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-ink">
-                                            Kotak Saran & Aspirasi Digital
-                                        </h3>
+                                <div className="flex items-center gap-2.5 mb-2">
+                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-prussian/10 text-prussian flex items-center justify-center shrink-0">
+                                        <ChatBubbleBottomCenterTextIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                     </div>
-
-                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200 self-start sm:self-auto shrink-0">
-                                        <ShieldCheckIcon className="w-3.5 h-3.5 text-emerald-600" />
-                                        <span>100% Anonim & Rahasia</span>
-                                    </div>
+                                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-ink">
+                                        Kotak Saran & Aspirasi Digital
+                                    </h3>
                                 </div>
 
                                 <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed mb-5 max-w-2xl">
-                                    Sampaikan kritik membangun, pertanyaan, atau saran perbaikan demi kemajuan {schoolName}. Aspirasi Anda dikirimkan secara langsung dan sepenuhnya anonim tanpa perlu mengisi data pribadi demi menjaga privasi dan kebebasan berpendapat.
+                                    Sampaikan kritik membangun, pertanyaan, atau saran perbaikan demi kemajuan {schoolName}. Saran Anda tercatat langsung di panel administrasi sekolah untuk ditindaklanjuti secara bertanggung jawab.
                                 </p>
 
                                 {sentSuccess ? (
@@ -680,10 +672,9 @@ export default function Welcome({
                                         </div>
 
                                         <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-line/60">
-                                            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-ink-muted">
-                                                <ShieldCheckIcon className="w-4 h-4 text-emerald-600 shrink-0" />
-                                                <span>Identitas Anda tidak dicatat dan tidak dipublikasikan ke publik.</span>
-                                            </div>
+                                            <p className="text-[11px] sm:text-xs text-ink-muted text-center sm:text-left">
+                                                Pesan akan terkirim langsung ke panel administrasi sekolah.
+                                            </p>
                                             <button
                                                 type="submit"
                                                 disabled={submittingContact}
