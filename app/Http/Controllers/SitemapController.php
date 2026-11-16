@@ -30,7 +30,6 @@ class SitemapController extends Controller
             ['url' => url('/prestasi'), 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['url' => url('/ekstrakurikuler'), 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['url' => url('/agenda'), 'priority' => '0.8', 'changefreq' => 'weekly'],
-            ['url' => url('/unduhan'), 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['url' => url('/galeri'), 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['url' => url('/kontak'), 'priority' => '0.8', 'changefreq' => 'monthly'],
         ];

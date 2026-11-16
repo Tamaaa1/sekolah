@@ -41,7 +41,6 @@ class RolePermissionSeeder extends Seeder
             'manage achievements',
             'manage ppdb',
             'manage facilities',
-            'manage downloads',
             'manage galleries',
             'manage messages',
 
@@ -74,7 +73,6 @@ class RolePermissionSeeder extends Seeder
             'manage extracurriculars',
             'manage achievements',
             'manage facilities',
-            'manage downloads',
             'manage galleries',
             'manage messages',
         ]);

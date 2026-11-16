@@ -140,8 +140,7 @@ class InitialSchoolContentSeeder extends Seeder
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Prestasi', 'link_type' => 'custom_url', 'custom_url' => '/prestasi', 'sort_order' => 5]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Agenda Akademik', 'link_type' => 'custom_url', 'custom_url' => '/agenda', 'sort_order' => 6]);
         MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Galeri Foto', 'link_type' => 'custom_url', 'custom_url' => '/galeri', 'sort_order' => 7]);
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Pusat Unduhan', 'link_type' => 'custom_url', 'custom_url' => '/unduhan', 'sort_order' => 8]);
-        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Kontak & Saran', 'link_type' => 'custom_url', 'custom_url' => '/kontak', 'sort_order' => 9]);
+        MenuItem::create(['menu_id' => $headerPrimary->id, 'label' => 'Kontak & Saran', 'link_type' => 'custom_url', 'custom_url' => '/kontak', 'sort_order' => 8]);
 
         // 6. Direktori Guru & GTK
         StaffDirectory::firstOrCreate(
@@ -354,70 +353,7 @@ class InitialSchoolContentSeeder extends Seeder
             \App\Models\Facility::firstOrCreate(['slug' => $fac['slug']], $fac);
         }
 
-        // 11. Pusat Unduhan Dokumen
-        $downloads = [
-            [
-                'title' => 'Kalender Pendidikan & Akademik Tahun Ajaran 2026/2027',
-                'slug' => 'kalender-pendidikan-dan-akademik-2026-2027',
-                'category' => 'Akademik & Kurikulum',
-                'description' => 'Jadwal lengkap hari efektif belajar, masa ujian sumatif, libur semester, dan agenda kegiatan tahunan sekolah.',
-                'file_path' => '/documents/kalender-akademik-2026-2027.pdf',
-                'file_type' => 'PDF',
-                'file_size' => '1.2 MB',
-                'download_count' => 124,
-                'sort_order' => 1,
-            ],
-            [
-                'title' => 'Buku Pedoman Tata Tertib & Norma Disiplin Siswa',
-                'slug' => 'buku-pedoman-tata-tertib-disiplin-siswa',
-                'category' => 'Tata Tertib & Kesiswaan',
-                'description' => 'Peraturan resmi hak dan kewajiban peserta didik, etika berpakaian seragam, serta sanksi pelanggaran kedisiplinan di sekolah.',
-                'file_path' => '/documents/pedoman-tata-tertib-siswa.pdf',
-                'file_type' => 'PDF',
-                'file_size' => '2.4 MB',
-                'download_count' => 89,
-                'sort_order' => 2,
-            ],
-            [
-                'title' => 'Formulir Surat Izin Tidak Masuk Sekolah & Keterangan Sakit',
-                'slug' => 'formulir-surat-izin-tidak-masuk-sekolah',
-                'category' => 'Formulir Layanan',
-                'description' => 'Format surat resmi permohonan izin orang tua/wali murid kepada pihak sekolah ketika berhalangan hadir mengikuti pembelajaran.',
-                'file_path' => '/documents/formulir-surat-izin-siswa.docx',
-                'file_type' => 'DOCX',
-                'file_size' => '240 KB',
-                'download_count' => 215,
-                'sort_order' => 3,
-            ],
-            [
-                'title' => 'Brosur & Panduan Alur Pendaftaran PPDB 2026',
-                'slug' => 'brosur-panduan-alur-pendaftaran-ppdb-2026',
-                'category' => 'Panduan & Informasi',
-                'description' => 'Petunjuk teknis pendaftaran siswa baru jalur zonasi, afirmasi, prestasi, dan perpindahan tugas orang tua.',
-                'file_path' => '/documents/brosur-ppdb-2026.pdf',
-                'file_type' => 'PDF',
-                'file_size' => '3.8 MB',
-                'download_count' => 342,
-                'sort_order' => 4,
-            ],
-            [
-                'title' => 'Formulir Registrasi Kegiatan Ekstrakurikuler Siswa',
-                'slug' => 'formulir-registrasi-ekstrakurikuler-siswa',
-                'category' => 'Formulir Layanan',
-                'description' => 'Lembar pendaftaran pemilihan cabang minat bakat ekstrakurikuler wajib dan pilihan bagi siswa kelas VII dan VIII.',
-                'file_path' => '/documents/formulir-pendaftaran-ekskul.pdf',
-                'file_type' => 'PDF',
-                'file_size' => '410 KB',
-                'download_count' => 176,
-                'sort_order' => 5,
-            ],
-        ];
-
-        foreach ($downloads as $dl) {
-            \App\Models\Download::firstOrCreate(['slug' => $dl['slug']], $dl);
-        }
-
-        // 12. Dokumentasi Galeri Kegiatan
+        // 11. Dokumentasi Galeri Kegiatan
         $galleries = [
             [
                 'title' => 'Upacara Peringatan Hari Kemerdekaan RI ke-81',

@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/react';
 import {
     AcademicCapIcon,
-    ArrowDownTrayIcon,
     ArrowTopRightOnSquareIcon,
     Bars3BottomLeftIcon,
     BuildingOffice2Icon,
@@ -69,11 +68,6 @@ const mainNavItems: NavItem[] = [
         title: 'Sarana & Fasilitas',
         href: '/admin/facilities',
         icon: BuildingOffice2Icon,
-    },
-    {
-        title: 'Pusat Unduhan',
-        href: '/admin/downloads',
-        icon: ArrowDownTrayIcon,
     },
     {
         title: 'Galeri Kegiatan',

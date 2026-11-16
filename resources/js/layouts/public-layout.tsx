@@ -103,7 +103,6 @@ export default function PublicLayout({
         { id: 4, label: 'Ekstrakurikuler', url: '/ekstrakurikuler' },
         { id: 5, label: 'Prestasi', url: '/prestasi' },
         { id: 6, label: 'Agenda', url: '/agenda' },
-        { id: 7, label: 'Unduhan', url: '/unduhan' },
         { id: 8, label: 'Galeri', url: '/galeri' },
         { id: 9, label: 'Kontak', url: '/kontak' },
     ];
@@ -417,11 +416,6 @@ export default function PublicLayout({
                             <li>
                                 <Link href="/agenda" className="hover:text-white transition-colors">
                                     Kalender & Agenda Sekolah
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/unduhan" className="hover:text-white transition-colors">
-                                    Pusat Unduhan Dokumen
                                 </Link>
                             </li>
                             <li>

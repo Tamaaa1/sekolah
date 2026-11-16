@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\AcademicAgendaController;
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\ContactMessageController;
-use App\Http\Controllers\Admin\DownloadController;
 use App\Http\Controllers\Admin\ExtracurricularController;
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\GalleryController;
@@ -19,7 +18,6 @@ use App\Http\Controllers\SitemapController;
 use App\Models\AcademicAgenda;
 use App\Models\Achievement;
 use App\Models\ContactMessage;
-use App\Models\Download;
 use App\Models\Extracurricular;
 use App\Models\Facility;
 use App\Models\Gallery;
@@ -44,8 +42,6 @@ Route::get('/ekstrakurikuler', [PublicPortalController::class, 'extracurriculars
 Route::get('/prestasi', [PublicPortalController::class, 'achievements'])->name('public.achievements');
 Route::get('/agenda', [PublicPortalController::class, 'agendas'])->name('public.agendas');
 Route::get('/ppdb', [PublicPortalController::class, 'ppdb'])->name('public.ppdb');
-Route::get('/unduhan', [PublicPortalController::class, 'downloads'])->name('public.downloads');
-Route::get('/unduhan/{slug}/file', [PublicPortalController::class, 'downloadFile'])->name('public.downloads.file');
 Route::get('/galeri', [PublicPortalController::class, 'galleries'])->name('public.galleries');
 Route::get('/kontak', [PublicPortalController::class, 'contact'])->name('public.contact');
 Route::post('/kontak', [PublicPortalController::class, 'storeContactMessage'])->name('public.contact.store')->middleware('throttle:5,1');
@@ -70,7 +66,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'agendaCount' => AcademicAgenda::count(),
                 'extracurricularCount' => Extracurricular::count(),
                 'facilityCount' => Facility::count(),
-                'downloadCount' => Download::count(),
                 'galleryCount' => Gallery::count(),
                 'unreadMessageCount' => ContactMessage::where('is_read', false)->count(),
                 'achievementCount' => Achievement::count(),
@@ -83,7 +78,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('staff', StaffDirectoryController::class)->except(['create', 'show', 'edit'])->middleware('can:manage staff');
         Route::resource('extracurriculars', ExtracurricularController::class)->except(['create', 'show', 'edit'])->middleware('can:manage extracurriculars');
         Route::resource('facilities', FacilityController::class)->except(['create', 'show', 'edit'])->middleware('can:manage facilities');
-        Route::resource('downloads', DownloadController::class)->except(['create', 'show', 'edit'])->middleware('can:manage downloads');
         Route::resource('galleries', GalleryController::class)->except(['create', 'show', 'edit'])->middleware('can:manage galleries');
         Route::get('messages', [ContactMessageController::class, 'index'])->name('messages.index')->middleware('can:manage messages');
         Route::patch('messages/{message}/read', [ContactMessageController::class, 'toggleRead'])->name('messages.toggle-read')->middleware('can:manage messages');

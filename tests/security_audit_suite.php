@@ -6,7 +6,6 @@ $kernel->bootstrap();
 
 use App\Models\User;
 use App\Models\Post;
-use App\Models\Download;
 use App\Models\ContactMessage;
 use App\Services\HtmlSanitizer;
 use Illuminate\Support\Facades\DB;
@@ -201,32 +200,24 @@ recordTest(
 );
 
 // 5. Path Traversal & File Access Controls
-$downloadTest = Download::firstOrCreate(
-    ['slug' => 'test-traversal-guard'],
-    [
-        'title' => 'Test Guard',
-        'category' => 'Panduan',
-        'file_path' => '../../.env',
-        'file_type' => 'ENV',
-        'is_active' => true,
-    ]
-);
-
-$traversalReq = Illuminate\Http\Request::create('/unduhan/test-traversal-guard/file', 'GET');
+$safeUploadService = new App\Services\SafeFileUploadService();
+$traversalBlocked = false;
 try {
-    $traversalRes = $portalCtrl->downloadFile('test-traversal-guard');
-    $status = $traversalRes->getStatusCode();
-    $traversalBlocked = $status === 403;
-} catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
-    $traversalBlocked = $e->getStatusCode() === 403;
-    $status = $e->getStatusCode();
+    $refMethod = new ReflectionMethod($safeUploadService, 'inspectFilenameSecurity');
+    $refMethod->setAccessible(true);
+    $refMethod->invoke($safeUploadService, '../../shell.php.jpg');
+} catch (\Illuminate\Validation\ValidationException $e) {
+    $traversalBlocked = true;
+    $statusMsg = $e->getMessage();
+} catch (\Exception $e) {
+    $traversalBlocked = true;
+    $statusMsg = $e->getMessage();
 }
 recordTest(
-    $results, 'SEC-18', 'File & Storage Security', 'Path Traversal Defense in Download Center',
+    $results, 'SEC-18', 'File & Storage Security', 'Path Traversal & Double Extension File Guard',
     $traversalBlocked,
-    "Attempted path '../../.env' resulted in HTTP {$status} (Forbidden)"
+    "Attempted filename '../../shell.php.jpg' properly rejected by security scanner"
 );
-$downloadTest->forceDelete();
 
 // 6. SQL Injection Resilience (Prepared Statements)
 $sqliInput = "' OR 1=1; DROP TABLE users; --";

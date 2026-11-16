@@ -2,7 +2,6 @@ import { Head, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import {
     AcademicCapIcon,
-    ArrowDownTrayIcon,
     ArrowRightIcon,
     BuildingOffice2Icon,
     CalendarDaysIcon,
@@ -34,7 +33,6 @@ type Props = {
     agendaCount?: number;
     extracurricularCount?: number;
     facilityCount?: number;
-    downloadCount?: number;
     galleryCount?: number;
     unreadMessageCount?: number;
     achievementCount?: number;
@@ -56,7 +54,6 @@ export default function Dashboard({
     agendaCount = 0,
     extracurricularCount = 0,
     facilityCount = 0,
-    downloadCount = 0,
     galleryCount = 0,
     unreadMessageCount = 0,
     achievementCount = 0,
@@ -228,8 +225,8 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                {/* Additional Modules (Fasilitas, Unduhan, Galeri, Pesan Masuk) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Additional Modules (Fasilitas, Galeri, Pesan Masuk) */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs">
                         <div className="flex items-center justify-between">
                             <span className="text-xs font-medium text-ink-muted">Sarana & Fasilitas</span>
@@ -243,23 +240,6 @@ export default function Dashboard({
                             className="text-[11px] font-semibold text-emerald-700 hover:underline mt-2 inline-flex items-center gap-1"
                         >
                             <span>Kelola Fasilitas</span>
-                            <ArrowRightIcon className="w-3 h-3" />
-                        </Link>
-                    </div>
-
-                    <div className="bg-white rounded border border-sidebar-border p-4 shadow-xs">
-                        <div className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-ink-muted">Pusat Unduhan</span>
-                            <ArrowDownTrayIcon className="w-5 h-5 text-blue-600" />
-                        </div>
-                        <div className="font-serif text-3xl font-bold text-ink mt-2">
-                            {downloadCount}
-                        </div>
-                        <Link
-                            href="/admin/downloads"
-                            className="text-[11px] font-semibold text-blue-700 hover:underline mt-2 inline-flex items-center gap-1"
-                        >
-                            <span>Kelola Dokumen</span>
                             <ArrowRightIcon className="w-3 h-3" />
                         </Link>
                     </div>
