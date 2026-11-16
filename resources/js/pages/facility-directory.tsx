@@ -331,13 +331,13 @@ export default function FacilityDirectory({
                                 <XMarkIcon className="w-5 h-5" />
                             </button>
 
-                            {/* LEFT COLUMN: Image & Visual Representation */}
-                            <div className="md:w-1/2 lg:w-5/12 bg-neutral-900 relative flex items-center justify-center overflow-hidden min-h-[220px] sm:min-h-[280px] md:min-h-full shrink-0">
+                            {/* LEFT COLUMN: Image & Visual Representation (Fit / Contain Entire Photo) */}
+                            <div className="md:w-1/2 lg:w-5/12 bg-[#0F2228] relative flex items-center justify-center overflow-hidden min-h-[240px] sm:min-h-[300px] md:min-h-full p-3 sm:p-4 shrink-0">
                                 {activeModalItem.image ? (
                                     <img
                                         src={activeModalItem.image}
                                         alt={activeModalItem.name}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full max-h-[50vh] md:max-h-[75vh] object-contain rounded-xs shadow-md"
                                     />
                                 ) : (
                                     <div className="w-full h-full min-h-[240px] flex flex-col items-center justify-center text-white/50 bg-[#163038] p-6 text-center">
