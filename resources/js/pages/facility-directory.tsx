@@ -87,7 +87,6 @@ export default function FacilityDirectory({
     }, [activeModalItem]);
 
     const hasActiveFilters = Boolean(filters.q || filters.category || searchQuery.trim() || selectedCategory);
-    const featuredFacility = facilities.length > 0 ? facilities[0] : null;
 
     return (
         <PublicLayout settings={settings} primaryMenu={primaryMenu}>
@@ -187,94 +186,6 @@ export default function FacilityDirectory({
                         </div>
                     </div>
                 </div>
-
-                {/* Featured Highlight Facility Card (When no active search/filter) */}
-                {!hasActiveFilters && featuredFacility && (
-                    <div className="mb-10">
-                        <div
-                            onClick={() => setActiveModalItem(featuredFacility)}
-                            className="group cursor-pointer rounded-xs border border-[#E2DFD7] bg-white hover:border-[#C85A32] hover:shadow-md transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 overflow-hidden shadow-2xs"
-                        >
-                            <div className="lg:col-span-7 relative aspect-16/10 lg:aspect-auto min-h-[260px] sm:min-h-[340px] bg-[#FAF9F6] overflow-hidden">
-                                {featuredFacility.image ? (
-                                    <img
-                                        src={featuredFacility.image}
-                                        alt={featuredFacility.name}
-                                        className="w-full h-full object-cover group-hover:scale-102 transition duration-500"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-[#8C949D]">
-                                        <BuildingOffice2Icon className="w-16 h-16 opacity-40" />
-                                    </div>
-                                )}
-                                <span className="absolute top-3 left-3 px-2.5 py-1 bg-[#C85A32] text-white text-[11px] font-bold uppercase tracking-wider rounded-xs shadow-2xs">
-                                    ★ Fasilitas Unggulan
-                                </span>
-                                {featuredFacility.location && (
-                                    <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-2xs text-[11px] font-mono font-semibold bg-black/75 text-white backdrop-blur-xs shadow-2xs">
-                                        <MapPinIcon className="w-3.5 h-3.5" />
-                                        <span>{featuredFacility.location}</span>
-                                    </span>
-                                )}
-                            </div>
-
-                            <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between">
-                                <div>
-                                    <div className="flex flex-wrap items-center gap-2 text-xs text-[#5A626A] mb-3">
-                                        <span className="px-2 py-0.5 rounded-xs bg-prussian/10 text-prussian font-semibold text-[11px]">
-                                            {featuredFacility.category}
-                                        </span>
-                                        {featuredFacility.capacity && (
-                                            <span className="flex items-center gap-1 font-mono text-[11px]">
-                                                <UserGroupIcon className="w-3.5 h-3.5 text-[#5A626A]" />
-                                                <span>{featuredFacility.capacity}</span>
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#1A2228] group-hover:text-prussian transition-colors leading-snug">
-                                        {featuredFacility.name}
-                                    </h2>
-
-                                    <p className="text-sm text-[#5A626A] mt-3 leading-relaxed line-clamp-3">
-                                        {featuredFacility.description || 'Sarana prasarana penunjang pembelajaran berkualitas untuk peserta didik.'}
-                                    </p>
-
-                                    {Array.isArray(featuredFacility.features) && featuredFacility.features.length > 0 && (
-                                        <div className="mt-4 flex flex-wrap gap-1.5">
-                                            {featuredFacility.features.slice(0, 3).map((feat, idx) => (
-                                                <span
-                                                    key={idx}
-                                                    className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-xs bg-[#FAF9F6] border border-[#E2DFD7] text-[#1A2228] font-medium"
-                                                >
-                                                    <CheckBadgeIcon className="w-3 h-3 text-emerald-600" />
-                                                    {feat}
-                                                </span>
-                                            ))}
-                                            {featuredFacility.features.length > 3 && (
-                                                <span className="text-[11px] text-[#5A626A] self-center">
-                                                    +{featuredFacility.features.length - 3} fitur lainnya
-                                                </span>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="mt-6 pt-4 border-t border-[#E2DFD7] flex items-center justify-between">
-                                    <div className="flex items-center gap-1.5 text-xs text-[#5A626A] font-mono">
-                                        <BuildingOffice2Icon className="w-4 h-4 text-prussian" />
-                                        <span>Infrastruktur Sekolah</span>
-                                    </div>
-
-                                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-prussian group-hover:text-[#C85A32] transition-colors group/btn">
-                                        <span>Lihat Detail Kelengkapan</span>
-                                        <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 {/* Section Header Title */}
                 <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#E2DFD7]">
