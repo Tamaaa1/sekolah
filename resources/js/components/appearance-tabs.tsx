@@ -13,7 +13,6 @@ export default function AppearanceToggleTab({
     const tabs: { value: Appearance; icon: ComponentType<{ className?: string }>; label: string }[] = [
         { value: 'light', icon: SunIcon, label: 'Light' },
         { value: 'dark', icon: MoonIcon, label: 'Dark' },
-        { value: 'system', icon: TvIcon, label: 'System' },
     ];
 
     return (
