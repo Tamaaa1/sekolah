@@ -176,7 +176,7 @@ export default function ExtracurricularIndex({
 
                     <Button
                         onClick={openAddModal}
-                        className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4 py-2"
+                        className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 py-2 rounded"
                     >
                         <PlusIcon className="w-4 h-4 mr-1.5" />
                         Tambah Ekskul
@@ -254,7 +254,7 @@ export default function ExtracurricularIndex({
                                         </td>
                                         <td className="p-3">
                                             <div className="flex items-center gap-1.5 text-[#1A2228]">
-                                                <CalendarDaysIcon className="w-4 h-4 text-[#0F2C59]" />
+                                                <CalendarDaysIcon className="w-4 h-4 text-prussian" />
                                                 <span>{item.schedule_day || '—'}</span>
                                             </div>
                                             {item.schedule_time && (
@@ -280,7 +280,7 @@ export default function ExtracurricularIndex({
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => openEditModal(item)}
-                                                    className="h-8 w-8 p-0 text-[#0F2C59] hover:bg-[#EAE6DF]"
+                                                    className="h-8 w-8 p-0 text-prussian hover:bg-[#EAE6DF]"
                                                     title="Sunting"
                                                 >
                                                     <PencilSquareIcon className="w-4 h-4" />
@@ -354,7 +354,7 @@ export default function ExtracurricularIndex({
                                         </div>
                                         <div>
                                             <span className="text-[10px] text-[#5A626A] uppercase font-semibold block">Jadwal</span>
-                                            <div className="flex items-center gap-1 text-[11px] text-[#0F2C59] font-medium">
+                                            <div className="flex items-center gap-1 text-[11px] text-prussian font-medium">
                                                 <CalendarDaysIcon className="w-3.5 h-3.5 shrink-0" />
                                                 <span className="truncate">{item.schedule_day || '—'} {item.schedule_time ? `(${item.schedule_time})` : ''}</span>
                                             </div>
@@ -366,7 +366,7 @@ export default function ExtracurricularIndex({
                                             variant="outline"
                                             size="sm"
                                             onClick={() => openEditModal(item)}
-                                            className="h-8 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                            className="h-8 px-2.5 text-xs text-prussian border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
                                         >
                                             <PencilSquareIcon className="w-3.5 h-3.5" />
                                             <span>Sunting</span>
@@ -399,7 +399,7 @@ export default function ExtracurricularIndex({
                                 onClick={() => link.url && router.get(link.url)}
                                 className={`text-xs ${
                                     link.active
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'border-[#D8D2C6] text-[#1A2228]'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
@@ -478,7 +478,7 @@ export default function ExtracurricularIndex({
                                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                                 placeholder="Tuliskan tujuan dan kegiatan pokok ekstrakurikuler ini..."
                                 rows={3}
-                                className="mt-1 w-full p-2.5 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-[#0F2C59]"
+                                className="mt-1 w-full p-2.5 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-prussian"
                             />
                         </div>
 
@@ -547,7 +547,7 @@ export default function ExtracurricularIndex({
                                 id="is_active_ekskul"
                                 checked={form.is_active}
                                 onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
-                                className="rounded border-[#D8D2C6] text-[#0F2C59] focus:ring-[#0F2C59]"
+                                className="rounded border-[#D8D2C6] text-prussian focus:ring-prussian"
                             />
                             <Label htmlFor="is_active_ekskul" className="text-xs text-[#1A2228] cursor-pointer">
                                 Aktifkan dan tampilkan di direktori publik
@@ -565,7 +565,7 @@ export default function ExtracurricularIndex({
                             </Button>
                             <Button
                                 type="submit"
-                                className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4"
+                                className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4"
                             >
                                 {editingItem ? 'Simpan Perubahan' : 'Tambah Ekskul'}
                             </Button>

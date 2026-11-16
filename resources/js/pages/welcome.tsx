@@ -217,7 +217,7 @@ export default function Welcome({
                         />
 
                         {/* Architectural Editorial Scrim / Gradient Overlay for high-contrast legibility */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F3F]/95 via-[#0A1F3F]/50 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0F2228]/95 via-[#0F2228]/50 to-transparent" />
 
                         {/* Headline & Tagline Overlay */}
                         <div className="relative z-10 p-4 sm:p-8 md:p-10 max-w-3xl">

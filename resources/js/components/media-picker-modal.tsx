@@ -192,7 +192,7 @@ export function MediaPickerModal({
                         variant="outline"
                         className="border-[#D8D2C6] text-[#1A2228] hover:bg-[#FAF9F6] text-xs font-sans"
                     >
-                        <PhotoIcon className="w-4 h-4 mr-1.5 text-[#0F2C59]" />
+                        <PhotoIcon className="w-4 h-4 mr-1.5 text-prussian" />
                         Pilih dari Media Library
                     </Button>
                 )}
@@ -208,7 +208,7 @@ export function MediaPickerModal({
                             onClick={() => setTab('gallery')}
                             className={`pb-1 text-xs font-semibold uppercase tracking-wider transition border-b-2 ${
                                 tab === 'gallery'
-                                    ? 'border-[#0F2C59] text-[#0F2C59]'
+                                    ? 'border-prussian text-prussian'
                                     : 'border-transparent text-[#5A626A] hover:text-[#1A2228]'
                             }`}
                         >
@@ -219,7 +219,7 @@ export function MediaPickerModal({
                             onClick={() => setTab('upload')}
                             className={`pb-1 text-xs font-semibold uppercase tracking-wider transition border-b-2 ${
                                 tab === 'upload'
-                                    ? 'border-[#0F2C59] text-[#0F2C59]'
+                                    ? 'border-prussian text-prussian'
                                     : 'border-transparent text-[#5A626A] hover:text-[#1A2228]'
                             }`}
                         >
@@ -239,7 +239,7 @@ export function MediaPickerModal({
                                 ? 'Hanya mendukung berkas gambar JPG, JPEG, PNG, dan WEBP (maksimal 5 MB per berkas).'
                                 : 'Mendukung berkas gambar JPG, JPEG, PNG, WEBP, dan dokumen PDF resmi (maksimal 5 MB per berkas).'}
                         </p>
-                        <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-[#0F2C59] text-white text-xs font-medium rounded-sm hover:bg-[#0A1F3F] transition">
+                        <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-prussian text-white text-xs font-medium rounded-sm hover:bg-prussian-hover transition">
                             <input
                                 type="file"
                                 className="hidden"
@@ -305,8 +305,8 @@ export function MediaPickerModal({
                                                 }}
                                                 className={`group relative aspect-square border rounded-sm overflow-hidden cursor-pointer transition p-1 bg-[#FAF9F6] flex flex-col items-center justify-center ${
                                                     isSelected
-                                                        ? 'border-2 border-[#0F2C59] ring-2 ring-[#0F2C59]/20'
-                                                        : 'border-[#E2DFD7] hover:border-[#0F2C59]/40'
+                                                        ? 'border-2 border-prussian ring-2 ring-prussian/20'
+                                                        : 'border-[#E2DFD7] hover:border-prussian/40'
                                                 }`}
                                             >
                                                 {isImage ? (
@@ -317,7 +317,7 @@ export function MediaPickerModal({
                                                     />
                                                 ) : (
                                                     <div className="flex flex-col items-center justify-center p-2 text-center">
-                                                        <DocumentIcon className="w-8 h-8 text-[#0F2C59] mb-1" />
+                                                        <DocumentIcon className="w-8 h-8 text-prussian mb-1" />
                                                         <span className="text-[10px] text-[#1A2228] font-mono truncate max-w-full">
                                                             {item.name}
                                                         </span>
@@ -325,7 +325,7 @@ export function MediaPickerModal({
                                                 )}
 
                                                 {isSelected && (
-                                                    <div className="absolute top-1 right-1 bg-[#0F2C59] text-white rounded-full p-0.5">
+                                                    <div className="absolute top-1 right-1 bg-prussian text-white rounded-full p-0.5">
                                                         <CheckCircleIcon className="w-4 h-4" />
                                                     </div>
                                                 )}
@@ -370,7 +370,7 @@ export function MediaPickerModal({
                             type="button"
                             disabled={!selectedItem}
                             onClick={handleConfirm}
-                            className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4 disabled:opacity-50"
+                            className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 disabled:opacity-50"
                         >
                             Gunakan Berkas Ini
                         </Button>

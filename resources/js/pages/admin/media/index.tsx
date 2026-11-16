@@ -120,7 +120,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-[#0F2C59] text-white text-xs font-semibold rounded-xs hover:bg-[#0A1F3F] transition shadow-xs">
+                        <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-prussian text-white text-xs font-semibold rounded-xs hover:bg-prussian-hover transition shadow-xs">
                             <ArrowUpTrayIcon className="w-4 h-4 mr-1.5" />
                             <span>{uploading ? 'Mengunggah...' : 'Unggah Berkas'}</span>
                             <input
@@ -157,7 +157,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                             onClick={() => setViewMode('table')}
                             className={`p-1.5 rounded-xs text-xs font-medium flex items-center gap-1.5 transition ${
                                 viewMode === 'table'
-                                    ? 'bg-[#0F2C59] text-white shadow-2xs'
+                                    ? 'bg-prussian text-white shadow-2xs'
                                     : 'text-[#5A626A] hover:text-[#1A2228] hover:bg-white'
                             }`}
                             title="Tampilan Tabel"
@@ -170,7 +170,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                             onClick={() => setViewMode('grid')}
                             className={`p-1.5 rounded-xs text-xs font-medium flex items-center gap-1.5 transition ${
                                 viewMode === 'grid'
-                                    ? 'bg-[#0F2C59] text-white shadow-2xs'
+                                    ? 'bg-prussian text-white shadow-2xs'
                                     : 'text-[#5A626A] hover:text-[#1A2228] hover:bg-white'
                             }`}
                             title="Tampilan Grid Galeri"
@@ -221,7 +221,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                                                 className="w-full h-full object-cover"
                                                             />
                                                         ) : (
-                                                            <DocumentIcon className="w-6 h-6 text-[#0F2C59]" />
+                                                            <DocumentIcon className="w-6 h-6 text-prussian" />
                                                         )}
                                                     </div>
                                                 </td>
@@ -254,7 +254,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                                             href={item.url}
                                                             target="_blank"
                                                             rel="noreferrer"
-                                                            className="px-2 py-1 text-[#0F2C59] hover:bg-[#FAF9F6] border border-[#D8D2C6] rounded-xs text-xs font-semibold inline-flex items-center gap-0.5"
+                                                            className="px-2 py-1 text-prussian hover:bg-[#FAF9F6] border border-[#D8D2C6] rounded-xs text-xs font-semibold inline-flex items-center gap-0.5"
                                                             title="Buka Berkas"
                                                         >
                                                             Buka ↗
@@ -292,7 +292,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                                         className="w-full h-full object-cover"
                                                     />
                                                 ) : (
-                                                    <DocumentIcon className="w-7 h-7 text-[#0F2C59]" />
+                                                    <DocumentIcon className="w-7 h-7 text-prussian" />
                                                 )}
                                             </div>
                                             <div className="flex-1 min-w-0">
@@ -324,7 +324,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                                     href={item.url}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="px-2.5 py-1 text-[#0F2C59] bg-[#FAF9F6] hover:bg-stone-100 border border-[#D8D2C6] rounded-xs text-xs font-semibold inline-flex items-center gap-1"
+                                                    className="px-2.5 py-1 text-prussian bg-[#FAF9F6] hover:bg-stone-100 border border-[#D8D2C6] rounded-xs text-xs font-semibold inline-flex items-center gap-1"
                                                 >
                                                     <span>Buka</span>
                                                     <span>↗</span>
@@ -352,7 +352,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                             return (
                                 <div
                                     key={item.id}
-                                    className="group bg-white border border-[#E2DFD7] rounded-xs overflow-hidden flex flex-col justify-between hover:border-[#0F2C59]/50 transition shadow-2xs"
+                                    className="group bg-white border border-[#E2DFD7] rounded-xs overflow-hidden flex flex-col justify-between hover:border-prussian/50 transition shadow-2xs"
                                 >
                                     <div className="aspect-square bg-[#FAF9F6] relative overflow-hidden flex items-center justify-center p-2">
                                         {isImage ? (
@@ -363,7 +363,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                             />
                                         ) : (
                                             <div className="flex flex-col items-center justify-center text-center">
-                                                <DocumentIcon className="w-10 h-10 text-[#0F2C59] mb-1" />
+                                                <DocumentIcon className="w-10 h-10 text-prussian mb-1" />
                                                 <span className="text-[10px] text-[#5A626A] font-mono uppercase">
                                                     PDF
                                                 </span>
@@ -388,7 +388,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                                 href={item.url}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="text-[#0F2C59] hover:underline"
+                                                className="text-prussian hover:underline"
                                             >
                                                 Buka ↗
                                             </a>
@@ -412,7 +412,7 @@ export default function MediaIndex({ media, filters }: MediaPageProps) {
                                 onClick={() => link.url && router.get(link.url)}
                                 className={`text-xs ${
                                     link.active
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'border-[#D8D2C6] text-[#1A2228]'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}

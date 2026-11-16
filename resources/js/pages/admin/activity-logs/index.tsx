@@ -157,7 +157,7 @@ export default function ActivityLogIndex({
                 );
             case 'update':
                 return (
-                    <span className="inline-block px-2 py-0.5 text-[10px] font-bold rounded-xs uppercase tracking-wider bg-blue-50 text-[#0F2C59] border border-blue-200">
+                    <span className="inline-block px-2 py-0.5 text-[10px] font-bold rounded-xs uppercase tracking-wider bg-prussian-light text-prussian border border-prussian/20">
                         Ubah
                     </span>
                 );
@@ -228,7 +228,7 @@ export default function ActivityLogIndex({
                         <div className="text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
                             Total Aktivitas
                         </div>
-                        <div className="text-xl font-serif font-bold text-[#0F2C59] mt-1">
+                        <div className="text-xl font-serif font-bold text-prussian mt-1">
                             {stats.total.toLocaleString('id-ID')}
                         </div>
                     </div>
@@ -252,7 +252,7 @@ export default function ActivityLogIndex({
                         <div className="text-[11px] font-semibold text-[#5A626A] uppercase tracking-wider">
                             Perubahan Data
                         </div>
-                        <div className="text-xl font-serif font-bold text-blue-700 mt-1">
+                        <div className="text-xl font-serif font-bold text-prussian mt-1">
                             {stats.updates.toLocaleString('id-ID')}
                         </div>
                     </div>
@@ -284,7 +284,7 @@ export default function ActivityLogIndex({
                             <select
                                 value={activeAction}
                                 onChange={(e) => handleActionChange(e.target.value)}
-                                className="text-xs border border-[#D8D2C6] rounded-xs px-2.5 py-1.5 bg-white text-[#1A2228] focus:outline-none focus:ring-1 focus:ring-[#0F2C59]"
+                                className="text-xs border border-[#D8D2C6] rounded-xs px-2.5 py-1.5 bg-white text-[#1A2228] focus:outline-none focus:ring-1 focus:ring-prussian"
                             >
                                 <option value="all">Semua Aksi</option>
                                 <option value="create">Tambah (Create)</option>
@@ -298,7 +298,7 @@ export default function ActivityLogIndex({
                             <select
                                 value={activeModule}
                                 onChange={(e) => handleModuleChange(e.target.value)}
-                                className="text-xs border border-[#D8D2C6] rounded-xs px-2.5 py-1.5 bg-white text-[#1A2228] focus:outline-none focus:ring-1 focus:ring-[#0F2C59]"
+                                className="text-xs border border-[#D8D2C6] rounded-xs px-2.5 py-1.5 bg-white text-[#1A2228] focus:outline-none focus:ring-1 focus:ring-prussian"
                             >
                                 <option value="all">Semua Bagian / Modul</option>
                                 {availableModules.map((mod) => (
@@ -356,7 +356,7 @@ export default function ActivityLogIndex({
                                             </td>
                                             <td className="p-3 whitespace-nowrap">
                                                 <div className="flex items-center gap-2">
-                                                    <div className="w-6 h-6 rounded-full bg-[#0F2C59]/10 text-[#0F2C59] flex items-center justify-center font-bold text-[10px]">
+                                                    <div className="w-6 h-6 rounded-full bg-prussian/10 text-prussian flex items-center justify-center font-bold text-[10px]">
                                                         {item.user_name ? item.user_name.charAt(0).toUpperCase() : <UserIcon className="w-3.5 h-3.5" />}
                                                     </div>
                                                     <div>
@@ -394,7 +394,7 @@ export default function ActivityLogIndex({
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => setDetailModal({ open: true, item })}
-                                                    className="h-8 w-8 p-0 text-[#0F2C59] hover:bg-[#EAE6DF]"
+                                                    className="h-8 w-8 p-0 text-prussian hover:bg-[#EAE6DF]"
                                                     title="Lihat Detail Log"
                                                 >
                                                     <InformationCircleIcon className="w-4 h-4" />
@@ -418,7 +418,7 @@ export default function ActivityLogIndex({
                                 <div key={item.id} className="p-4 space-y-3 bg-white">
                                     <div className="flex items-start justify-between gap-2">
                                         <div className="flex items-center gap-2.5 min-w-0">
-                                            <div className="w-8 h-8 rounded-full bg-[#0F2C59]/10 text-[#0F2C59] flex items-center justify-center font-bold text-xs shrink-0">
+                                            <div className="w-8 h-8 rounded-full bg-prussian/10 text-prussian flex items-center justify-center font-bold text-xs shrink-0">
                                                 {item.user_name ? item.user_name.charAt(0).toUpperCase() : <UserIcon className="w-4 h-4" />}
                                             </div>
                                             <div className="min-w-0">
@@ -453,7 +453,7 @@ export default function ActivityLogIndex({
                                             variant="outline"
                                             size="sm"
                                             onClick={() => setDetailModal({ open: true, item })}
-                                            className="h-7 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                            className="h-7 px-2.5 text-xs text-prussian border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
                                         >
                                             <InformationCircleIcon className="w-3.5 h-3.5" />
                                             <span>Rincian</span>
@@ -477,7 +477,7 @@ export default function ActivityLogIndex({
                                 onClick={() => link.url && router.get(link.url)}
                                 className={`text-xs ${
                                     link.active
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'border-[#D8D2C6] text-[#1A2228]'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
@@ -492,7 +492,7 @@ export default function ActivityLogIndex({
                 <DialogContent className="max-w-lg bg-white border border-[#D8D2C6] p-6 shadow-xl">
                     <DialogHeader className="border-b border-[#E2DFD7] pb-3">
                         <DialogTitle className="text-base font-serif font-bold text-[#1A2228] flex items-center gap-2">
-                            <ShieldCheckIcon className="w-5 h-5 text-[#0F2C59]" />
+                            <ShieldCheckIcon className="w-5 h-5 text-prussian" />
                             Rincian Catatan Aktivitas
                         </DialogTitle>
                     </DialogHeader>
@@ -515,7 +515,7 @@ export default function ActivityLogIndex({
                                 </div>
                                 <div>
                                     <div className="text-[10px] uppercase font-semibold text-[#5A626A]">Bagian / Modul</div>
-                                    <div className="font-semibold text-[#0F2C59] mt-0.5">{detailModal.item.module}</div>
+                                    <div className="font-semibold text-prussian mt-0.5">{detailModal.item.module}</div>
                                 </div>
                             </div>
 
@@ -582,7 +582,7 @@ export default function ActivityLogIndex({
                                     name="clear_period"
                                     checked={clearModal.period === 'older_than_30_days'}
                                     onChange={() => setClearModal((prev) => ({ ...prev, period: 'older_than_30_days' }))}
-                                    className="mt-0.5 text-[#0F2C59]"
+                                    className="mt-0.5 text-prussian"
                                 />
                                 <div>
                                     <div className="font-semibold text-[#1A2228]">Hapus yang lebih dari 30 hari (Disarankan)</div>

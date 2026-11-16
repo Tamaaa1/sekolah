@@ -183,7 +183,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
 
                     <Button
                         onClick={openAddModal}
-                        className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4 py-2"
+                        className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 py-2 rounded"
                     >
                         <PlusIcon className="w-4 h-4 mr-1.5" />
                         Tambah Guru / Staf
@@ -205,7 +205,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                 onClick={() => handleCategoryClick(cat.key)}
                                 className={`px-3 py-1.5 text-xs font-medium rounded-xs transition ${
                                     activeCategory === cat.key
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'text-[#5A626A] hover:bg-[#FAF9F6] hover:text-[#1A2228]'
                                 }`}
                             >
@@ -281,7 +281,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                             <span
                                                 className={`inline-block px-2 py-0.5 text-[10px] font-semibold rounded-xs uppercase tracking-wider ${
                                                     item.category === 'kepsek'
-                                                        ? 'bg-[#0F2C59] text-white'
+                                                        ? 'bg-prussian text-white'
                                                         : item.category === 'guru'
                                                         ? 'bg-[#EAE6DF] text-[#1A2228]'
                                                         : 'bg-[#C85A32]/10 text-[#C85A32]'
@@ -324,7 +324,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => openEditModal(item)}
-                                                    className="h-8 w-8 p-0 text-[#0F2C59] hover:bg-[#EAE6DF]"
+                                                    className="h-8 w-8 p-0 text-prussian hover:bg-[#EAE6DF]"
                                                     title="Sunting"
                                                 >
                                                     <PencilSquareIcon className="w-4 h-4" />
@@ -390,7 +390,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                                 <span
                                                     className={`inline-block px-2 py-0.5 text-[10px] font-semibold rounded-xs uppercase tracking-wider ${
                                                         item.category === 'kepsek'
-                                                            ? 'bg-[#0F2C59] text-white'
+                                                            ? 'bg-prussian text-white'
                                                             : item.category === 'guru'
                                                             ? 'bg-[#EAE6DF] text-[#1A2228]'
                                                             : 'bg-[#C85A32]/10 text-[#C85A32]'
@@ -423,7 +423,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={() => openEditModal(item)}
-                                                className="h-8 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                                className="h-8 px-2.5 text-xs text-prussian border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
                                             >
                                                 <PencilSquareIcon className="w-3.5 h-3.5" />
                                                 <span>Sunting</span>
@@ -457,7 +457,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                 onClick={() => link.url && router.get(link.url)}
                                 className={`text-xs ${
                                     link.active
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'border-[#D8D2C6] text-[#1A2228]'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
@@ -514,7 +514,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                             category: e.target.value as 'kepsek' | 'guru' | 'tendik',
                                         })
                                     }
-                                    className="mt-1 w-full h-9 px-3 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-[#0F2C59]"
+                                    className="mt-1 w-full h-9 px-3 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-prussian"
                                 >
                                     <option value="guru">Dewan Guru</option>
                                     <option value="kepsek">Kepala Sekolah</option>
@@ -633,7 +633,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                                     id="is_active"
                                     checked={form.is_active}
                                     onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
-                                    className="rounded border-[#D8D2C6] text-[#0F2C59] focus:ring-[#0F2C59]"
+                                    className="rounded border-[#D8D2C6] text-prussian focus:ring-prussian"
                                 />
                                 <Label htmlFor="is_active" className="text-xs text-[#1A2228] cursor-pointer">
                                     Tampilkan di Direktori Publik
@@ -652,7 +652,7 @@ export default function StaffIndex({ staff, filters }: StaffPageProps) {
                             </Button>
                             <Button
                                 type="submit"
-                                className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4"
+                                className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4"
                             >
                                 {editingStaff ? 'Simpan Perubahan' : 'Tambah Data Guru'}
                             </Button>

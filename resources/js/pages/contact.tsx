@@ -168,7 +168,7 @@ export default function Contact({ settings, primaryMenu }: ContactProps) {
                         {/* Email Card */}
                         <div className="bg-white rounded-2xl border border-line p-6 shadow-xs">
                             <div className="flex items-start gap-3.5">
-                                <div className="p-2.5 rounded-xl bg-blue-50 text-blue-700 shrink-0">
+                                <div className="p-2.5 rounded-xl bg-prussian-light text-prussian shrink-0">
                                     <EnvelopeIcon className="w-6 h-6" />
                                 </div>
                                 <div>

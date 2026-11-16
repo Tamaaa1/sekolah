@@ -49,7 +49,7 @@ export function ConfirmationModal({
                                 ? 'bg-red-50 text-red-600 border-red-200'
                                 : isWarning
                                 ? 'bg-amber-50 text-amber-600 border-amber-200'
-                                : 'bg-[#0F2C59]/10 text-[#0F2C59] border-[#0F2C59]/20'
+                                : 'bg-prussian-light text-prussian border-prussian/20'
                         }`}
                     >
                         {isDanger ? (
@@ -94,7 +94,7 @@ export function ConfirmationModal({
                                 ? 'bg-red-600 hover:bg-red-700 text-white shadow-xs'
                                 : isWarning
                                 ? 'bg-amber-600 hover:bg-amber-700 text-white shadow-xs'
-                                : 'bg-[#0F2C59] hover:bg-[#0A1F3F] text-white shadow-xs'
+                                : 'bg-prussian hover:bg-prussian-hover text-white shadow-xs'
                         }`}
                     >
                         {loading ? 'Memproses...' : confirmText}

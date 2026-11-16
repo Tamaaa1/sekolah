@@ -173,7 +173,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
 
                     <Button
                         onClick={openAddModal}
-                        className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4 py-2"
+                        className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 py-2 rounded"
                     >
                         <PlusIcon className="w-4 h-4 mr-1.5" />
                         Tambah Agenda
@@ -223,7 +223,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                                 agendas.data.map((item) => (
                                     <tr key={item.id} className="hover:bg-[#FAF9F6]/80 transition">
                                         <td className="p-3">
-                                            <div className="flex items-center gap-1.5 font-medium text-[#0F2C59]">
+                                            <div className="flex items-center gap-1.5 font-medium text-prussian">
                                                 <CalendarDaysIcon className="w-4 h-4 shrink-0 text-[#C85A32]" />
                                                 <span>{formatDateRange(item.start_date, item.end_date)}</span>
                                             </div>
@@ -261,7 +261,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => openEditModal(item)}
-                                                    className="h-8 w-8 p-0 text-[#0F2C59] hover:bg-[#EAE6DF]"
+                                                    className="h-8 w-8 p-0 text-prussian hover:bg-[#EAE6DF]"
                                                     title="Sunting"
                                                 >
                                                     <PencilSquareIcon className="w-4 h-4" />
@@ -309,7 +309,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                                     </div>
 
                                     <div className="flex flex-col gap-1.5 text-xs text-[#5A626A] bg-[#FAF9F6] p-2.5 rounded-xs border border-[#E2DFD7]">
-                                        <div className="flex items-center gap-1.5 font-medium text-[#0F2C59]">
+                                        <div className="flex items-center gap-1.5 font-medium text-prussian">
                                             <CalendarDaysIcon className="w-4 h-4 shrink-0 text-[#C85A32]" />
                                             <span>{formatDateRange(item.start_date, item.end_date)}</span>
                                         </div>
@@ -329,7 +329,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                                             variant="outline"
                                             size="sm"
                                             onClick={() => openEditModal(item)}
-                                            className="h-8 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                            className="h-8 px-2.5 text-xs text-prussian border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
                                         >
                                             <PencilSquareIcon className="w-3.5 h-3.5" />
                                             <span>Sunting</span>
@@ -362,7 +362,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                                 onClick={() => link.url && router.get(link.url)}
                                 className={`text-xs ${
                                     link.active
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'border-[#D8D2C6] text-[#1A2228]'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
@@ -442,7 +442,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                                 placeholder="Tuliskan petunjuk teknis atau ketentuan pakaian/peralatan yang dibawa..."
                                 rows={3}
-                                className="mt-1 w-full p-2.5 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-[#0F2C59]"
+                                className="mt-1 w-full p-2.5 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-prussian"
                             />
                         </div>
 
@@ -452,7 +452,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                                 id="is_active_agenda"
                                 checked={form.is_active}
                                 onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
-                                className="rounded border-[#D8D2C6] text-[#0F2C59] focus:ring-[#0F2C59]"
+                                className="rounded border-[#D8D2C6] text-prussian focus:ring-prussian"
                             />
                             <Label htmlFor="is_active_agenda" className="text-xs text-[#1A2228] cursor-pointer">
                                 Tampilkan jadwal di agenda kalender portal publik
@@ -470,7 +470,7 @@ export default function AgendaIndex({ agendas, filters }: AgendaPageProps) {
                             </Button>
                             <Button
                                 type="submit"
-                                className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4"
+                                className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4"
                             >
                                 {editingItem ? 'Simpan Perubahan' : 'Tambah Agenda'}
                             </Button>

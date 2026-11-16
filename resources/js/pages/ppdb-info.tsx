@@ -215,14 +215,14 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="110"
                                             rx="6"
                                             fill="#FFFFFF"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3.5"
                                         />
                                         {/* Roof Gable */}
                                         <polygon
                                             points="85,108 155,55 225,108"
                                             fill="url(#roofGrad)"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3.5"
                                             strokeLinejoin="round"
                                         />
@@ -234,17 +234,17 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="26"
                                             rx="4"
                                             fill="#F8FAFC"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3"
                                         />
                                         <polygon
                                             points="135,32 155,14 175,32"
-                                            fill="#0F2C59"
-                                            stroke="#0F2C59"
+                                            fill="#163038"
+                                            stroke="#163038"
                                             strokeWidth="2"
                                         />
                                         {/* Waving Flag */}
-                                        <line x1="155" y1="14" x2="155" y2="4" stroke="#0F2C59" strokeWidth="2" />
+                                        <line x1="155" y1="14" x2="155" y2="4" stroke="#163038" strokeWidth="2" />
                                         <path
                                             d="M 155 4 Q 163 2 168 6 Q 163 10 155 9 Z"
                                             fill="#EF4444"
@@ -252,23 +252,23 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                         />
 
                                         {/* Clock on Tower */}
-                                        <circle cx="155" cy="43" r="8" fill="#FEF08A" stroke="#0F2C59" strokeWidth="2" />
-                                        <line x1="155" y1="43" x2="155" y2="39" stroke="#0F2C59" strokeWidth="2" strokeLinecap="round" />
-                                        <line x1="155" y1="43" x2="159" y2="43" stroke="#0F2C59" strokeWidth="2" strokeLinecap="round" />
+                                        <circle cx="155" cy="43" r="8" fill="#FEF08A" stroke="#163038" strokeWidth="2" />
+                                        <line x1="155" y1="43" x2="155" y2="39" stroke="#163038" strokeWidth="2" strokeLinecap="round" />
+                                        <line x1="155" y1="43" x2="159" y2="43" stroke="#163038" strokeWidth="2" strokeLinecap="round" />
 
                                         {/* Windows with Blue Tint */}
-                                        <rect x="110" y="125" width="22" height="24" rx="3" fill="#BAE6FD" stroke="#0F2C59" strokeWidth="2.5" />
-                                        <line x1="121" y1="125" x2="121" y2="149" stroke="#0F2C59" strokeWidth="1.5" />
-                                        <line x1="110" y1="137" x2="132" y2="137" stroke="#0F2C59" strokeWidth="1.5" />
+                                        <rect x="110" y="125" width="22" height="24" rx="3" fill="#BAE6FD" stroke="#163038" strokeWidth="2.5" />
+                                        <line x1="121" y1="125" x2="121" y2="149" stroke="#163038" strokeWidth="1.5" />
+                                        <line x1="110" y1="137" x2="132" y2="137" stroke="#163038" strokeWidth="1.5" />
 
-                                        <rect x="178" y="125" width="22" height="24" rx="3" fill="#BAE6FD" stroke="#0F2C59" strokeWidth="2.5" />
-                                        <line x1="189" y1="125" x2="189" y2="149" stroke="#0F2C59" strokeWidth="1.5" />
-                                        <line x1="178" y1="137" x2="200" y2="137" stroke="#0F2C59" strokeWidth="1.5" />
+                                        <rect x="178" y="125" width="22" height="24" rx="3" fill="#BAE6FD" stroke="#163038" strokeWidth="2.5" />
+                                        <line x1="189" y1="125" x2="189" y2="149" stroke="#163038" strokeWidth="1.5" />
+                                        <line x1="178" y1="137" x2="200" y2="137" stroke="#163038" strokeWidth="1.5" />
 
                                         {/* Arched School Door */}
                                         <path
                                             d="M 143 215 L 143 175 Q 155 163 167 175 L 167 215 Z"
-                                            fill="#0F2C59"
+                                            fill="#163038"
                                         />
                                         <circle cx="162" cy="195" r="2" fill="#FEF08A" />
 
@@ -286,7 +286,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="18"
                                             rx="4"
                                             fill="url(#book1Grad)"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3"
                                         />
                                         <rect x="278" y="200" width="118" height="10" fill="#FFFFFF" rx="2" />
@@ -302,7 +302,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                                 height="18"
                                                 rx="4"
                                                 fill="url(#book2Grad)"
-                                                stroke="#0F2C59"
+                                                stroke="#163038"
                                                 strokeWidth="3"
                                             />
                                             <rect x="8" y="4" width="104" height="10" fill="#FFFFFF" rx="2" />
@@ -317,7 +317,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                                 height="17"
                                                 rx="4"
                                                 fill="url(#book3Grad)"
-                                                stroke="#0F2C59"
+                                                stroke="#163038"
                                                 strokeWidth="3"
                                             />
                                             <rect x="8" y="3.5" width="88" height="10" fill="#FFFFFF" rx="2" />
@@ -337,7 +337,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                         <path
                                             d="M 35 15 C 35 -2, 60 -2, 60 15"
                                             fill="none"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2"
                                             strokeLinecap="round"
                                         />
@@ -350,7 +350,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="40"
                                             rx="6"
                                             fill="#E11D48"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3"
                                         />
 
@@ -363,12 +363,12 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                                 height="36"
                                                 rx="2"
                                                 fill="#FEF08A"
-                                                stroke="#0F2C59"
+                                                stroke="#163038"
                                                 strokeWidth="2"
                                             />
-                                            <line x1="2" y1="8" x2="8" y2="8" stroke="#0F2C59" strokeWidth="1.5" />
-                                            <line x1="2" y1="14" x2="6" y2="14" stroke="#0F2C59" strokeWidth="1" />
-                                            <line x1="2" y1="20" x2="8" y2="20" stroke="#0F2C59" strokeWidth="1.5" />
+                                            <line x1="2" y1="8" x2="8" y2="8" stroke="#163038" strokeWidth="1.5" />
+                                            <line x1="2" y1="14" x2="6" y2="14" stroke="#163038" strokeWidth="1" />
+                                            <line x1="2" y1="20" x2="8" y2="20" stroke="#163038" strokeWidth="1.5" />
                                         </g>
                                         <rect
                                             x="86"
@@ -377,7 +377,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="40"
                                             rx="6"
                                             fill="#E11D48"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3"
                                         />
 
@@ -389,7 +389,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="105"
                                             rx="26"
                                             fill="url(#backpackGrad)"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3.5"
                                         />
 
@@ -397,7 +397,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                         <path
                                             d="M 12 40 Q 46 50 80 40"
                                             fill="none"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2.5"
                                         />
 
@@ -409,16 +409,16 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="50"
                                             rx="16"
                                             fill="#FFE4E6"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="3"
                                         />
 
                                         {/* CUTE FACE ON FRONT POUCH */}
                                         {/* Left Eye */}
-                                        <circle cx="34" cy="70" r="5" fill="#0F2C59" />
+                                        <circle cx="34" cy="70" r="5" fill="#163038" />
                                         <circle cx="36" cy="68" r="1.8" fill="#FFFFFF" />
                                         {/* Right Eye */}
-                                        <circle cx="58" cy="70" r="5" fill="#0F2C59" />
+                                        <circle cx="58" cy="70" r="5" fill="#163038" />
                                         <circle cx="60" cy="68" r="1.8" fill="#FFFFFF" />
 
                                         {/* Rosy Cheeks */}
@@ -429,14 +429,14 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                         <path
                                             d="M 41 74 Q 46 82 51 74"
                                             fill="#F43F5E"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2"
                                             strokeLinecap="round"
                                         />
 
                                         {/* Little Keyring / Badge Dangling */}
-                                        <circle cx="74" cy="94" r="5" fill="#FBBF24" stroke="#0F2C59" strokeWidth="1.5" />
-                                        <path d="M 74 92 L 74 96" stroke="#0F2C59" strokeWidth="1" />
+                                        <circle cx="74" cy="94" r="5" fill="#FBBF24" stroke="#163038" strokeWidth="1.5" />
+                                        <path d="M 74 92 L 74 96" stroke="#163038" strokeWidth="1" />
                                     </g>
 
                                     {/* CHEERFUL WAVING PENCIL CHARACTER (Left Foreground) */}
@@ -449,7 +449,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             height="14"
                                             rx="4"
                                             fill="#FB7185"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2.5"
                                         />
                                         {/* Metal Ferrule Band */}
@@ -459,7 +459,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             width="20"
                                             height="7"
                                             fill="#CBD5E1"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2"
                                         />
 
@@ -470,7 +470,7 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                             width="20"
                                             height="55"
                                             fill="url(#pencilGrad)"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2.5"
                                         />
                                         {/* Vertical stripes on pencil */}
@@ -481,20 +481,20 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                         <polygon
                                             points="6,74 26,74 16,92"
                                             fill="#FED7AA"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2.5"
                                             strokeLinejoin="round"
                                         />
                                         {/* Graphite Tip */}
-                                        <polygon points="12,85 20,85 16,92" fill="#0F2C59" />
+                                        <polygon points="12,85 20,85 16,92" fill="#163038" />
 
                                         {/* Pencil Face */}
-                                        <circle cx="12" cy="38" r="2.2" fill="#0F2C59" />
-                                        <circle cx="20" cy="38" r="2.2" fill="#0F2C59" />
+                                        <circle cx="12" cy="38" r="2.2" fill="#163038" />
+                                        <circle cx="20" cy="38" r="2.2" fill="#163038" />
                                         <path
                                             d="M 14 44 Q 16 48 18 44"
                                             fill="none"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="1.5"
                                             strokeLinecap="round"
                                         />
@@ -505,11 +505,11 @@ export default function PpdbInfo({ settings, primaryMenu }: Props) {
                                         <path
                                             d="M 26 36 Q 34 30 38 24"
                                             fill="none"
-                                            stroke="#0F2C59"
+                                            stroke="#163038"
                                             strokeWidth="2"
                                             strokeLinecap="round"
                                         />
-                                        <circle cx="38" cy="24" r="2" fill="#0F2C59" />
+                                        <circle cx="38" cy="24" r="2" fill="#163038" />
                                     </g>
                                 </svg>
                             </div>

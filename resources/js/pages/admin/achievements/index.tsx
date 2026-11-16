@@ -187,7 +187,7 @@ export default function AchievementIndex({
 
                     <Button
                         onClick={openAddModal}
-                        className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4 py-2"
+                        className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 py-2 rounded"
                     >
                         <PlusIcon className="w-4 h-4 mr-1.5" />
                         Catat Prestasi Baru
@@ -210,7 +210,7 @@ export default function AchievementIndex({
                                 onClick={() => handleLevelClick(lvl.key)}
                                 className={`px-3 py-1.5 text-xs font-medium rounded-xs transition ${
                                     activeLevel === lvl.key
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'text-[#5A626A] hover:bg-[#FAF9F6] hover:text-[#1A2228]'
                                 }`}
                             >
@@ -297,7 +297,7 @@ export default function AchievementIndex({
                                                     item.level === 'internasional'
                                                         ? 'bg-purple-50 text-purple-700 border border-purple-200'
                                                         : item.level === 'nasional'
-                                                        ? 'bg-[#0F2C59] text-white'
+                                                        ? 'bg-prussian text-white'
                                                         : item.level === 'provinsi'
                                                         ? 'bg-[#C85A32]/10 text-[#C85A32] border border-[#C85A32]/20'
                                                         : 'bg-stone-100 text-stone-700'
@@ -320,7 +320,7 @@ export default function AchievementIndex({
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => openEditModal(item)}
-                                                    className="h-8 w-8 p-0 text-[#0F2C59] hover:bg-[#EAE6DF]"
+                                                    className="h-8 w-8 p-0 text-prussian hover:bg-[#EAE6DF]"
                                                     title="Sunting"
                                                 >
                                                     <PencilSquareIcon className="w-4 h-4" />
@@ -374,7 +374,7 @@ export default function AchievementIndex({
                                                         item.level === 'internasional'
                                                             ? 'bg-purple-50 text-purple-700 border border-purple-200'
                                                             : item.level === 'nasional'
-                                                            ? 'bg-[#0F2C59] text-white'
+                                                            ? 'bg-prussian text-white'
                                                             : item.level === 'provinsi'
                                                             ? 'bg-[#C85A32]/10 text-[#C85A32] border border-[#C85A32]/20'
                                                             : 'bg-stone-100 text-stone-700'
@@ -409,7 +409,7 @@ export default function AchievementIndex({
                                             variant="outline"
                                             size="sm"
                                             onClick={() => openEditModal(item)}
-                                            className="h-8 px-2.5 text-xs text-[#0F2C59] border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
+                                            className="h-8 px-2.5 text-xs text-prussian border-[#D8D2C6] hover:bg-[#FAF9F6] flex items-center gap-1"
                                         >
                                             <PencilSquareIcon className="w-3.5 h-3.5" />
                                             <span>Sunting</span>
@@ -442,7 +442,7 @@ export default function AchievementIndex({
                                 onClick={() => link.url && router.get(link.url)}
                                 className={`text-xs ${
                                     link.active
-                                        ? 'bg-[#0F2C59] text-white'
+                                        ? 'bg-prussian text-white'
                                         : 'border-[#D8D2C6] text-[#1A2228]'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
@@ -500,7 +500,7 @@ export default function AchievementIndex({
                                             level: e.target.value as 'kabupaten' | 'provinsi' | 'nasional' | 'internasional',
                                         })
                                     }
-                                    className="mt-1 w-full h-9 px-3 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-[#0F2C59]"
+                                    className="mt-1 w-full h-9 px-3 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-prussian"
                                 >
                                     <option value="kabupaten">Tingkat Kabupaten / Kota</option>
                                     <option value="provinsi">Tingkat Provinsi</option>
@@ -561,7 +561,7 @@ export default function AchievementIndex({
                                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                                 placeholder="Catatan singkat mengenai karya atau jalannya perlombaan..."
                                 rows={2}
-                                className="mt-1 w-full p-2.5 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-[#0F2C59]"
+                                className="mt-1 w-full p-2.5 text-xs border border-[#D8D2C6] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-prussian"
                             />
                         </div>
 
@@ -635,7 +635,7 @@ export default function AchievementIndex({
                             </Button>
                             <Button
                                 type="submit"
-                                className="bg-[#0F2C59] text-white hover:bg-[#0A1F3F] text-xs font-semibold px-4"
+                                className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4"
                             >
                                 {editingItem ? 'Simpan Perubahan' : 'Simpan Prestasi'}
                             </Button>
