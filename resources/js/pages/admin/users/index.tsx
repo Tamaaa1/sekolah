@@ -178,26 +178,26 @@ export default function UserIndex({ users, roles, filters }: Props) {
         switch (roleName) {
             case 'Super Admin':
                 return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-prussian text-white">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-prussian text-white shadow-2xs">
                         <ShieldCheckIcon className="w-3.5 h-3.5" />
                         Super Admin
                     </span>
                 );
             case 'Editor':
                 return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-prussian-light text-prussian border border-prussian/30">
                         Editor (Guru)
                     </span>
                 );
             case 'Contributor':
                 return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-canvas-subtle text-ink-secondary border border-line">
                         Contributor (OSIS)
                     </span>
                 );
             default:
                 return (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-slate-100 text-slate-700">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-canvas-subtle text-ink-secondary border border-line">
                         {roleName}
                     </span>
                 );
@@ -220,7 +220,7 @@ export default function UserIndex({ users, roles, filters }: Props) {
                             Kelola akun akses staf tata usaha, dewan guru pembina, dan pengurus OSIS pada portal sekolah.
                         </p>
                     </div>
-                    <Button onClick={openCreateModal} className="shrink-0 bg-prussian text-white hover:bg-prussian-dark">
+                    <Button onClick={openCreateModal} className="shrink-0 bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 py-2">
                         <PlusIcon className="w-4 h-4 mr-1.5" />
                         Tambah Pengguna Baru
                     </Button>
@@ -321,7 +321,7 @@ export default function UserIndex({ users, roles, filters }: Props) {
                                                         size="sm"
                                                         disabled={user.id === currentUserId}
                                                         onClick={() => setUserToDelete(user)}
-                                                        className="text-red-600 hover:text-red-700 hover:bg-red-50 h-8 px-2 disabled:opacity-40"
+                                                        className="text-terracotta hover:text-terracotta-hover hover:bg-terracotta-light h-8 px-2 disabled:opacity-40"
                                                     >
                                                         <TrashIcon className="w-4 h-4 mr-1" />
                                                         Hapus
@@ -385,7 +385,7 @@ export default function UserIndex({ users, roles, filters }: Props) {
                                 className="mt-1"
                                 required
                             />
-                            {formErrors.name && <p className="text-xs text-red-600 mt-1">{formErrors.name}</p>}
+                            {formErrors.name && <p className="text-xs text-terracotta mt-1">{formErrors.name}</p>}
                         </div>
 
                         <div>
@@ -401,7 +401,7 @@ export default function UserIndex({ users, roles, filters }: Props) {
                                 className="mt-1"
                                 required
                             />
-                            {formErrors.email && <p className="text-xs text-red-600 mt-1">{formErrors.email}</p>}
+                            {formErrors.email && <p className="text-xs text-terracotta mt-1">{formErrors.email}</p>}
                         </div>
 
                         <div>
@@ -421,7 +421,7 @@ export default function UserIndex({ users, roles, filters }: Props) {
                                     </option>
                                 ))}
                             </select>
-                            {formErrors.role && <p className="text-xs text-red-600 mt-1">{formErrors.role}</p>}
+                            {formErrors.role && <p className="text-xs text-terracotta mt-1">{formErrors.role}</p>}
                         </div>
 
                         <div>
@@ -437,7 +437,7 @@ export default function UserIndex({ users, roles, filters }: Props) {
                                 className="mt-1"
                                 required={!editingUser}
                             />
-                            {formErrors.password && <p className="text-xs text-red-600 mt-1">{formErrors.password}</p>}
+                            {formErrors.password && <p className="text-xs text-terracotta mt-1">{formErrors.password}</p>}
                         </div>
 
                         <div className="flex items-center justify-end gap-2 pt-3 border-t border-line">
@@ -451,7 +451,7 @@ export default function UserIndex({ users, roles, filters }: Props) {
                             </Button>
                             <Button
                                 type="submit"
-                                className="bg-prussian text-white hover:bg-prussian-dark"
+                                className="bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 py-2"
                                 disabled={isSubmitting}
                             >
                                 {isSubmitting ? 'Menyimpan...' : editingUser ? 'Simpan Perubahan' : 'Buat Akun'}

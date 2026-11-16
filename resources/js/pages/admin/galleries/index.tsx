@@ -222,33 +222,33 @@ export default function GalleryIndex({
 
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6 max-w-7xl mx-auto w-full">
                 {/* Header Section */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-line pb-4">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
-                            <CameraIcon className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
+                        <h1 className="text-2xl font-serif font-bold text-ink tracking-tight flex items-center gap-2.5">
+                            <CameraIcon className="w-7 h-7 text-prussian" />
                             Galeri & Dokumentasi Kegiatan
                         </h1>
-                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+                        <p className="text-xs text-ink-secondary mt-1">
                             Kelola album foto momen bersejarah, upacara, perlombaan, dan ragam kegiatan sekolah.
                         </p>
                     </div>
 
-                    <Button onClick={openCreateModal} className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-sm">
+                    <Button onClick={openCreateModal} className="bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold px-4 py-2 gap-1.5 shadow-xs">
                         <PlusIcon className="w-4 h-4" />
                         Tambah Album Foto
                     </Button>
                 </div>
 
                 {/* Filters Bar */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3.5 rounded-lg border border-line shadow-2xs">
                     <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-md">
-                        <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                        <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                         <Input
                             type="text"
                             placeholder="Cari judul album atau deskripsi..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="pl-9 pr-4 text-sm"
+                            className="pl-9 pr-4 text-xs h-9 border-line focus:border-prussian focus:ring-prussian bg-white text-ink placeholder:text-ink-muted/70"
                         />
                     </form>
 
@@ -259,7 +259,7 @@ export default function GalleryIndex({
                                 setSelectedCategory(e.target.value);
                                 handleFilter(search, e.target.value);
                             }}
-                            className="h-9 text-xs rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-3 text-neutral-700 dark:text-neutral-300 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                            className="h-9 text-xs rounded-md border border-line bg-white px-3 text-ink focus:border-prussian focus:outline-hidden focus:ring-1 focus:ring-prussian"
                         >
                             <option value="">Semua Kategori</option>
                             {categories.map((cat) => (
@@ -278,7 +278,7 @@ export default function GalleryIndex({
                                     setSelectedCategory('');
                                     handleFilter('', '');
                                 }}
-                                className="text-xs"
+                                className="text-xs h-9 border-line text-ink hover:bg-canvas-subtle"
                             >
                                 Reset
                             </Button>
@@ -288,28 +288,28 @@ export default function GalleryIndex({
 
                 {/* Galleries Grid */}
                 {galleries.data.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-12 text-center bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800">
-                        <CameraIcon className="w-12 h-12 text-neutral-300 dark:text-neutral-700 mb-3" />
-                        <p className="text-base font-semibold text-neutral-800 dark:text-neutral-200">
+                    <div className="flex flex-col items-center justify-center p-12 text-center bg-white rounded-lg border border-line">
+                        <CameraIcon className="w-12 h-12 text-ink-muted/40 mb-3" />
+                        <p className="text-base font-serif font-bold text-ink">
                             Belum ada album galeri
                         </p>
-                        <p className="text-sm text-neutral-500 max-w-sm mt-1">
+                        <p className="text-xs text-ink-secondary max-w-sm mt-1">
                             Abadikan momen kegiatan siswa, pentas seni, dan agenda sekolah dalam album foto yang rapi.
                         </p>
-                        <Button onClick={openCreateModal} className="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
+                        <Button onClick={openCreateModal} className="mt-4 bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold px-4 py-2 gap-1.5 shadow-xs">
                             <PlusIcon className="w-4 h-4" />
                             Buat Album Pertama
                         </Button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {galleries.data.map((item) => (
                             <div
                                 key={item.id}
-                                className="group relative flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm overflow-hidden hover:shadow-md transition"
+                                className="group relative flex flex-col rounded-lg border border-line bg-white shadow-2xs overflow-hidden hover:border-line-strong hover:shadow-xs transition"
                             >
                                 {/* Thumbnail Cover */}
-                                <div className="relative aspect-video w-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                                <div className="relative aspect-video w-full bg-canvas-subtle overflow-hidden">
                                     {item.cover_image ? (
                                         <img
                                             src={item.cover_image}
@@ -317,26 +317,26 @@ export default function GalleryIndex({
                                             className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                                         />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-neutral-400">
+                                        <div className="w-full h-full flex items-center justify-center text-ink-muted/50">
                                             <PhotoIcon className="w-12 h-12 opacity-40" />
                                         </div>
                                     )}
 
                                     {/* Category & Status Overlay */}
                                     <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                                        <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-white/90 dark:bg-neutral-900/90 text-neutral-800 dark:text-neutral-200 backdrop-blur-sm shadow-sm border border-neutral-200/50 dark:border-neutral-700/50">
+                                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-ink backdrop-blur-xs border border-line/80 shadow-2xs">
                                             {item.category}
                                         </span>
                                     </div>
 
                                     <div className="absolute top-2.5 right-2.5">
                                         {item.is_active ? (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/90 text-white backdrop-blur-sm">
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-status-published/95 text-white backdrop-blur-xs shadow-2xs">
                                                 <CheckCircleIcon className="w-3.5 h-3.5" />
                                                 Aktif
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-600/90 text-white backdrop-blur-sm">
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-ink-muted/90 text-white backdrop-blur-xs">
                                                 <XCircleIcon className="w-3.5 h-3.5" />
                                                 Nonaktif
                                             </span>
@@ -345,7 +345,7 @@ export default function GalleryIndex({
 
                                     {/* Photo Count Pill */}
                                     <div className="absolute bottom-2.5 right-2.5">
-                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-black/70 text-white backdrop-blur-sm">
+                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-prussian/85 text-white backdrop-blur-xs font-mono shadow-2xs">
                                             <PhotoIcon className="w-3.5 h-3.5" />
                                             {Array.isArray(item.images) ? item.images.length : 0} Foto
                                         </span>
@@ -355,7 +355,7 @@ export default function GalleryIndex({
                                 {/* Content Details */}
                                 <div className="flex flex-1 flex-col p-4 justify-between">
                                     <div>
-                                        <div className="flex items-center gap-1.5 text-xs text-neutral-400 mb-1">
+                                        <div className="flex items-center gap-1.5 text-xs text-ink-muted mb-1.5 font-mono">
                                             <CalendarDaysIcon className="w-3.5 h-3.5" />
                                             <span>
                                                 {item.event_date
@@ -368,22 +368,22 @@ export default function GalleryIndex({
                                             </span>
                                         </div>
 
-                                        <h3 className="font-semibold text-base text-neutral-900 dark:text-neutral-100 line-clamp-2">
+                                        <h3 className="font-serif font-bold text-base text-ink line-clamp-2 group-hover:text-prussian transition-colors">
                                             {item.title}
                                         </h3>
 
-                                        <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 line-clamp-2">
+                                        <p className="text-xs text-ink-secondary mt-1.5 line-clamp-2 leading-relaxed">
                                             {item.description || 'Tidak ada deskripsi singkat.'}
                                         </p>
                                     </div>
 
                                     {/* Action Buttons */}
-                                    <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-end gap-2">
+                                    <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-end gap-2">
                                         <Button
                                             variant="outline"
                                             size="sm"
                                             onClick={() => openEditModal(item)}
-                                            className="h-8 px-2.5 text-xs gap-1.5"
+                                            className="h-8 px-2.5 text-xs gap-1 border-line text-ink hover:text-prussian hover:bg-canvas-subtle"
                                         >
                                             <PencilSquareIcon className="w-3.5 h-3.5" />
                                             Ubah
@@ -392,7 +392,7 @@ export default function GalleryIndex({
                                             variant="outline"
                                             size="sm"
                                             onClick={() => setItemToDelete(item)}
-                                            className="h-8 px-2.5 text-xs gap-1.5 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 border-rose-200 dark:border-rose-900/50"
+                                            className="h-8 px-2.5 text-xs gap-1 text-terracotta hover:text-terracotta-hover hover:bg-terracotta-light border-terracotta/30"
                                         >
                                             <TrashIcon className="w-3.5 h-3.5" />
                                             Hapus
@@ -404,18 +404,44 @@ export default function GalleryIndex({
                     </div>
                 )}
 
+                {/* Pagination */}
+                {galleries.links && galleries.links.length > 3 && (
+                    <div className="bg-white p-3.5 rounded-lg border border-line flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-secondary shadow-2xs">
+                        <div>
+                            Menampilkan <strong>{galleries.data.length}</strong> dari <strong>{galleries.total}</strong> album kegiatan
+                        </div>
+                        <div className="flex items-center gap-1">
+                            {galleries.links.map((link, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
+                                    disabled={!link.url || link.active}
+                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                    className={`px-2.5 py-1 rounded text-xs border ${
+                                        link.active
+                                            ? 'bg-prussian text-white border-prussian font-semibold'
+                                            : link.url
+                                            ? 'bg-white border-line hover:bg-canvas-subtle text-ink'
+                                            : 'text-ink-muted border-line/40 cursor-not-allowed'
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 {/* Create/Edit Modal Dialog */}
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                    <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                    <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white border-line text-ink">
                         <DialogHeader>
-                            <DialogTitle>
+                            <DialogTitle className="font-serif text-xl font-bold text-ink">
                                 {editingItem ? 'Ubah Album Galeri' : 'Tambah Album Galeri Baru'}
                             </DialogTitle>
                         </DialogHeader>
 
                         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
                             <div>
-                                <Label htmlFor="gal-title">Judul Kegiatan / Album *</Label>
+                                <Label htmlFor="gal-title" className="text-xs font-semibold text-ink">Judul Kegiatan / Album *</Label>
                                 <Input
                                     id="gal-title"
                                     type="text"
@@ -423,14 +449,14 @@ export default function GalleryIndex({
                                     placeholder="Contoh: Upacara Peringatan Hari Sumpah Pemuda 2026"
                                     value={formData.title}
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                    className="mt-1"
+                                    className="mt-1 border-line focus:border-prussian focus:ring-prussian text-sm bg-white text-ink"
                                 />
-                                {errors.title && <p className="text-xs text-rose-600 mt-1">{errors.title}</p>}
+                                {errors.title && <p className="text-xs text-terracotta mt-1">{errors.title}</p>}
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <Label htmlFor="gal-category">Kategori Kegiatan *</Label>
+                                    <Label htmlFor="gal-category" className="text-xs font-semibold text-ink">Kategori Kegiatan *</Label>
                                     <Input
                                         id="gal-category"
                                         type="text"
@@ -439,31 +465,31 @@ export default function GalleryIndex({
                                         value={formData.category}
                                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                         placeholder="Pilih atau ketik kategori"
-                                        className="mt-1"
+                                        className="mt-1 border-line focus:border-prussian focus:ring-prussian text-sm bg-white text-ink"
                                     />
                                     <datalist id="gal-category-presets">
                                         {CATEGORY_PRESETS.map((cat) => (
                                             <option key={cat} value={cat} />
                                         ))}
                                     </datalist>
-                                    {errors.category && <p className="text-xs text-rose-600 mt-1">{errors.category}</p>}
+                                    {errors.category && <p className="text-xs text-terracotta mt-1">{errors.category}</p>}
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="gal-date">Tanggal Kegiatan</Label>
+                                    <Label htmlFor="gal-date" className="text-xs font-semibold text-ink">Tanggal Kegiatan</Label>
                                     <Input
                                         id="gal-date"
                                         type="date"
                                         value={formData.event_date}
                                         onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
-                                        className="mt-1"
+                                        className="mt-1 border-line focus:border-prussian focus:ring-prussian text-sm bg-white text-ink"
                                     />
                                 </div>
                             </div>
 
                             {/* Cover Photo */}
                             <div>
-                                <Label htmlFor="gal-cover">Foto Sampul Utama Album</Label>
+                                <Label htmlFor="gal-cover" className="text-xs font-semibold text-ink">Foto Sampul Utama Album</Label>
                                 <div className="mt-1 flex gap-2">
                                     <Input
                                         id="gal-cover"
@@ -471,13 +497,14 @@ export default function GalleryIndex({
                                         placeholder="Pilih dari pustaka atau ketik URL foto..."
                                         value={formData.cover_image}
                                         onChange={(e) => setFormData({ ...formData, cover_image: e.target.value })}
+                                        className="border-line focus:border-prussian focus:ring-prussian text-sm bg-white text-ink"
                                     />
                                     <MediaPickerModal
                                         title="Pilih Sampul Album"
                                         allowedTypes="images"
                                         onSelect={(url) => setFormData({ ...formData, cover_image: url })}
                                         trigger={
-                                            <Button type="button" variant="outline" className="gap-1.5 shrink-0">
+                                            <Button type="button" variant="outline" className="gap-1.5 shrink-0 border-line text-ink hover:bg-canvas-subtle text-xs">
                                                 <PhotoIcon className="w-4 h-4" />
                                                 Pustaka
                                             </Button>
@@ -489,13 +516,13 @@ export default function GalleryIndex({
                             {/* Photo Items in Album */}
                             <div>
                                 <div className="flex items-center justify-between">
-                                    <Label>Koleksi Foto Kegiatan ({formData.images.length} Foto)</Label>
+                                    <Label className="text-xs font-semibold text-ink">Koleksi Foto Kegiatan ({formData.images.length} Foto)</Label>
                                     <MediaPickerModal
                                         title="Tambah Foto ke Album"
                                         allowedTypes="images"
                                         onSelect={(url) => addPhotoToAlbum(url)}
                                         trigger={
-                                            <Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs">
+                                            <Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs border-line text-ink hover:bg-canvas-subtle">
                                                 <PlusIcon className="w-3.5 h-3.5" />
                                                 Tambah Foto
                                             </Button>
@@ -504,20 +531,20 @@ export default function GalleryIndex({
                                 </div>
 
                                 {formData.images.length === 0 ? (
-                                    <div className="mt-2 p-6 rounded-lg border border-dashed border-neutral-300 dark:border-neutral-700 text-center text-xs text-neutral-500">
+                                    <div className="mt-2 p-6 rounded-lg border border-dashed border-line text-center text-xs text-ink-muted bg-canvas-subtle/30">
                                         Belum ada foto dalam album ini. Klik tombol "Tambah Foto" di atas untuk menambahkan dokumentasi.
                                     </div>
                                 ) : (
-                                    <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto p-1 border rounded-lg border-neutral-200 dark:border-neutral-800">
+                                    <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto p-2 border rounded-lg border-line bg-canvas-subtle/20">
                                         {formData.images.map((photo, idx) => (
                                             <div
                                                 key={idx}
-                                                className="relative flex items-center gap-2 p-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700"
+                                                className="relative flex items-center gap-2 p-2 rounded-lg bg-white border border-line shadow-2xs"
                                             >
                                                 <img
                                                     src={photo.url}
                                                     alt="Photo"
-                                                    className="w-14 h-14 object-cover rounded shrink-0 border"
+                                                    className="w-14 h-14 object-cover rounded-md shrink-0 border border-line"
                                                 />
                                                 <div className="flex-1 min-w-0">
                                                     <Input
@@ -525,13 +552,13 @@ export default function GalleryIndex({
                                                         placeholder="Tulis takarir (caption)..."
                                                         value={photo.caption || ''}
                                                         onChange={(e) => updatePhotoCaption(idx, e.target.value)}
-                                                        className="h-8 text-xs"
+                                                        className="h-8 text-xs border-line focus:border-prussian focus:ring-prussian bg-white text-ink"
                                                     />
                                                 </div>
                                                 <button
                                                     type="button"
                                                     onClick={() => removePhotoFromAlbum(idx)}
-                                                    className="p-1 text-neutral-400 hover:text-rose-600 rounded"
+                                                    className="p-1 text-ink-muted hover:text-terracotta hover:bg-terracotta-light rounded transition-colors"
                                                 >
                                                     <XMarkIcon className="w-4 h-4" />
                                                 </button>
@@ -542,14 +569,14 @@ export default function GalleryIndex({
                             </div>
 
                             <div>
-                                <Label htmlFor="gal-desc">Deskripsi Kegiatan</Label>
+                                <Label htmlFor="gal-desc" className="text-xs font-semibold text-ink">Deskripsi Kegiatan</Label>
                                 <textarea
                                     id="gal-desc"
                                     rows={3}
                                     placeholder="Jelaskan ringkasan jalannya kegiatan, lokasi, peserta, dan tujuan acara..."
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="mt-1 w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                                    className="mt-1 w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-ink placeholder:text-ink-muted/70 focus:border-prussian focus:outline-hidden focus:ring-1 focus:ring-prussian leading-relaxed"
                                 />
                             </div>
 
@@ -561,15 +588,15 @@ export default function GalleryIndex({
                                         id="gal-active"
                                         checked={formData.is_active}
                                         onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                                        className="rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+                                        className="rounded border-line text-prussian focus:ring-prussian w-4 h-4"
                                     />
-                                    <Label htmlFor="gal-active" className="cursor-pointer text-sm font-normal">
+                                    <Label htmlFor="gal-active" className="cursor-pointer text-xs font-medium text-ink">
                                         Tampilkan di halaman publik (Status Aktif)
                                     </Label>
                                 </div>
 
                                 <div className="flex items-center gap-2 justify-end">
-                                    <Label htmlFor="gal-sort" className="text-xs shrink-0">
+                                    <Label htmlFor="gal-sort" className="text-xs shrink-0 text-ink-secondary">
                                         Urutan Tampil:
                                     </Label>
                                     <Input
@@ -578,23 +605,24 @@ export default function GalleryIndex({
                                         min="0"
                                         value={formData.sort_order}
                                         onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
-                                        className="w-24 h-8 text-xs"
+                                        className="w-24 h-8 text-xs border-line focus:border-prussian focus:ring-prussian bg-white text-ink"
                                     />
                                 </div>
                             </div>
 
-                            <div className="flex justify-end gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                            <div className="flex justify-end gap-3 pt-4 border-t border-line">
                                 <Button
                                     type="button"
                                     variant="outline"
                                     onClick={() => setIsModalOpen(false)}
                                     disabled={processing}
+                                    className="border-line text-ink hover:bg-canvas-subtle text-xs"
                                 >
                                     Batal
                                 </Button>
                                 <Button
                                     type="submit"
-                                    className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                                    className="bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold px-4 py-2 shadow-xs"
                                     disabled={processing}
                                 >
                                     {processing ? 'Menyimpan...' : editingItem ? 'Simpan Perubahan' : 'Buat Album'}
