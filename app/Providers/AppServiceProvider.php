@@ -31,6 +31,22 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
 
+        if (! app()->runningInConsole()) {
+            $host = request()->header('host', '');
+            $isTunnel = str_contains($host, 'ngrok') || str_contains($host, 'trycloudflare') || str_contains($host, 'loca.lt');
+            $isSecure = request()->header('x-forwarded-proto') === 'https' || request()->isSecure();
+
+            if ($isSecure || $isTunnel) {
+                \Illuminate\Support\Facades\URL::forceScheme('https');
+            }
+
+            if ($isTunnel && file_exists(public_path('hot'))) {
+                // Saat diakses via tunnel (ngrok / remote device), arahkan Vite ke bundle build produksi
+                // agar perangkat luar tidak mencoba mengakses localhost:5173 yang memicu mixed content & network error
+                app(\Illuminate\Foundation\Vite::class)->useHotFile(storage_path('framework/tunnel_disabled_hot'));
+            }
+        }
+
         Event::listen(Login::class, function (Login $event) {
             ActivityLogger::log('login', 'Otentikasi', "Pengguna '{$event->user->name}' berhasil masuk ke sistem", $event->user);
         });
