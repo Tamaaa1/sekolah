@@ -30,9 +30,10 @@ class ContactMessageController extends Controller
             });
         }
 
-        if ($request->query('status') === 'unread') {
+        $status = $request->query('status', '');
+        if ($status === 'unread') {
             $query->where('is_read', false);
-        } elseif ($request->query('status') === 'read') {
+        } elseif ($status === 'read') {
             $query->where('is_read', true);
         }
 
@@ -40,14 +41,20 @@ class ContactMessageController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        $unreadCount = ContactMessage::where('is_read', false)->count();
+        $counts = [
+            'all' => ContactMessage::count(),
+            'unread' => ContactMessage::where('is_read', false)->count(),
+            'read' => ContactMessage::where('is_read', true)->count(),
+        ];
 
         return Inertia::render('admin/messages/index', [
             'messages' => $messages,
-            'unreadCount' => $unreadCount,
+            'counts' => $counts,
+            'unreadCount' => $counts['unread'],
+            'currentStatus' => $status,
             'filters' => [
                 'q' => $request->query('q', ''),
-                'status' => $request->query('status', 'all'),
+                'status' => $status,
             ],
         ]);
     }
