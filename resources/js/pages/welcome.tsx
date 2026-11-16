@@ -205,7 +205,7 @@ export default function Welcome({
             />
 
             {/* Asymmetric Hero & Bento Grid */}
-            <section className="max-w-7xl mx-auto px-3 sm:px-6 pt-4 sm:pt-6 pb-12 overflow-x-clip">
+            <section className="max-w-7xl mx-auto px-3 sm:px-6 pt-4 sm:pt-6 pb-12">
                 {heroBannerImage ? (
                     /* Immersive Hero Banner: Clean typography over the image */
                     <div className="relative mb-6 sm:mb-8 rounded-lg overflow-hidden border border-stone-300/80 shadow-xs min-h-[260px] sm:min-h-[360px] md:min-h-[400px] flex flex-col justify-end">
@@ -259,12 +259,12 @@ export default function Welcome({
                 <div className="mt-6 sm:mt-8">
                     <ScrollStack
                         useWindowScroll={true}
-                        stackPosition="80px"
+                        stackPosition="96px"
                         itemDistance={100}
-                        itemStackDistance={20}
-                        itemScale={0.03}
-                        baseScale={0.9}
-                        dimAmount={0.12}
+                        itemStackDistance={24}
+                        itemScale={0.035}
+                        baseScale={0.88}
+                        dimAmount={0.14}
                         holdDistance={160}
                         smoothScroll={false}
                     >

@@ -1,8 +1,6 @@
 .scroll-stack {
   position: relative;
   width: 100%;
-  max-width: 100%;
-  overflow-x: clip;
 }
 
 .scroll-stack--contained {
@@ -14,20 +12,16 @@
 .scroll-stack__inner {
   position: relative;
   padding-inline: 0;
-  max-width: 100%;
 }
 
 .scroll-stack__slot {
   position: sticky;
-  max-width: 100%;
 }
 
 .scroll-stack-card {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
   border-radius: 1rem;
   background: #ffffff;
   color: #1A2228;
