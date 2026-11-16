@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Models\Menu;
 use App\Models\Setting;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -52,9 +53,17 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             if (in_array($status, [403, 404, 500, 503])) {
+                $primaryMenu = null;
+                try {
+                    $primaryMenu = Menu::getByLocation('header_primary');
+                } catch (\Throwable $e) {
+                    // ignore if database not accessible or in early boot
+                }
+
                 return Inertia::render('error', [
                     'status' => $status,
                     'settings' => Setting::allGrouped(),
+                    'primaryMenu' => $primaryMenu,
                 ])->toResponse($request)->setStatusCode($status);
             }
 

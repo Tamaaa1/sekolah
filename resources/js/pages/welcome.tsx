@@ -355,7 +355,7 @@ export default function Welcome({
                                     {announcements.length > 0 && (
                                         <div className="mt-3 pt-2.5 border-t border-line/60 text-right">
                                             <Link
-                                                href="/pengumuman"
+                                                href="/berita?type=announcement"
                                                 className="text-xs font-semibold text-prussian hover:underline inline-flex items-center gap-1"
                                             >
                                                 <span>Semua Pengumuman</span>

@@ -16,9 +16,10 @@ interface ErrorPageProps {
     status: number;
     message?: string;
     settings?: Record<string, any>;
+    primaryMenu?: any;
 }
 
-export default function ErrorPage({ status, message, settings }: ErrorPageProps) {
+export default function ErrorPage({ status, message, settings, primaryMenu }: ErrorPageProps) {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearch = (e: FormEvent) => {
@@ -78,7 +79,7 @@ export default function ErrorPage({ status, message, settings }: ErrorPageProps)
     const IconComponent = info.icon;
 
     return (
-        <PublicLayout settings={settings}>
+        <PublicLayout settings={settings} primaryMenu={primaryMenu}>
             <Head title={`${status} - ${info.title} | SMP Negeri 5 Sambas`} />
 
             <div className="relative min-h-[65vh] flex items-center justify-center px-4 py-16 sm:px-6 lg:px-8">

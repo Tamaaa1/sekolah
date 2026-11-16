@@ -36,6 +36,7 @@ use Inertia\Inertia;
 Route::get('/', [PublicPortalController::class, 'home'])->name('home');
 Route::get('/berita', [PublicPortalController::class, 'posts'])->name('public.posts');
 Route::get('/artikel', fn () => redirect()->route('public.posts'));
+Route::get('/pengumuman', fn () => redirect('/berita?type=announcement'))->name('public.announcements');
 Route::get('/guru-dan-staf', [PublicPortalController::class, 'staff'])->name('public.staff');
 Route::get('/fasilitas', [PublicPortalController::class, 'facilities'])->name('public.facilities');
 Route::get('/ekstrakurikuler', [PublicPortalController::class, 'extracurriculars'])->name('public.extracurriculars');

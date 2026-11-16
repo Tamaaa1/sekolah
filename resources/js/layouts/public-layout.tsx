@@ -90,7 +90,7 @@ export default function PublicLayout({
         { id: 1, label: 'Beranda', url: '/' },
         {
             id: 2,
-            label: 'Profil',
+            label: 'Profil Sekolah',
             url: '#',
             children: [
                 { id: 21, label: 'Visi & Misi', url: '/visi-misi-sekolah' },
@@ -99,11 +99,11 @@ export default function PublicLayout({
                 { id: 24, label: 'Sarana & Fasilitas', url: '/fasilitas' },
             ],
         },
-        { id: 3, label: 'Berita', url: '/berita' },
+        { id: 3, label: 'Berita & Artikel', url: '/berita' },
         { id: 4, label: 'Ekstrakurikuler', url: '/ekstrakurikuler' },
         { id: 5, label: 'Prestasi', url: '/prestasi' },
-        { id: 6, label: 'Agenda', url: '/agenda' },
-        { id: 8, label: 'Galeri', url: '/galeri' },
+        { id: 6, label: 'Agenda Akademik', url: '/agenda' },
+        { id: 8, label: 'Galeri Foto', url: '/galeri' },
     ];
 
     return (
