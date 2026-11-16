@@ -5,6 +5,7 @@ import SeoHead from '@/components/seo-head';
 import {
     CalendarDaysIcon,
     CameraIcon,
+    ChevronDownIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
     MagnifyingGlassIcon,
@@ -157,7 +158,7 @@ export default function GalleryDirectory({
                     </p>
 
                     {/* Search & Filter Bar */}
-                    <div className="mt-6 pt-6 border-t border-line flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div className="mt-6 pt-6 border-t border-line flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                         {/* Search Input */}
                         <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 max-w-md w-full">
                             <div className="relative flex-1">
@@ -191,63 +192,47 @@ export default function GalleryDirectory({
                             </button>
                         </form>
 
-                        {/* Format Indicator Counter */}
-                        <div className="flex items-center gap-2 text-xs text-[#5A626A] font-mono bg-white px-3 py-2 border border-[#D8D2C6] rounded-xs self-start lg:self-auto shadow-2xs">
-                            <PhotoIcon className="w-4 h-4 text-prussian" />
-                            <span>Total: <strong className="text-[#1A2228]">{galleries.length}</strong> Album Dokumentasi</span>
-                        </div>
-                    </div>
-
-                    {/* Category Filter Pills */}
-                    {categories.length > 0 && (
-                        <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-line/60">
-                            <span className="text-xs text-[#5A626A] flex items-center gap-1 font-medium mr-1">
-                                <TagIcon className="w-3.5 h-3.5 text-[#C85A32]" />
-                                Kategori Album:
-                            </span>
-
-                            <button
-                                type="button"
-                                onClick={() => handleFilterChange('')}
-                                className={`px-2.5 py-1 text-xs rounded-xs font-medium transition-all ${
-                                    !selectedCategory
-                                        ? 'bg-[#C85A32] text-white font-semibold shadow-2xs'
-                                        : 'bg-white text-[#5A626A] border border-[#D8D2C6] hover:bg-[#FAF9F6] hover:text-[#1A2228]'
-                                }`}
-                            >
-                                Semua Album ({galleries.length})
-                            </button>
-
-                            {categories.map((cat) => {
-                                const isActive = selectedCategory === cat;
-                                return (
-                                    <button
-                                        key={cat}
-                                        type="button"
-                                        onClick={() => handleFilterChange(cat)}
-                                        className={`px-2.5 py-1 text-xs rounded-xs font-medium transition-all inline-flex items-center gap-1.5 ${
-                                            isActive
-                                                ? 'bg-[#C85A32] text-white font-semibold shadow-2xs'
-                                                : 'bg-white text-[#5A626A] border border-[#D8D2C6] hover:bg-[#FAF9F6] hover:text-[#1A2228]'
-                                        }`}
+                        {/* Controls Toolbar: Category Dropdown, Total Counter, & Reset Filter */}
+                        <div className="flex flex-wrap items-center gap-2.5 self-start lg:self-auto text-xs">
+                            {/* Category Dropdown */}
+                            {categories.length > 0 && (
+                                <div className="relative flex items-center">
+                                    <TagIcon className="w-3.5 h-3.5 text-[#C85A32] absolute left-3 pointer-events-none" />
+                                    <select
+                                        value={selectedCategory}
+                                        onChange={(e) => handleFilterChange(e.target.value)}
+                                        className="pl-8 pr-8 py-2 text-xs bg-white border border-[#D8D2C6] rounded-xs text-[#1A2228] font-medium focus:outline-none focus:border-prussian focus:ring-1 focus:ring-prussian shadow-2xs cursor-pointer appearance-none"
                                     >
-                                        <span>{cat}</span>
-                                    </button>
-                                );
-                            })}
+                                        <option value="">Semua Kategori</option>
+                                        {categories.map((cat) => (
+                                            <option key={cat} value={cat}>
+                                                {cat}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <ChevronDownIcon className="w-3.5 h-3.5 text-[#5A626A] absolute right-2.5 pointer-events-none" />
+                                </div>
+                            )}
 
+                            {/* Format Indicator Counter */}
+                            <div className="flex items-center gap-2 text-xs text-[#5A626A] font-mono bg-white px-3 py-2 border border-[#D8D2C6] rounded-xs shadow-2xs">
+                                <PhotoIcon className="w-4 h-4 text-prussian" />
+                                <span>Total: <strong className="text-[#1A2228]">{galleries.length}</strong> Album</span>
+                            </div>
+
+                            {/* Reset Filter Button */}
                             {hasActiveFilters && (
                                 <button
                                     type="button"
                                     onClick={handleClearFilters}
-                                    className="ml-auto text-xs text-[#C85A32] hover:underline font-medium inline-flex items-center gap-1"
+                                    className="text-xs text-[#C85A32] hover:underline font-medium inline-flex items-center gap-1 px-2 py-1.5"
                                 >
                                     <XMarkIcon className="w-3.5 h-3.5" />
                                     <span>Reset Filter</span>
                                 </button>
                             )}
                         </div>
-                    )}
+                    </div>
                 </div>
 
                 {/* Highlight / Featured Banner (Only when no search/filters active) */}
