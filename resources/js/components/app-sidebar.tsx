@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react';
 import { Link } from '@inertiajs/react';
 import {
     AcademicCapIcon,
@@ -124,7 +125,29 @@ const footerNavItems: NavItem[] = [
     },
 ];
 
+let cachedSidebarScroll = 0;
+
 export function AppSidebar() {
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        if (!contentRef.current) return;
+        const saved =
+            cachedSidebarScroll ||
+            Number(sessionStorage.getItem('admin_sidebar_scroll') || 0);
+        if (saved > 0) {
+            contentRef.current.scrollTop = saved;
+        }
+    }, []);
+
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const top = e.currentTarget.scrollTop;
+        cachedSidebarScroll = top;
+        try {
+            sessionStorage.setItem('admin_sidebar_scroll', String(top));
+        } catch {}
+    };
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -139,7 +162,11 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
+            <SidebarContent
+                ref={contentRef}
+                onScroll={handleScroll}
+                data-scroll-region
+            >
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 
