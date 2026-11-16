@@ -49,6 +49,13 @@ interface PaginatedUsers {
 interface Props {
     users: PaginatedUsers;
     roles: string[];
+    counts?: {
+        all: number;
+        super_admin: number;
+        editor: number;
+        contributor: number;
+    };
+    currentRole?: string;
     filters: {
         q?: string;
         role?: string;
@@ -62,7 +69,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function UserIndex({ users, roles, filters }: Props) {
+export default function UserIndex({
+    users,
+    roles,
+    counts,
+    currentRole = '',
+    filters,
+}: Props) {
     const page = usePage<{ auth: { user: { id: number } } }>();
     const currentUserId = page.props.auth?.user?.id;
 
@@ -84,22 +97,17 @@ export default function UserIndex({ users, roles, filters }: Props) {
     // Delete Modal State
     const [userToDelete, setUserToDelete] = useState<UserItem | null>(null);
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleFilter = (roleVal = selectedRole, qVal = search) => {
         router.get(
             '/admin/users',
-            { q: search || undefined, role: selectedRole || undefined },
+            { q: qVal || undefined, role: roleVal || undefined },
             { preserveState: true }
         );
     };
 
-    const handleRoleChange = (role: string) => {
-        setSelectedRole(role);
-        router.get(
-            '/admin/users',
-            { q: search || undefined, role: role || undefined },
-            { preserveState: true }
-        );
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleFilter(selectedRole, search);
     };
 
     const openCreateModal = () => {
@@ -178,189 +186,278 @@ export default function UserIndex({ users, roles, filters }: Props) {
         switch (roleName) {
             case 'Super Admin':
                 return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-prussian text-white shadow-2xs">
-                        <ShieldCheckIcon className="w-3.5 h-3.5" />
+                    <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-prussian text-white">
                         Super Admin
                     </span>
                 );
             case 'Editor':
                 return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-prussian-light text-prussian border border-prussian/30">
+                    <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-status-published-bg text-status-published border border-emerald-200">
                         Editor (Guru)
                     </span>
                 );
             case 'Contributor':
                 return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-canvas-subtle text-ink-secondary border border-line">
+                    <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-canvas-subtle text-ink-muted border border-sidebar-border">
                         Contributor (OSIS)
                     </span>
                 );
             default:
                 return (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-canvas-subtle text-ink-secondary border border-line">
+                    <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-canvas-subtle text-ink-muted border border-sidebar-border">
                         {roleName}
                     </span>
                 );
         }
     };
 
+    const formatDate = (dateStr: string | null) => {
+        if (!dateStr) return '-';
+        return new Date(dateStr).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Manajemen Pengguna - Admin CMS" />
 
-            <div className="p-6 max-w-7xl mx-auto space-y-6">
+            <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
                 {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-sidebar-border pb-4">
                     <div>
-                        <h1 className="text-2xl font-bold font-serif text-ink flex items-center gap-2">
-                            <UsersIcon className="w-7 h-7 text-prussian" />
+                        <h1 className="text-2xl font-serif font-bold text-ink">
                             Manajemen Akun Pengguna
                         </h1>
-                        <p className="text-sm text-ink-secondary mt-1">
-                            Kelola akun akses staf tata usaha, dewan guru pembina, dan pengurus OSIS pada portal sekolah.
+                        <p className="text-xs text-ink-muted mt-0.5">
+                            Kelola akun akses staf tata usaha, dewan guru pembina, dan pengurus OSIS.
                         </p>
                     </div>
-                    <Button onClick={openCreateModal} className="shrink-0 bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold px-4 py-2">
-                        <PlusIcon className="w-4 h-4 mr-1.5" />
-                        Tambah Pengguna Baru
-                    </Button>
+
+                    <div>
+                        <button
+                            type="button"
+                            onClick={openCreateModal}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold transition-colors"
+                        >
+                            <PlusIcon className="w-4 h-4" />
+                            <span>Tambah Pengguna Baru</span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Filters */}
-                <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
-                    <form onSubmit={handleSearch} className="relative w-full sm:w-80">
-                        <MagnifyingGlassIcon className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
-                        <Input
+                {/* Filter Tabs & Search */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex flex-wrap gap-2 text-xs">
+                        {[
+                            { key: '', label: `Semua (${counts?.all ?? users.total})` },
+                            { key: 'Super Admin', label: `Super Admin (${counts?.super_admin ?? 0})` },
+                            { key: 'Editor', label: `Editor (${counts?.editor ?? 0})` },
+                            { key: 'Contributor', label: `Contributor (${counts?.contributor ?? 0})` },
+                        ].map((tab) => (
+                            <button
+                                key={tab.key}
+                                type="button"
+                                onClick={() => {
+                                    setSelectedRole(tab.key);
+                                    handleFilter(tab.key, search);
+                                }}
+                                className={`px-3 py-1.5 rounded border transition-colors ${
+                                    selectedRole === tab.key
+                                        ? 'bg-prussian text-white border-prussian font-semibold'
+                                        : 'bg-white text-ink border-sidebar-border hover:bg-canvas-subtle'
+                                }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <form onSubmit={handleSearch} className="relative w-full sm:w-60">
+                        <MagnifyingGlassIcon className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-muted" />
+                        <input
                             type="text"
                             placeholder="Cari nama atau email..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="pl-9 text-sm"
+                            className="w-full pl-8 pr-3 h-8 text-xs rounded border border-sidebar-border bg-white text-ink placeholder:text-ink-muted/70 focus:outline-hidden focus:border-prussian"
                         />
                     </form>
-
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <span className="text-xs text-ink-secondary whitespace-nowrap">Filter Peran:</span>
-                        <select
-                            value={selectedRole}
-                            onChange={(e) => handleRoleChange(e.target.value)}
-                            className="text-xs rounded-md border border-line bg-white px-3 py-2 text-ink focus:outline-none focus:ring-1 focus:ring-prussian"
-                        >
-                            <option value="">Semua Peran</option>
-                            {roles.map((r) => (
-                                <option key={r} value={r}>
-                                    {r}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
                 </div>
 
-                {/* Table */}
-                <div className="bg-white rounded-lg border border-line overflow-hidden shadow-xs">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm text-ink">
-                            <thead className="bg-canvas-subtle text-xs uppercase tracking-wider text-ink-secondary font-semibold border-b border-line">
+                {/* Table & Mobile Cards */}
+                <div className="bg-white rounded border border-sidebar-border shadow-xs overflow-hidden">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full text-left text-xs">
+                            <thead className="bg-canvas-subtle/50 text-ink-muted border-b border-sidebar-border uppercase tracking-wider font-semibold">
                                 <tr>
-                                    <th className="px-5 py-3.5">Nama Petugas</th>
-                                    <th className="px-5 py-3.5">Email Akun</th>
-                                    <th className="px-5 py-3.5">Peran / Hak Akses</th>
-                                    <th className="px-5 py-3.5">Terdaftar Sejak</th>
-                                    <th className="px-5 py-3.5 text-right">Aksi</th>
+                                    <th className="py-3 px-4 text-left">Nama Petugas</th>
+                                    <th className="py-3 px-4 text-left w-56 whitespace-nowrap">Email Akun</th>
+                                    <th className="py-3 px-4 text-center w-40 whitespace-nowrap">Peran / Hak Akses</th>
+                                    <th className="py-3 px-4 text-left w-36 whitespace-nowrap">Terdaftar Sejak</th>
+                                    <th className="py-3 px-4 text-right w-24 whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-line">
-                                {users.data.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={5} className="px-5 py-12 text-center text-ink-secondary">
-                                            Tidak ditemukan pengguna yang sesuai dengan kriteria pencarian.
-                                        </td>
-                                    </tr>
-                                ) : (
+                            <tbody className="divide-y divide-sidebar-border">
+                                {users.data.length > 0 ? (
                                     users.data.map((user) => (
-                                        <tr key={user.id} className="hover:bg-canvas-subtle/50 transition-colors">
-                                            <td className="px-5 py-4 font-medium text-ink flex items-center gap-2.5">
-                                                <UserCircleIcon className="w-8 h-8 text-prussian/70 shrink-0" />
-                                                <div>
-                                                    <div className="font-semibold">{user.name}</div>
-                                                    {user.id === currentUserId && (
-                                                        <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 bg-prussian-light text-prussian rounded font-semibold">
-                                                            (Akun Anda)
-                                                        </span>
-                                                    )}
+                                        <tr key={user.id} className="hover:bg-canvas-subtle/30 transition-colors">
+                                            <td className="py-3.5 px-4 font-semibold text-ink">
+                                                <div className="flex items-center gap-2.5">
+                                                    <div className="w-8 h-8 rounded-full bg-prussian-light text-prussian flex items-center justify-center font-bold text-xs shrink-0 border border-prussian/20">
+                                                        {user.name.charAt(0).toUpperCase()}
+                                                    </div>
+                                                    <div>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="font-semibold text-ink">{user.name}</span>
+                                                            {user.id === currentUserId && (
+                                                                <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 bg-prussian-light text-prussian rounded font-semibold">
+                                                                    Anda
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td className="px-5 py-4 text-ink-secondary font-mono text-xs">
+                                            <td className="py-3.5 px-4 font-mono text-xs text-ink-secondary whitespace-nowrap">
                                                 {user.email}
                                             </td>
-                                            <td className="px-5 py-4">
+                                            <td className="py-3.5 px-4 text-center whitespace-nowrap">
                                                 {user.roles.length > 0
                                                     ? getRoleBadge(user.roles[0].name)
-                                                    : <span className="text-xs text-ink-muted">Tanpa Peran</span>}
+                                                    : <span className="text-xs text-ink-muted">-</span>}
                                             </td>
-                                            <td className="px-5 py-4 text-xs text-ink-secondary">
-                                                {new Date(user.created_at).toLocaleDateString('id-ID', {
-                                                    day: 'numeric',
-                                                    month: 'short',
-                                                    year: 'numeric',
-                                                })}
+                                            <td className="py-3.5 px-4 text-ink-muted whitespace-nowrap">
+                                                {formatDate(user.created_at)}
                                             </td>
-                                            <td className="px-5 py-4 text-right">
-                                                <div className="flex items-center justify-end gap-1.5">
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
+                                            <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                                                <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
+                                                    <button
+                                                        type="button"
                                                         onClick={() => openEditModal(user)}
-                                                        className="text-ink hover:text-prussian h-8 px-2"
+                                                        className="p-1.5 rounded text-prussian hover:bg-canvas-subtle border border-sidebar-border transition-colors"
+                                                        title="Sunting Pengguna"
                                                     >
-                                                        <PencilSquareIcon className="w-4 h-4 mr-1" />
-                                                        Edit
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
+                                                        <PencilSquareIcon className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        type="button"
                                                         disabled={user.id === currentUserId}
                                                         onClick={() => setUserToDelete(user)}
-                                                        className="text-terracotta hover:text-terracotta-hover hover:bg-terracotta-light h-8 px-2 disabled:opacity-40"
+                                                        className="p-1.5 rounded text-status-urgent hover:bg-red-50 border border-sidebar-border transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                                        title="Hapus Pengguna"
                                                     >
-                                                        <TrashIcon className="w-4 h-4 mr-1" />
-                                                        Hapus
-                                                    </Button>
+                                                        <TrashIcon className="w-4 h-4" />
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
                                     ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={5} className="py-8 text-center text-ink-muted italic">
+                                            Tidak ditemukan pengguna pada kriteria ini.
+                                        </td>
+                                    </tr>
                                 )}
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Pagination */}
-                    {users.total > 10 && (
-                        <div className="px-5 py-3 border-t border-line flex items-center justify-between text-xs text-ink-secondary">
-                            <div>
-                                Menampilkan total <strong>{users.total}</strong> pengguna
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-sidebar-border bg-[#FAF9F6]">
+                        {users.data.length > 0 ? (
+                            users.data.map((user) => (
+                                <div key={user.id} className="p-4 space-y-3 bg-white">
+                                    <div className="flex items-start justify-between gap-2.5">
+                                        <div className="flex items-center gap-2.5">
+                                            <div className="w-8 h-8 rounded-full bg-prussian-light text-prussian flex items-center justify-center font-bold text-xs shrink-0 border border-prussian/20">
+                                                {user.name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center gap-1.5">
+                                                    <h3 className="font-semibold text-sm text-ink leading-snug">
+                                                        {user.name}
+                                                    </h3>
+                                                    {user.id === currentUserId && (
+                                                        <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 bg-prussian-light text-prussian rounded font-semibold">
+                                                            Anda
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="text-[11px] font-mono text-ink-muted mt-0.5">
+                                                    {user.email}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="shrink-0">
+                                            {user.roles.length > 0
+                                                ? getRoleBadge(user.roles[0].name)
+                                                : <span className="text-xs text-ink-muted">-</span>}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center justify-between text-xs text-ink-muted">
+                                        <span>Terdaftar: {formatDate(user.created_at)}</span>
+                                    </div>
+
+                                    <div className="pt-2 flex items-center justify-end gap-2 border-t border-sidebar-border/70">
+                                        <button
+                                            type="button"
+                                            onClick={() => openEditModal(user)}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-prussian bg-canvas-subtle hover:bg-canvas-subtle/80 border border-sidebar-border transition-colors"
+                                        >
+                                            <PencilSquareIcon className="w-3.5 h-3.5" />
+                                            <span>Sunting</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            disabled={user.id === currentUserId}
+                                            onClick={() => setUserToDelete(user)}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-status-urgent bg-red-50 hover:bg-red-100 border border-red-200 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                        >
+                                            <TrashIcon className="w-3.5 h-3.5" />
+                                            <span>Hapus</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="p-6 text-center text-ink-muted italic">
+                                Tidak ditemukan pengguna pada kriteria ini.
                             </div>
-                            <div className="flex items-center gap-1">
-                                {users.links.map((link, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
-                                        disabled={!link.url || link.active}
-                                        dangerouslySetInnerHTML={{ __html: link.label }}
-                                        className={`px-2.5 py-1 rounded border text-xs ${
-                                            link.active
-                                                ? 'bg-prussian text-white border-prussian font-semibold'
-                                                : link.url
-                                                ? 'bg-white border-line hover:bg-canvas-subtle'
-                                                : 'text-ink-muted border-line/40 cursor-not-allowed'
-                                        }`}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
+
+                {/* Pagination */}
+                {users.links && users.links.length > 3 && (
+                    <div className="bg-white p-3.5 rounded border border-sidebar-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-secondary shadow-2xs">
+                        <div>
+                            Menampilkan <strong>{users.data.length}</strong> dari <strong>{users.total}</strong> pengguna
+                        </div>
+                        <div className="flex items-center gap-1">
+                            {users.links.map((link, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
+                                    disabled={!link.url || link.active}
+                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                    className={`px-2.5 py-1 rounded text-xs border ${
+                                        link.active
+                                            ? 'bg-prussian text-white border-prussian font-semibold'
+                                            : link.url
+                                            ? 'bg-white border-sidebar-border hover:bg-canvas-subtle text-ink'
+                                            : 'text-ink-muted border-sidebar-border/40 cursor-not-allowed'
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Form Modal (Create / Edit) */}

@@ -33,20 +33,36 @@ class GalleryController extends Controller
             $query->where('category', $request->query('category'));
         }
 
+        $status = $request->query('status');
+        if ($status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', false);
+        }
+
         $galleries = $query->orderBy('sort_order', 'asc')
             ->latest('event_date')
             ->latest('id')
-            ->paginate(12)
+            ->paginate(15)
             ->withQueryString();
 
         $categories = Gallery::distinct()->whereNotNull('category')->pluck('category');
 
+        $counts = [
+            'all' => Gallery::count(),
+            'active' => Gallery::where('is_active', true)->count(),
+            'inactive' => Gallery::where('is_active', false)->count(),
+        ];
+
         return Inertia::render('admin/galleries/index', [
             'galleries' => $galleries,
             'categories' => $categories,
+            'counts' => $counts,
+            'currentStatus' => $status ?? '',
             'filters' => [
                 'q' => $request->query('q', ''),
                 'category' => $request->query('category', ''),
+                'status' => $status ?? '',
             ],
         ]);
     }

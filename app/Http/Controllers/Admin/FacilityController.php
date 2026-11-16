@@ -34,19 +34,35 @@ class FacilityController extends Controller
             $query->where('category', $request->query('category'));
         }
 
+        $status = $request->query('status');
+        if ($status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', false);
+        }
+
         $facilities = $query->orderBy('sort_order', 'asc')
             ->latest('id')
-            ->paginate(12)
+            ->paginate(15)
             ->withQueryString();
 
         $categories = Facility::distinct()->whereNotNull('category')->pluck('category');
 
+        $counts = [
+            'all' => Facility::count(),
+            'active' => Facility::where('is_active', true)->count(),
+            'inactive' => Facility::where('is_active', false)->count(),
+        ];
+
         return Inertia::render('admin/facilities/index', [
             'facilities' => $facilities,
             'categories' => $categories,
+            'counts' => $counts,
+            'currentStatus' => $status ?? '',
             'filters' => [
                 'q' => $request->query('q', ''),
                 'category' => $request->query('category', ''),
+                'status' => $status ?? '',
             ],
         ]);
     }

@@ -31,20 +31,29 @@ class UserController extends Controller
             });
         }
 
+        $role = $request->query('role');
         if ($request->filled('role')) {
-            $role = $request->query('role');
             $query->whereHas('roles', fn ($q) => $q->where('name', $role));
         }
 
-        $users = $query->paginate(10)->withQueryString();
+        $users = $query->paginate(15)->withQueryString();
         $roles = Role::pluck('name');
+
+        $counts = [
+            'all' => User::count(),
+            'super_admin' => User::role('Super Admin')->count(),
+            'editor' => User::role('Editor')->count(),
+            'contributor' => User::role('Contributor')->count(),
+        ];
 
         return Inertia::render('admin/users/index', [
             'users' => $users,
             'roles' => $roles,
+            'counts' => $counts,
+            'currentRole' => $role ?? '',
             'filters' => [
                 'q' => $request->query('q', ''),
-                'role' => $request->query('role', ''),
+                'role' => $role ?? '',
             ],
         ]);
     }

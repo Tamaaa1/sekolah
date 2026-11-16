@@ -55,9 +55,16 @@ interface GalleryPageProps {
         links: Array<{ url: string | null; label: string; active: boolean }>;
     };
     categories: string[];
+    counts?: {
+        all: number;
+        active: number;
+        inactive: number;
+    };
+    currentStatus?: string;
     filters: {
         q?: string;
         category?: string;
+        status?: string;
     };
 }
 
@@ -81,6 +88,8 @@ const CATEGORY_PRESETS = [
 export default function GalleryIndex({
     galleries,
     categories,
+    counts,
+    currentStatus = '',
     filters,
 }: GalleryPageProps) {
     const [search, setSearch] = useState(filters.q || '');
@@ -104,12 +113,13 @@ export default function GalleryIndex({
 
     const { errors } = usePage<{ errors: Record<string, string> }>().props;
 
-    const handleFilter = (qVal = search, catVal = selectedCategory) => {
+    const handleFilter = (statusVal = currentStatus, qVal = search, catVal = selectedCategory) => {
         router.get(
             '/admin/galleries',
             {
                 q: qVal || undefined,
                 category: catVal || undefined,
+                status: statusVal || undefined,
             },
             { preserveState: true, replace: true }
         );
@@ -117,7 +127,7 @@ export default function GalleryIndex({
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        handleFilter();
+        handleFilter(currentStatus, search, selectedCategory);
     };
 
     const openCreateModal = () => {
@@ -216,197 +226,264 @@ export default function GalleryIndex({
         });
     };
 
+    const formatDate = (dateStr: string | null) => {
+        if (!dateStr) return '-';
+        return new Date(dateStr).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Manajemen Galeri Kegiatan - Admin" />
 
-            <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6 max-w-7xl mx-auto w-full">
+            <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
                 {/* Header Section */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-line pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-sidebar-border pb-4">
                     <div>
-                        <h1 className="text-2xl font-serif font-bold text-ink tracking-tight flex items-center gap-2.5">
-                            <CameraIcon className="w-7 h-7 text-prussian" />
-                            Galeri & Dokumentasi Kegiatan
+                        <h1 className="text-2xl font-serif font-bold text-ink">
+                            Manajemen Galeri Kegiatan
                         </h1>
-                        <p className="text-xs text-ink-secondary mt-1">
-                            Kelola album foto momen bersejarah, upacara, perlombaan, dan ragam kegiatan sekolah.
+                        <p className="text-xs text-ink-muted mt-0.5">
+                            Kelola album foto momen upacara, perlombaan, dan ragam dokumentasi kegiatan.
                         </p>
                     </div>
 
-                    <Button onClick={openCreateModal} className="bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold px-4 py-2 gap-1.5 shadow-xs">
-                        <PlusIcon className="w-4 h-4" />
-                        Tambah Album Foto
-                    </Button>
+                    <div>
+                        <button
+                            type="button"
+                            onClick={openCreateModal}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-prussian text-white hover:bg-prussian-hover text-xs font-semibold transition-colors"
+                        >
+                            <PlusIcon className="w-4 h-4" />
+                            <span>Tambah Album Galeri</span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Filters Bar */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3.5 rounded-lg border border-line shadow-2xs">
-                    <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-md">
-                        <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
-                        <Input
-                            type="text"
-                            placeholder="Cari judul album atau deskripsi..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="pl-9 pr-4 text-xs h-9 border-line focus:border-prussian focus:ring-prussian bg-white text-ink placeholder:text-ink-muted/70"
-                        />
-                    </form>
-
-                    <div className="flex items-center gap-2">
-                        <select
-                            value={selectedCategory}
-                            onChange={(e) => {
-                                setSelectedCategory(e.target.value);
-                                handleFilter(search, e.target.value);
-                            }}
-                            className="h-9 text-xs rounded-md border border-line bg-white px-3 text-ink focus:border-prussian focus:outline-hidden focus:ring-1 focus:ring-prussian"
-                        >
-                            <option value="">Semua Kategori</option>
-                            {categories.map((cat) => (
-                                <option key={cat} value={cat}>
-                                    {cat}
-                                </option>
-                            ))}
-                        </select>
-
-                        {(search || selectedCategory) && (
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => {
-                                    setSearch('');
-                                    setSelectedCategory('');
-                                    handleFilter('', '');
-                                }}
-                                className="text-xs h-9 border-line text-ink hover:bg-canvas-subtle"
+                {/* Filter Tabs & Search */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex flex-wrap gap-2 text-xs">
+                        {[
+                            { key: '', label: `Semua (${counts?.all ?? galleries.total})` },
+                            { key: 'active', label: `Diterbitkan (${counts?.active ?? 0})` },
+                            { key: 'inactive', label: `Draf (${counts?.inactive ?? 0})` },
+                        ].map((tab) => (
+                            <button
+                                key={tab.key}
+                                type="button"
+                                onClick={() => handleFilter(tab.key, search, selectedCategory)}
+                                className={`px-3 py-1.5 rounded border transition-colors ${
+                                    (currentStatus || '') === tab.key
+                                        ? 'bg-prussian text-white border-prussian font-semibold'
+                                        : 'bg-white text-ink border-sidebar-border hover:bg-canvas-subtle'
+                                }`}
                             >
-                                Reset
-                            </Button>
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                        {categories.length > 0 && (
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => {
+                                    setSelectedCategory(e.target.value);
+                                    handleFilter(currentStatus, search, e.target.value);
+                                }}
+                                className="h-8 text-xs rounded border border-sidebar-border bg-white px-2.5 text-ink focus:outline-hidden focus:border-prussian"
+                            >
+                                <option value="">Semua Kategori</option>
+                                {categories.map((cat) => (
+                                    <option key={cat} value={cat}>
+                                        {cat}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+
+                        <form onSubmit={handleSearchSubmit} className="relative w-full sm:w-60">
+                            <MagnifyingGlassIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-muted" />
+                            <input
+                                type="text"
+                                placeholder="Cari album kegiatan..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full pl-8 pr-3 h-8 text-xs rounded border border-sidebar-border bg-white text-ink placeholder:text-ink-muted/70 focus:outline-hidden focus:border-prussian"
+                            />
+                        </form>
+                    </div>
+                </div>
+
+                {/* Table & Mobile Cards */}
+                <div className="bg-white rounded border border-sidebar-border shadow-xs overflow-hidden">
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full text-left text-xs">
+                            <thead className="bg-canvas-subtle/50 text-ink-muted border-b border-sidebar-border uppercase tracking-wider font-semibold">
+                                <tr>
+                                    <th className="py-3 px-4 text-left">Judul Album</th>
+                                    <th className="py-3 px-4 text-left w-48 whitespace-nowrap">Kategori</th>
+                                    <th className="py-3 px-4 text-center w-36 whitespace-nowrap">Status</th>
+                                    <th className="py-3 px-4 text-left w-36 whitespace-nowrap">Tanggal Kegiatan</th>
+                                    <th className="py-3 px-4 text-right w-24 whitespace-nowrap">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-sidebar-border">
+                                {galleries.data.length > 0 ? (
+                                    galleries.data.map((item) => (
+                                        <tr key={item.id} className="hover:bg-canvas-subtle/30 transition-colors">
+                                            <td className="py-3.5 px-4 font-semibold text-ink">
+                                                <div className="flex items-center gap-3">
+                                                    {item.cover_image ? (
+                                                        <img
+                                                            src={item.cover_image}
+                                                            alt={item.title}
+                                                            className="w-12 h-9 object-cover rounded border border-sidebar-border shrink-0"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-12 h-9 rounded bg-canvas-subtle border border-sidebar-border flex items-center justify-center text-ink-muted shrink-0">
+                                                            <PhotoIcon className="w-4 h-4 opacity-40" />
+                                                        </div>
+                                                    )}
+                                                    <div>
+                                                        <div className="line-clamp-1 font-semibold text-ink">{item.title}</div>
+                                                        <div className="text-[11px] text-ink-muted font-normal mt-0.5">
+                                                            {Array.isArray(item.images) ? item.images.length : 0} Foto Dokumentasi
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="py-3.5 px-4 whitespace-nowrap">
+                                                <span className="inline-block px-2.5 py-0.5 rounded text-[11px] bg-canvas-subtle text-ink font-medium border border-sidebar-border whitespace-nowrap">
+                                                    {item.category}
+                                                </span>
+                                            </td>
+                                            <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                                                <span
+                                                    className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                                        item.is_active
+                                                            ? 'bg-status-published-bg text-status-published border border-emerald-200'
+                                                            : 'bg-canvas-subtle text-ink-muted border border-sidebar-border'
+                                                    }`}
+                                                >
+                                                    {item.is_active ? 'PUBLISHED' : 'DRAF'}
+                                                </span>
+                                            </td>
+                                            <td className="py-3.5 px-4 text-ink-muted whitespace-nowrap">
+                                                {formatDate(item.event_date)}
+                                            </td>
+                                            <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                                                <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => openEditModal(item)}
+                                                        className="p-1.5 rounded text-prussian hover:bg-canvas-subtle border border-sidebar-border transition-colors"
+                                                        title="Sunting Album"
+                                                    >
+                                                        <PencilSquareIcon className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setItemToDelete(item)}
+                                                        className="p-1.5 rounded text-status-urgent hover:bg-red-50 border border-sidebar-border transition-colors"
+                                                        title="Hapus Album"
+                                                    >
+                                                        <TrashIcon className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={5} className="py-8 text-center text-ink-muted italic">
+                                            Tidak ada album kegiatan pada kriteria ini.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Mobile View: Individual Cards */}
+                    <div className="md:hidden divide-y divide-sidebar-border bg-[#FAF9F6]">
+                        {galleries.data.length > 0 ? (
+                            galleries.data.map((item) => (
+                                <div key={item.id} className="p-4 space-y-3 bg-white">
+                                    <div className="flex items-start justify-between gap-2.5">
+                                        <div className="flex items-center gap-2.5">
+                                            {item.cover_image && (
+                                                <img
+                                                    src={item.cover_image}
+                                                    alt={item.title}
+                                                    className="w-10 h-10 object-cover rounded border border-sidebar-border shrink-0"
+                                                />
+                                            )}
+                                            <div>
+                                                <h3 className="font-semibold text-sm text-ink leading-snug">
+                                                    {item.title}
+                                                </h3>
+                                                <span className="text-[11px] text-ink-muted">
+                                                    {item.category} • {Array.isArray(item.images) ? item.images.length : 0} Foto
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span
+                                            className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shrink-0 ${
+                                                item.is_active
+                                                    ? 'bg-status-published-bg text-status-published border border-emerald-200'
+                                                    : 'bg-canvas-subtle text-ink-muted border border-sidebar-border'
+                                            }`}
+                                        >
+                                            {item.is_active ? 'PUBLISHED' : 'DRAF'}
+                                        </span>
+                                    </div>
+
+                                    {item.description && (
+                                        <p className="text-xs text-ink-secondary line-clamp-2">
+                                            {item.description}
+                                        </p>
+                                    )}
+
+                                    <div className="flex items-center justify-between text-xs text-ink-muted">
+                                        <span>{formatDate(item.event_date)}</span>
+                                    </div>
+
+                                    <div className="pt-2 flex items-center justify-end gap-2 border-t border-sidebar-border/70">
+                                        <button
+                                            type="button"
+                                            onClick={() => openEditModal(item)}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-prussian bg-canvas-subtle hover:bg-canvas-subtle/80 border border-sidebar-border transition-colors"
+                                        >
+                                            <PencilSquareIcon className="w-3.5 h-3.5" />
+                                            <span>Sunting</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setItemToDelete(item)}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-status-urgent bg-red-50 hover:bg-red-100 border border-red-200 transition-colors"
+                                        >
+                                            <TrashIcon className="w-3.5 h-3.5" />
+                                            <span>Hapus</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="p-6 text-center text-ink-muted italic">
+                                Tidak ada album kegiatan pada kriteria ini.
+                            </div>
                         )}
                     </div>
                 </div>
 
-                {/* Galleries Grid */}
-                {galleries.data.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-12 text-center bg-white rounded-lg border border-line">
-                        <CameraIcon className="w-12 h-12 text-ink-muted/40 mb-3" />
-                        <p className="text-base font-serif font-bold text-ink">
-                            Belum ada album galeri
-                        </p>
-                        <p className="text-xs text-ink-secondary max-w-sm mt-1">
-                            Abadikan momen kegiatan siswa, pentas seni, dan agenda sekolah dalam album foto yang rapi.
-                        </p>
-                        <Button onClick={openCreateModal} className="mt-4 bg-prussian hover:bg-prussian-hover text-white text-xs font-semibold px-4 py-2 gap-1.5 shadow-xs">
-                            <PlusIcon className="w-4 h-4" />
-                            Buat Album Pertama
-                        </Button>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {galleries.data.map((item) => (
-                            <div
-                                key={item.id}
-                                className="group relative flex flex-col rounded-lg border border-line bg-white shadow-2xs overflow-hidden hover:border-line-strong hover:shadow-xs transition"
-                            >
-                                {/* Thumbnail Cover */}
-                                <div className="relative aspect-video w-full bg-canvas-subtle overflow-hidden">
-                                    {item.cover_image ? (
-                                        <img
-                                            src={item.cover_image}
-                                            alt={item.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-ink-muted/50">
-                                            <PhotoIcon className="w-12 h-12 opacity-40" />
-                                        </div>
-                                    )}
-
-                                    {/* Category & Status Overlay */}
-                                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-ink backdrop-blur-xs border border-line/80 shadow-2xs">
-                                            {item.category}
-                                        </span>
-                                    </div>
-
-                                    <div className="absolute top-2.5 right-2.5">
-                                        {item.is_active ? (
-                                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-status-published/95 text-white backdrop-blur-xs shadow-2xs">
-                                                <CheckCircleIcon className="w-3.5 h-3.5" />
-                                                Aktif
-                                            </span>
-                                        ) : (
-                                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-ink-muted/90 text-white backdrop-blur-xs">
-                                                <XCircleIcon className="w-3.5 h-3.5" />
-                                                Nonaktif
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    {/* Photo Count Pill */}
-                                    <div className="absolute bottom-2.5 right-2.5">
-                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-prussian/85 text-white backdrop-blur-xs font-mono shadow-2xs">
-                                            <PhotoIcon className="w-3.5 h-3.5" />
-                                            {Array.isArray(item.images) ? item.images.length : 0} Foto
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Content Details */}
-                                <div className="flex flex-1 flex-col p-4 justify-between">
-                                    <div>
-                                        <div className="flex items-center gap-1.5 text-xs text-ink-muted mb-1.5 font-mono">
-                                            <CalendarDaysIcon className="w-3.5 h-3.5" />
-                                            <span>
-                                                {item.event_date
-                                                    ? new Date(item.event_date).toLocaleDateString('id-ID', {
-                                                          day: 'numeric',
-                                                          month: 'long',
-                                                          year: 'numeric',
-                                                      })
-                                                    : 'Tanggal tidak diset'}
-                                            </span>
-                                        </div>
-
-                                        <h3 className="font-serif font-bold text-base text-ink line-clamp-2 group-hover:text-prussian transition-colors">
-                                            {item.title}
-                                        </h3>
-
-                                        <p className="text-xs text-ink-secondary mt-1.5 line-clamp-2 leading-relaxed">
-                                            {item.description || 'Tidak ada deskripsi singkat.'}
-                                        </p>
-                                    </div>
-
-                                    {/* Action Buttons */}
-                                    <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-end gap-2">
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => openEditModal(item)}
-                                            className="h-8 px-2.5 text-xs gap-1 border-line text-ink hover:text-prussian hover:bg-canvas-subtle"
-                                        >
-                                            <PencilSquareIcon className="w-3.5 h-3.5" />
-                                            Ubah
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => setItemToDelete(item)}
-                                            className="h-8 px-2.5 text-xs gap-1 text-terracotta hover:text-terracotta-hover hover:bg-terracotta-light border-terracotta/30"
-                                        >
-                                            <TrashIcon className="w-3.5 h-3.5" />
-                                            Hapus
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
                 {/* Pagination */}
                 {galleries.links && galleries.links.length > 3 && (
-                    <div className="bg-white p-3.5 rounded-lg border border-line flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-secondary shadow-2xs">
+                    <div className="bg-white p-3.5 rounded border border-sidebar-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-secondary shadow-2xs">
                         <div>
                             Menampilkan <strong>{galleries.data.length}</strong> dari <strong>{galleries.total}</strong> album kegiatan
                         </div>
@@ -421,8 +498,8 @@ export default function GalleryIndex({
                                         link.active
                                             ? 'bg-prussian text-white border-prussian font-semibold'
                                             : link.url
-                                            ? 'bg-white border-line hover:bg-canvas-subtle text-ink'
-                                            : 'text-ink-muted border-line/40 cursor-not-allowed'
+                                            ? 'bg-white border-sidebar-border hover:bg-canvas-subtle text-ink'
+                                            : 'text-ink-muted border-sidebar-border/40 cursor-not-allowed'
                                     }`}
                                 />
                             ))}
