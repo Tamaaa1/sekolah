@@ -80,6 +80,7 @@ type WelcomeProps = {
     upcomingAgendas: Agenda[];
     achievements: Achievement[];
     principal: Staff | null;
+    formToken?: string;
 };
 
 export default function Welcome({
@@ -91,6 +92,7 @@ export default function Welcome({
     upcomingAgendas = [],
     achievements = [],
     principal,
+    formToken,
 }: WelcomeProps) {
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const tagline = settings?.school_tagline || 'Berkarakter, Berprestasi, dan Berwawasan Global';
@@ -133,6 +135,9 @@ export default function Welcome({
                 email: 'anonim@smpn5sambas.sch.id',
                 subject: 'Saran & Aspirasi Anonim',
                 message: contactMessage.trim(),
+                honeypot: honeypot,
+                website: honeypot,
+                form_token: formToken,
                 recaptcha_token: recaptchaToken,
             },
             {

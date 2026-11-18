@@ -18,6 +18,7 @@ import {
 interface ContactProps {
     settings: Record<string, any>;
     primaryMenu: any;
+    formToken?: string;
 }
 
 const SUBJECT_PRESETS = [
@@ -28,7 +29,7 @@ const SUBJECT_PRESETS = [
     'Undangan Kerjasama & Kemitraan',
 ];
 
-export default function Contact({ settings, primaryMenu }: ContactProps) {
+export default function Contact({ settings, primaryMenu, formToken }: ContactProps) {
     const schoolName = settings?.school_name || 'SMP Negeri 5 Sambas';
     const address = settings?.address || 'Jl. Raya Semberang, Kec. Sambas, Kab. Sambas, Prov. Kalimantan Barat';
     const email = settings?.email || 'humas@smpn5sambas.sch.id';
@@ -70,6 +71,9 @@ export default function Contact({ settings, primaryMenu }: ContactProps) {
                 phone: form.phone,
                 subject: form.subject,
                 message: form.message,
+                website: form.honeypot,
+                honeypot: form.honeypot,
+                form_token: formToken,
                 recaptcha_token: recaptchaToken,
             },
             {

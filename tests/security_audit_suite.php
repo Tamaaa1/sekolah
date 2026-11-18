@@ -224,6 +224,56 @@ recordTest(
     'Spam pattern caught: "' . ($gamblingInspection['matched'] ?? 'NONE') . '"'
 );
 
+// Speed-Trap Anti-Bot Submission Defense Test (< 3 detik -> Silent Drop)
+$speedTrapToken = \Illuminate\Support\Facades\Crypt::encryptString((string) microtime(true)); // Token baru saja dibuat (0 detik lalu)
+$fastBotReq = Illuminate\Http\Request::create('/kontak', 'POST', [
+    'name' => 'Fast Bot',
+    'email' => 'fastbot@spammer.com',
+    'subject' => 'Informasi',
+    'message' => 'Pesan dikirim secepat kilat oleh bot dalam 0.1 detik',
+    'form_token' => $speedTrapToken,
+]);
+$countBeforeSpeedTrap = ContactMessage::count();
+$fastBotRes = $portalCtrl->storeContactMessage($fastBotReq);
+$countAfterSpeedTrap = ContactMessage::count();
+recordTest(
+    $results, 'SEC-27', 'Anti-Abuse & Spam Defense', 'Speed-Trap Fast Bot Rejection (< 3s)',
+    $countBeforeSpeedTrap === $countAfterSpeedTrap,
+    'Fast bot submission dropped cleanly without saving (count: ' . $countAfterSpeedTrap . ')'
+);
+
+// Message Deduplication Anti-Flood Defense Test
+// Pertama kirim pesan sah dengan token waktu valid (> 3 detik lalu)
+$validToken = \Illuminate\Support\Facades\Crypt::encryptString((string) (microtime(true) - 10)); // 10 detik lalu
+$legitReq1 = Illuminate\Http\Request::create('/kontak', 'POST', [
+    'name' => 'Wali Murid',
+    'email' => 'walimurid@gmail.com',
+    'subject' => 'Saran Kebersihan',
+    'message' => 'Mohon ditambah tempat sampah di koridor lantai dua.',
+    'form_token' => $validToken,
+]);
+$countBeforeLegit = ContactMessage::count();
+$portalCtrl->storeContactMessage($legitReq1);
+$countAfterLegit = ContactMessage::count();
+
+// Kirim pesan yang sama persis (duplikasi flood)
+$dupReq = Illuminate\Http\Request::create('/kontak', 'POST', [
+    'name' => 'Wali Murid',
+    'email' => 'walimurid@gmail.com',
+    'subject' => 'Saran Kebersihan',
+    'message' => 'Mohon ditambah tempat sampah di koridor lantai dua.',
+    'form_token' => $validToken,
+]);
+$countBeforeDup = ContactMessage::count();
+$portalCtrl->storeContactMessage($dupReq);
+$countAfterDup = ContactMessage::count();
+
+recordTest(
+    $results, 'SEC-28', 'Anti-Abuse & Spam Defense', 'Message Deduplication Anti-Flood Defense',
+    $countAfterLegit === ($countBeforeLegit + 1) && $countAfterDup === $countBeforeDup,
+    'Legitimate message saved (+1), duplicate message dropped cleanly (0 added)'
+);
+
 // 5. Path Traversal & File Access Controls
 $safeUploadService = new App\Services\SafeFileUploadService();
 $traversalBlocked = false;

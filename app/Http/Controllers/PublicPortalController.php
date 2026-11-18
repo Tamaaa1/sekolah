@@ -13,8 +13,11 @@ use App\Models\Post;
 use App\Models\Setting;
 use App\Models\StaffDirectory;
 use App\Models\Taxonomy;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -86,6 +89,7 @@ class PublicPortalController extends Controller
             'upcomingAgendas' => $upcomingAgendas,
             'achievements' => $achievements,
             'principal' => $principal,
+            'formToken' => Crypt::encryptString((string) microtime(true)),
         ]);
     }
 
@@ -360,20 +364,65 @@ class PublicPortalController extends Controller
         return Inertia::render('contact', [
             'settings' => $settings,
             'primaryMenu' => $primaryMenu,
+            'formToken' => Crypt::encryptString((string) microtime(true)),
         ]);
     }
 
     /**
      * Simpan Pesan Kontak / Aspirasi dari Publik
+     *
+     * Pipeline Anti-Spam 5 Lapis:
+     * 1. Cek Honeypot (Jika terisi -> Silent Drop)
+     * 2. Cek Speed-Trap (< 3 detik -> Silent Drop)
+     * 3. Cek ReCAPTCHA v3
+     * 4. Cek Blacklist Kata Kunci & Tautan (Judol / Link Flood / Kata Kasar)
+     * 5. Cek Duplikasi Pesan (Anti-Flood)
+     * -> Simpan ke Database & Notifikasi Admin
      */
     public function storeContactMessage(Request $request): RedirectResponse
     {
-        // Mitigasi Spam Bot: Cek honeypot field
-        if ($request->filled('website') || $request->filled('honeypot')) {
+        // =========================================================================
+        // LAPISAN 1: Cek Honeypot Trap (Jika terisi -> Silent Drop)
+        // =========================================================================
+        if ($request->filled('website') || $request->filled('honeypot') || !empty($request->input('website')) || !empty($request->input('honeypot'))) {
+            Log::info("[Anti-Spam L1: Honeypot] Bot terdeteksi mengisi input perangkap dari IP: {$request->ip()}. Silent drop.");
             return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
         }
 
-        // Mitigasi Spam & Botnet: Verifikasi Google reCAPTCHA v3
+        // =========================================================================
+        // LAPISAN 2: Cek Speed-Trap (< 3 detik -> Silent Drop)
+        // =========================================================================
+        $formToken = $request->input('form_token');
+        $isSpeedTrapTriggered = false;
+
+        if (empty($formToken)) {
+            // Jika dikirim langsung tanpa token (skrip bot langsung tembak endpoint)
+            if (! app()->environment('testing')) {
+                $isSpeedTrapTriggered = true;
+            }
+        } else {
+            try {
+                $renderedAt = (float) Crypt::decryptString($formToken);
+                $elapsed = microtime(true) - $renderedAt;
+
+                // Manusia normal membutuhkan minimal 3 detik untuk membaca dan mengetik
+                if ($elapsed < 3.0) {
+                    $isSpeedTrapTriggered = true;
+                }
+            } catch (\Throwable $e) {
+                // Token korup atau dimanipulasi
+                $isSpeedTrapTriggered = true;
+            }
+        }
+
+        if ($isSpeedTrapTriggered) {
+            Log::info("[Anti-Spam L2: Speed-Trap] Pengiriman terlalu cepat (< 3s) atau token tidak valid dari IP: {$request->ip()}. Silent drop.");
+            return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
+        }
+
+        // =========================================================================
+        // LAPISAN 3: Cek ReCAPTCHA v3
+        // =========================================================================
         $recaptcha = app(\App\Services\RecaptchaService::class);
         if (! $recaptcha->verify($request->input('recaptcha_token'), 'contact_submit', $request->ip())) {
             return redirect()->back()
@@ -389,7 +438,9 @@ class PublicPortalController extends Controller
             'message' => ['required', 'string', 'max:3000'],
         ]);
 
-        // Mitigasi Konten Negatif, Kata Kasar, dan Spam Tautan/Judi Online
+        // =========================================================================
+        // LAPISAN 4: Cek Blacklist Kata Kunci & Tautan (Judol / Link Flood / Kata Kasar)
+        // =========================================================================
         $contentFilter = app(\App\Services\ContentFilterService::class);
         $fullTextToCheck = trim(($validated['name'] ?? '') . ' ' . ($validated['subject'] ?? '') . ' ' . ($validated['message'] ?? ''));
         $inspection = $contentFilter->inspect($fullTextToCheck);
@@ -403,24 +454,64 @@ class PublicPortalController extends Controller
                     ]);
             }
 
-            // Untuk spam bot judi online atau kelebihan tautan: gunakan silent drop (respons sukses palsu agar bot berhenti)
+            // Untuk bot judi online, link flood, atau domain berbahaya: silent drop
+            Log::info("[Anti-Spam L4: Content Filter] Spam terdeteksi ({$inspection['type']}) dari IP: {$request->ip()}. Silent drop.");
             return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
         }
 
-        $name = !empty($validated['name']) ? strip_tags(trim($validated['name'])) : 'Anonim';
-        $email = !empty($validated['email']) ? strtolower(trim($validated['email'])) : 'anonim@smpn5sambas.sch.id';
-        $subject = !empty($validated['subject']) ? strip_tags(trim($validated['subject'])) : 'Saran & Aspirasi Anonim';
+        // =========================================================================
+        // LAPISAN 5: Cek Duplikasi Pesan (Anti-Flood)
+        // =========================================================================
+        $cleanMessage = strip_tags(trim($validated['message']));
+        $cleanName = !empty($validated['name']) ? strip_tags(trim($validated['name'])) : 'Anonim';
+        $cleanEmail = !empty($validated['email']) ? strtolower(trim($validated['email'])) : 'anonim@smpn5sambas.sch.id';
+        $cleanSubject = !empty($validated['subject']) ? strip_tags(trim($validated['subject'])) : 'Saran & Aspirasi Anonim';
 
-        ContactMessage::create([
-            'name' => $name,
-            'email' => $email,
+        // Cek duplikasi identik dari IP yang sama dalam 1 jam terakhir
+        $isDuplicateFromIp = ContactMessage::where('ip_address', $request->ip())
+            ->where('message', $cleanMessage)
+            ->where('created_at', '>=', now()->subHour())
+            ->exists();
+
+        // Cek duplikasi botnet (pesan persis sama lintas IP dalam 15 menit terakhir)
+        $isGlobalDuplicate = ContactMessage::where('message', $cleanMessage)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->exists();
+
+        if ($isDuplicateFromIp || $isGlobalDuplicate) {
+            Log::info("[Anti-Spam L5: Anti-Flood] Pesan duplikat identik terdeteksi dari IP: {$request->ip()}. Silent drop.");
+            return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
+        }
+
+        // =========================================================================
+        // SIMPAN KE BASIS DATA & NOTIFIKASI ADMIN
+        // =========================================================================
+        $contactMessage = ContactMessage::create([
+            'name' => $cleanName,
+            'email' => $cleanEmail,
             'phone' => !empty($validated['phone']) ? strip_tags(trim($validated['phone'])) : null,
-            'subject' => $subject,
-            'message' => strip_tags(trim($validated['message'])),
+            'subject' => $cleanSubject,
+            'message' => $cleanMessage,
             'ip_address' => $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 255),
             'is_read' => false,
         ]);
+
+        // Catat ke Log Aktivitas CMS agar termonitor di Dashboard Admin & Activity Logs
+        ActivityLogger::log(
+            'create',
+            'Pesan Masuk',
+            "Pesan aspirasi baru diterima dari '{$cleanName}' [{$cleanEmail}]: {$cleanSubject}",
+            $contactMessage,
+            [
+                'name' => $cleanName,
+                'email' => $cleanEmail,
+                'subject' => $cleanSubject,
+                'ip' => $request->ip(),
+            ]
+        );
+
+        Log::info("[Notifikasi Admin] Pesan masuk baru #{$contactMessage->id} dari {$cleanName} ({$cleanEmail}) berhasil disimpan.");
 
         return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
     }
