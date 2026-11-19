@@ -1,0 +1,1 @@
+async function e(e,t){return!t||typeof window>`u`||!window.grecaptcha?null:new Promise(n=>{try{window.grecaptcha.ready(async()=>{try{n(await window.grecaptcha.execute(t,{action:e}))}catch(e){console.warn(`[reCAPTCHA v3] Gagal mengeksekusi token:`,e),n(null)}})}catch(e){console.warn(`[reCAPTCHA v3] Ready error:`,e),n(null)}})}export{e as t};

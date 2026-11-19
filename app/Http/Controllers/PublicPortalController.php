@@ -118,7 +118,7 @@ class PublicPortalController extends Controller
             $keyword = trim($request->query('q'));
             $query->where(function ($q) use ($keyword) {
                 $q->where('title', 'like', "%{$keyword}%")
-                  ->orWhere('excerpt', 'like', "%{$keyword}%");
+                    ->orWhere('excerpt', 'like', "%{$keyword}%");
             });
         }
 
@@ -134,7 +134,7 @@ class PublicPortalController extends Controller
 
         // Kategori yang memiliki postingan aktif
         $categories = Taxonomy::where('type', 'category')
-            ->withCount(['posts' => fn ($q) => $q->published()])
+            ->withCount(['posts' => fn($q) => $q->published()])
             ->get();
 
         // Berita unggulan (featured) di halaman 1 saat tanpa pencarian/filter
@@ -516,4 +516,3 @@ class PublicPortalController extends Controller
         return redirect()->back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirimkan ke pihak sekolah.');
     }
 }
-
